@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnythingVisual — Brand System</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,200;0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Chakra+Petch:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ═══════════════════════════════════════
+   ANYTHINGVISUAL — BRAND DESIGN TOKENS
+   Use these CSS variables everywhere.
+═══════════════════════════════════════ */
+:root {
+  /* ── BACKGROUNDS ── */
+  --av-bg-base:      #0A0907;   /* Darkroom — the deepest background */
+  --av-bg-raised:    #131109;   /* Lifted surface — cards, panels */
+  --av-bg-float:     #1C190F;   /* Floating surface — modals, dropdowns */
+  --av-bg-overlay:   #252116;   /* Overlay surface — tooltips, popovers */
+
+  /* ── BRAND ACCENT: AMBER / GOLD ── */
+  --av-amber-50:     #FFF8E8;   /* Lightest tint — on-light backgrounds */
+  --av-amber-100:    #FDEDC4;   /* Very light */
+  --av-amber-200:    #F9D97A;   /* Light amber */
+  --av-amber-300:    #F2C043;   /* Mid amber — hover states */
+  --av-amber-400:    #E8A510;   /* Primary amber — main CTA, highlights */
+  --av-amber-500:    #C98A00;   /* Deep amber — pressed states */
+  --av-amber-600:    #9E6A00;   /* Darker — borders on light */
+
+  /* ── BRAND ACCENT: CREAM / WARM WHITE ── */
+  --av-cream-50:     #FDFAF4;   /* Near white — primary text on dark */
+  --av-cream-100:    #F5F0E6;   /* Warm white — headings */
+  --av-cream-200:    #E8E2D4;   /* Soft cream — subheadings */
+  --av-cream-300:    #D4CBBA;   /* Mid cream — body text */
+  --av-cream-400:    #B8AD9C;   /* Muted cream — secondary text */
+  --av-cream-500:    #8C8070;   /* Dim — captions, meta */
+  --av-cream-600:    #5C5245;   /* Dark — dividers, subtle borders */
+
+  /* ── NEUTRAL WARM GREYS ── */
+  --av-neutral-50:   #F4F2EE;
+  --av-neutral-100:  #E2DED8;
+  --av-neutral-200:  #C8C2BA;
+  --av-neutral-300:  #A89E94;
+  --av-neutral-400:  #7A7268;
+  --av-neutral-500:  #524C44;
+  --av-neutral-600:  #332E28;
+  --av-neutral-700:  #1E1B16;
+  --av-neutral-800:  #131009;
+
+  /* ── SEMANTIC COLOURS ── */
+  --av-success:      #5C9E6A;   /* Scene validated / complete */
+  --av-warning:      #D4880A;   /* Needs attention */
+  --av-error:        #9E4A3C;   /* Error state */
+  --av-info:         #4A7A9E;   /* Information */
+
+  /* ── SCENE TONE COLOURS (emotional tone badges) ── */
+  --av-tone-tension:   #C04A3A;
+  --av-tone-defiance:  #D4760A;
+  --av-tone-urgency:   #4A8AAE;
+  --av-tone-hope:      #5C9A6A;
+  --av-tone-melancholy:#7A6A9E;
+  --av-tone-mystery:   #9E5C7A;
+
+  /* ── TYPOGRAPHY ── */
+  --av-font-display: 'Chakra Petch', sans-serif;
+  --av-font-body:    'DM Sans', sans-serif;
+  --av-font-mono:    'Outfit', monospace;
+
+  /* ── SPACING SCALE ── */
+  --av-space-1:  4px;
+  --av-space-2:  8px;
+  --av-space-3:  12px;
+  --av-space-4:  16px;
+  --av-space-5:  24px;
+  --av-space-6:  32px;
+  --av-space-7:  48px;
+  --av-space-8:  64px;
+  --av-space-9:  96px;
+  --av-space-10: 128px;
+
+  /* ── RADIUS ── */
+  --av-radius-sm:  6px;
+  --av-radius-md:  10px;
+  --av-radius-lg:  16px;
+  --av-radius-xl:  24px;
+  --av-radius-full: 9999px;
+
+  /* ── BORDERS ── */
+  --av-border-subtle:  1px solid #1E1B14;
+  --av-border-default: 1px solid #2A2620;
+  --av-border-strong:  1px solid #3A3428;
+  --av-border-accent:  1px solid #E8A510;
+}
+
+/* ─────────────────────────────────────── */
+/* PAGE CHROME                             */
+/* ─────────────────────────────────────── */
+body {
+  background: var(--av-bg-base);
+  color: var(--av-cream-300);
+  font-family: var(--av-font-body);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 0;
+}
+
+.page-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 72px 48px 120px;
+}
+
+/* ─────────────────────────────────────── */
+/* SECTION STRUCTURE                       */
+/* ─────────────────────────────────────── */
+.brand-section {
+  margin-bottom: 96px;
+}
+.section-eyebrow {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--av-amber-400);
+  margin-bottom: 8px;
+}
+.section-heading {
+  font-family: var(--av-font-display);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--av-cream-100);
+  margin-bottom: 6px;
+  line-height: 1.1;
+}
+.section-sub {
+  font-size: 13px;
+  color: var(--av-cream-500);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 580px;
+}
+.divider {
+  border: none;
+  border-top: var(--av-border-subtle);
+  margin: 80px 0;
+}
+
+/* ─────────────────────────────────────── */
+/* COVER                                   */
+/* ─────────────────────────────────────── */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 80px 80px 72px;
+  background: var(--av-bg-base);
+  position: relative;
+  overflow: hidden;
+  border-bottom: var(--av-border-subtle);
+}
+.cover-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.cover-amber-blob {
+  position: absolute;
+  top: -160px;
+  right: -100px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(ellipse at center, rgba(232,165,16,0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.cover-label {
+  font-family: var(--av-font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--av-amber-400);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.cover-label::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--av-amber-400);
+}
+.cover-title {
+  font-family: var(--av-font-display);
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  color: var(--av-cream-100);
+  margin-bottom: 8px;
+}
+.cover-title .dim { color: var(--av-cream-600); font-weight: 300; }
+.cover-title .amber { color: var(--av-amber-400); }
+.cover-tagline {
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--av-cream-500);
+  letter-spacing: 0.01em;
+  margin-bottom: 48px;
+  font-family: var(--av-font-body);
+}
+.cover-meta-row {
+  display: flex;
+  gap: 32px;
+  padding-top: 32px;
+  border-top: var(--av-border-subtle);
+}
+.cover-meta-item {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--av-cream-600);
+}
+.cover-meta-item span {
+  display: block;
+  color: var(--av-cream-400);
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+/* ─────────────────────────────────────── */
+/* COLOUR SYSTEM                           */
+/* ─────────────────────────────────────── */
+.palette-block {
+  margin-bottom: 48px;
+}
+.palette-label {
+  font-family: var(--av-font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--av-cream-500);
+  margin-bottom: 16px;
+}
+.swatch-row {
+  display: flex;
+  gap: 3px;
+  border-radius: var(--av-radius-lg);
+  overflow: hidden;
+}
+.swatch {
+  flex: 1;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  position: relative;
+  cursor: default;
+  transition: flex 0.25s ease;
+}
+.swatch:hover { flex: 1.6; }
+.swatch-name {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.swatch-hex {
+  font-family: var(--av-font-body);
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.65;
+}
+.swatch-role {
+  font-size: 9px;
+  opacity: 0.5;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Background swatches */
+.bg-swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  border-radius: var(--av-radius-lg);
+  overflow: hidden;
+  margin-bottom: 3px;
+}
+.bg-swatch {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 14px;
+}
+
+/* Semantic row */
+.semantic-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  border-radius: var(--av-radius-lg);
+  overflow: hidden;
+}
+.sem-swatch {
+  height: 64px;
+  display: flex;
+  align-items: flex-end;
+  padding: 10px 14px;
+}
+
+/* Scene tone grid */
+.tone-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 3px;
+  border-radius: var(--av-radius-lg);
+  overflow: hidden;
+}
+.tone-swatch {
+  height: 56px;
+  display: flex;
+  align-items: flex-end;
+  padding: 8px 12px;
+}
+
+/* Token table */
+.token-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: var(--av-radius-lg);
+  overflow: hidden;
+  font-size: 12px;
+}
+.token-table th {
+  background: var(--av-bg-raised);
+  padding: 12px 16px;
+  text-align: left;
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--av-cream-500);
+  border-bottom: var(--av-border-subtle);
+}
+.token-table td {
+  padding: 11px 16px;
+  border-bottom: var(--av-border-subtle);
+  color: var(--av-cream-400);
+  background: var(--av-bg-raised);
+  vertical-align: middle;
+}
+.token-table tr:last-child td { border-bottom: none; }
+.token-table td:first-child {
+  font-family: 'Outfit', monospace;
+  font-size: 11px;
+  color: var(--av-amber-300);
+}
+.token-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* ─────────────────────────────────────── */
+/* TYPOGRAPHY SYSTEM                       */
+/* ─────────────────────────────────────── */
+.type-specimen-block {
+  background: var(--av-bg-raised);
+  border: var(--av-border-subtle);
+  border-radius: var(--av-radius-xl);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.type-specimen-header {
+  padding: 20px 32px;
+  border-bottom: var(--av-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.type-spec-name {
+  font-family: var(--av-font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--av-amber-400);
+}
+.type-spec-detail {
+  font-size: 11px;
+  color: var(--av-cream-600);
+}
+.type-specimen-body {
+  padding: 40px 32px;
+}
+
+/* Scale specimens */
+.type-scale-row {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 18px 0;
+  border-bottom: var(--av-border-subtle);
+}
+.type-scale-row:last-child { border-bottom: none; }
+.type-scale-meta {
+  width: 120px;
+  flex-shrink: 0;
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--av-cream-600);
+}
+.type-scale-meta strong {
+  display: block;
+  color: var(--av-cream-500);
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+/* Weights showcase */
+.weight-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  border-radius: var(--av-radius-xl);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.weight-cell {
+  background: var(--av-bg-raised);
+  border: var(--av-border-subtle);
+  padding: 28px 24px 22px;
+}
+.weight-specimen {
+  font-family: var(--av-font-body);
+  font-size: 32px;
+  line-height: 1;
+  color: var(--av-cream-200);
+  margin-bottom: 16px;
+}
+.weight-name {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--av-cream-600);
+  margin-bottom: 2px;
+}
+.weight-value {
+  font-size: 10px;
+  color: var(--av-cream-600);
+}
+
+/* Pairing demo */
+.pairing-demo {
+  background: var(--av-bg-raised);
+  border: var(--av-border-subtle);
+  border-radius: var(--av-radius-xl);
+  padding: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 24px;
+}
+.pairing-col-label {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--av-amber-400);
+  margin-bottom: 20px;
+}
+
+/* ─────────────────────────────────────── */
+/* TEXT STYLE TOKENS                       */
+/* ─────────────────────────────────────── */
+.text-style-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border-radius: var(--av-radius-xl);
+  overflow: hidden;
+}
+.text-style-row {
+  background: var(--av-bg-raised);
+  border: var(--av-border-subtle);
+  padding: 24px 32px;
+  display: grid;
+  grid-template-columns: 180px 1fr 220px;
+  align-items: center;
+  gap: 24px;
+}
+.text-style-token {
+  font-family: 'Outfit', monospace;
+  font-size: 11px;
+  color: var(--av-amber-300);
+}
+.text-style-meta {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--av-cream-600);
+  line-height: 1.9;
+}
+
+/* ─────────────────────────────────────── */
+/* LIVE UI PREVIEW                         */
+/* ─────────────────────────────────────── */
+.ui-preview {
+  background: var(--av-bg-raised);
+  border: var(--av-border-subtle);
+  border-radius: var(--av-radius-xl);
+  overflow: hidden;
+}
+.ui-preview-bar {
+  background: var(--av-bg-float);
+  border-bottom: var(--av-border-subtle);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ui-dot { width: 10px; height: 10px; border-radius: 50%; }
+.ui-preview-body { padding: 40px 40px 48px; }
+
+/* Scene card preview */
+.scene-card {
+  background: var(--av-bg-float);
+  border: var(--av-border-default);
+  border-radius: var(--av-radius-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.scene-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.scene-number {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--av-cream-600);
+}
+.tone-tag {
+  font-family: var(--av-font-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--av-radius-full);
+}
+.scene-title {
+  font-family: var(--av-font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--av-cream-100);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+.scene-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.scene-meta span {
+  font-size: 11px;
+  color: var(--av-cream-500);
+  letter-spacing: 0.02em;
+}
+.scene-objective {
+  font-size: 12px;
+  color: var(--av-cream-400);
+  line-height: 1.6;
+}
+.char-tag {
+  display: inline-block;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: var(--av-radius-full);
+  background: var(--av-bg-overlay);
+  border: var(--av-border-default);
+  color: var(--av-cream-400);
+  margin: 6px 4px 0 0;
+  font-family: var(--av-font-body);
+}
+
+/* CTA button */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: var(--av-amber-400);
+  border-radius: var(--av-radius-md);
+  font-family: var(--av-font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #0A0907;
+  border: none;
+  cursor: pointer;
+}
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  border: var(--av-border-strong);
+  border-radius: var(--av-radius-md);
+  font-family: var(--av-font-display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--av-cream-300);
+  cursor: pointer;
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: transparent;
+  border: none;
+  font-family: var(--av-font-display);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--av-amber-300);
+  cursor: pointer;
+}
+
+/* Input */
+.input-demo {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--av-bg-base);
+  border: var(--av-border-default);
+  border-radius: var(--av-radius-md);
+  font-family: var(--av-font-body);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--av-cream-200);
+  outline: none;
+  margin-bottom: 12px;
+}
+.input-demo::placeholder { color: var(--av-cream-600); }
+.input-demo:focus {
+  border-color: var(--av-amber-400);
+  box-shadow: 0 0 0 3px rgba(232,165,16,0.08);
+}
+.input-label {
+  font-family: var(--av-font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--av-cream-500);
+  margin-bottom: 8px;
+  display: block;
+}
+
+/* Nav preview */
+.nav-preview {
+  background: var(--av-bg-float);
+  border: var(--av-border-subtle);
+  border-radius: var(--av-radius-lg);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.nav-logo-text {
+  font-family: var(--av-font-display);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--av-cream-100);
+}
+.nav-logo-text em { font-style: normal; color: var(--av-cream-600); font-weight: 300; }
+.nav-links {
+  display: flex;
+  gap: 4px;
+}
+.nav-link {
+  font-family: var(--av-font-display);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--av-cream-500);
+  padding: 6px 14px;
+  border-radius: var(--av-radius-sm);
+}
+.nav-link.active {
+  color: var(--av-amber-300);
+  background: rgba(232,165,16,0.08);
+}
+
+/* Amber glow text */
+.amber-text { color: var(--av-amber-400); }
+
+/* ─────────────────────────────────────── */
+/* DARK/LIGHT MODE SIDE BY SIDE            */
+/* ─────────────────────────────────────── */
+.mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  border-radius: var(--av-radius-xl);
+  overflow: hidden;
+}
+.mode-dark { background: var(--av-bg-base); padding: 40px; }
+.mode-light { background: #F5F0E6; padding: 40px; }
+
+/* Light mode overrides for demo */
+.light-heading { color: #1C190F; font-family: var(--av-font-display); font-weight: 700; font-size: 22px; letter-spacing: -0.01em; margin-bottom: 8px; }
+.light-body    { color: #5C5245; font-size: 13px; line-height: 1.7; margin-bottom: 16px; }
+.light-label   { color: #8C8070; font-family: var(--av-font-display); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; }
+.light-card {
+  background: #FDFAF4;
+  border: 1px solid #E2DED8;
+  border-radius: var(--av-radius-md);
+  padding: 16px;
+  margin-top: 16px;
+}
+.light-card-title { color: #1C190F; font-family: var(--av-font-display); font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.light-card-body  { color: #8C8070; font-size: 12px; }
+.light-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--av-amber-400);
+  border-radius: var(--av-radius-md);
+  font-family: var(--av-font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0A0907;
+  margin-top: 16px;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ COVER ══════════════ -->
+<div class="cover">
+  <div class="cover-noise"></div>
+  <div class="cover-amber-blob"></div>
+
+  <div class="cover-label">Brand Design System</div>
+  <div class="cover-title">
+    Anything<span class="dim">Visual</span><span class="amber">.</span>
+  </div>
+  <div class="cover-tagline">Colour · Typography · Text Styling · Design Tokens</div>
+
+  <div class="cover-meta-row">
+    <div class="cover-meta-item">Version<span>1.0 — 2026</span></div>
+    <div class="cover-meta-item">Base Mood<span>Warm Creative Workspace</span></div>
+    <div class="cover-meta-item">Accent<span>Amber / Gold + Cream</span></div>
+    <div class="cover-meta-item">Typography<span>Geometric Sans</span></div>
+  </div>
+</div>
+
+<div class="page-wrap">
+
+<!-- ══════════════ SECTION 1: COLOUR ══════════════ -->
+<div class="brand-section">
+  <div class="section-eyebrow">01 — Colour System</div>
+  <div class="section-heading">The Palette</div>
+  <div class="section-sub">Built on warm near-blacks — not cold greys. The background family reads like a darkroom: amber-tinged, rich, inviting. Amber gold and cream provide the two accent registers: energy and refinement.</div>
+
+  <!-- AMBER / GOLD -->
+  <div class="palette-block">
+    <div class="palette-label">Amber Gold — Primary Accent</div>
+    <div class="swatch-row">
+      <div class="swatch" style="background:#FFF8E8;">
+        <div class="swatch-name" style="color:#6B5C2A">Amber 50</div>
+        <div class="swatch-hex" style="color:#6B5C2A">#FFF8E8</div>
+        <div class="swatch-role" style="color:#6B5C2A">Tint / On-light bg</div>
+      </div>
+      <div class="swatch" style="background:#F9D97A;">
+        <div class="swatch-name" style="color:#4A3A10">Amber 200</div>
+        <div class="swatch-hex" style="color:#4A3A10">#F9D97A</div>
+        <div class="swatch-role" style="color:#4A3A10">Hover highlight</div>
+      </div>
+      <div class="swatch" style="background:#F2C043;">
+        <div class="swatch-name" style="color:#3A2C08">Amber 300</div>
+        <div class="swatch-hex" style="color:#3A2C08">#F2C043</div>
+        <div class="swatch-role" style="color:#3A2C08">Hover states</div>
+      </div>
+      <div class="swatch" style="background:#E8A510; flex:2;">
+        <div class="swatch-name" style="color:#1C1200">Amber 400 ✦ Primary</div>
+        <div class="swatch-hex" style="color:#1C1200">#E8A510</div>
+        <div class="swatch-role" style="color:#1C1200">CTA · Active · Focus rings · Logo accent</div>
+      </div>
+      <div class="swatch" style="background:#C98A00;">
+        <div class="swatch-name" style="color:#FFF8E8">Amber 500</div>
+        <div class="swatch-hex" style="color:#FFF8E8">#C98A00</div>
+        <div class="swatch-role" style="color:#FFF8E8">Pressed / deep</div>
+      </div>
+      <div class="swatch" style="background:#9E6A00;">
+        <div class="swatch-name" style="color:#FFF8E8">Amber 600</div>
+        <div class="swatch-hex" style="color:#FFF8E8">#9E6A00</div>
+        <div class="swatch-role" style="color:#FFF8E8">Borders on light</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CREAM / WARM WHITE -->
+  <div class="palette-block">
+    <div class="palette-label">Cream — Text & Refinement</div>
+    <div class="swatch-row">
+      <div class="swatch" style="background:#FDFAF4; flex:2;">
+        <div class="swatch-name" style="color:#2A2318">Cream 50 ✦ Primary Text</div>
+        <div class="swatch-hex" style="color:#2A2318">#FDFAF4</div>
+        <div class="swatch-role" style="color:#2A2318">Headings on dark</div>
+      </div>
+      <div class="swatch" style="background:#F5F0E6;">
+        <div class="swatch-name" style="color:#2A2318">Cream 100</div>
+        <div class="swatch-hex" style="color:#2A2318">#F5F0E6</div>
+        <div class="swatch-role" style="color:#2A2318">Warm white</div>
+      </div>
+      <div class="swatch" style="background:#E8E2D4;">
+        <div class="swatch-name" style="color:#2A2318">Cream 200</div>
+        <div class="swatch-hex" style="color:#2A2318">#E8E2D4</div>
+        <div class="swatch-role" style="color:#2A2318">Subheadings</div>
+      </div>
+      <div class="swatch" style="background:#D4CBBA;">
+        <div class="swatch-name" style="color:#1A1410">Cream 300</div>
+        <div class="swatch-hex" style="color:#1A1410">#D4CBBA</div>
+        <div class="swatch-role" style="color:#1A1410">Body text</div>
+      </div>
+      <div class="swatch" style="background:#B8AD9C;">
+        <div class="swatch-name" style="color:#0A0907">Cream 400</div>
+        <div class="swatch-hex" style="color:#0A0907">#B8AD9C</div>
+        <div class="swatch-role" style="color:#0A0907">Secondary text</div>
+      </div>
+      <div class="swatch" style="background:#8C8070;">
+        <div class="swatch-name" style="color:#F5F0E6">Cream 500</div>
+        <div class="swatch-hex" style="color:#F5F0E6">#8C8070</div>
+        <div class="swatch-role" style="color:#F5F0E6">Captions / meta</div>
+      </div>
+      <div class="swatch" style="background:#5C5245;">
+        <div class="swatch-name" style="color:#F5F0E6">Cream 600</div>
+        <div class="swatch-hex" style="color:#F5F0E6">#5C5245</div>
+        <div class="swatch-role" style="color:#F5F0E6">Dividers / dim</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BACKGROUNDS -->
+  <div class="palette-block">
+    <div class="palette-label">Backgrounds — The Darkroom Family</div>
+    <div class="bg-swatch-grid">
+      <div class="bg-swatch" style="background:#0A0907;">
+        <div class="swatch-name" style="color:#5C5245;font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Darkroom</div>
+        <div class="swatch-hex" style="color:#5C5245;font-size:10px;opacity:0.65">#0A0907 · Page bg</div>
+      </div>
+      <div class="bg-swatch" style="background:#131109;">
+        <div class="swatch-name" style="color:#5C5245;font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Raised</div>
+        <div class="swatch-hex" style="color:#5C5245;font-size:10px;opacity:0.65">#131109 · Cards</div>
+      </div>
+      <div class="bg-swatch" style="background:#1C190F;">
+        <div class="swatch-name" style="color:#5C5245;font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Float</div>
+        <div class="swatch-hex" style="color:#5C5245;font-size:10px;opacity:0.65">#1C190F · Modals</div>
+      </div>
+      <div class="bg-swatch" style="background:#252116;">
+        <div class="swatch-name" style="color:#5C5245;font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase">Overlay</div>
+        <div class="swatch-hex" style="color:#5C5245;font-size:10px;opacity:0.65">#252116 · Tooltips</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEMANTIC -->
+  <div class="palette-block">
+    <div class="palette-label">Semantic — Status & Feedback</div>
+    <div class="semantic-row">
+      <div class="sem-swatch" style="background:#1A2E1C;">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#5C9E6A">✓ Success · #5C9E6A</span>
+      </div>
+      <div class="sem-swatch" style="background:#2A1E08;">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#D4880A">⚠ Warning · #D4880A</span>
+      </div>
+      <div class="sem-swatch" style="background:#2A0E0A;">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#9E4A3C">✕ Error · #9E4A3C</span>
+      </div>
+      <div class="sem-swatch" style="background:#0A1E2A;">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#4A7A9E">ℹ Info · #4A7A9E</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENE TONES -->
+  <div class="palette-block">
+    <div class="palette-label">Scene Emotional Tones — Badge Colours</div>
+    <div class="tone-grid">
+      <div class="tone-swatch" style="background:rgba(192,74,58,0.15);border:1px solid rgba(192,74,58,0.3)">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#C04A3A">⚡ Tension</span>
+      </div>
+      <div class="tone-swatch" style="background:rgba(212,118,10,0.15);border:1px solid rgba(212,118,10,0.3)">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#D4760A">🔥 Defiance</span>
+      </div>
+      <div class="tone-swatch" style="background:rgba(74,138,174,0.15);border:1px solid rgba(74,138,174,0.3)">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#4A8AAE">💨 Urgency</span>
+      </div>
+      <div class="tone-swatch" style="background:rgba(92,154,106,0.15);border:1px solid rgba(92,154,106,0.3)">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5C9A6A">✨ Hope</span>
+      </div>
+      <div class="tone-swatch" style="background:rgba(122,106,158,0.15);border:1px solid rgba(122,106,158,0.3)">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#7A6A9E">🌧 Melancholy</span>
+      </div>
+      <div class="tone-swatch" style="background:rgba(158,92,122,0.15);border:1px solid rgba(158,92,122,0.3)">
+        <span style="font-family:'Chakra Petch',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#9E5C7A">◈ Mystery</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════ SECTION 2: TYPOGRAPHY ══════════════ -->
+<div class="brand-section">
+  <div class="section-eyebrow">02 — Typography</div>
+  <div class="section-heading">The Type System</div>
+  <div class="section-sub">Two geometric sans-serif typefaces. Chakra Petch for display, identity, and UI structure — precise, architectural, cinematic. DM Sans for body copy and reading — humanist proportions with geometric roots, warm and legible at small sizes.</div>
+
+  <!-- DISPLAY FONT -->
+  <div class="type-specimen-block">
+    <div class="type-specimen-header">
+      <div class="type-spec-name">Chakra Petch — Display & Identity</div>
+      <div class="type-spec-detail">Wordmark · Headlines · Labels · Navigation · Badges</div>
+    </div>
+    <div class="type-specimen-body">
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:72px;font-weight:700;color:var(--av-cream-100);letter-spacing:-0.02em;line-height:1;margin-bottom:8px;">
+        Aa Bb Cc
+      </div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:32px;font-weight:300;color:var(--av-cream-500);letter-spacing:0.01em;line-height:1.2;margin-bottom:24px;">
+        Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm
+      </div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:18px;font-weight:400;color:var(--av-cream-600);letter-spacing:0.05em;margin-bottom:24px;">
+        Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz · 0123456789
+      </div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:16px;font-weight:600;color:var(--av-amber-400);letter-spacing:0.15em;text-transform:uppercase;">
+        ANYTHINGVISUAL · SCRIPT INTELLIGENCE ENGINE · SCENE BOARD
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY FONT -->
+  <div class="type-specimen-block">
+    <div class="type-specimen-header">
+      <div class="type-spec-name">DM Sans — Body & Reading</div>
+      <div class="type-spec-detail">Body copy · UI text · Input fields · Captions · Descriptions</div>
+    </div>
+    <div class="type-specimen-body">
+      <div style="font-family:'DM Sans',sans-serif;font-size:64px;font-weight:200;color:var(--av-cream-200);letter-spacing:-0.02em;line-height:1;margin-bottom:8px;">
+        Aa Bb Cc
+      </div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:20px;font-weight:300;color:var(--av-cream-400);line-height:1.7;margin-bottom:20px;max-width:640px;">
+        The intelligence layer between idea and visual execution. Transform raw concepts into structured visual systems that power filmmaking, marketing, and digital storytelling.
+      </div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:var(--av-cream-500);line-height:1.8;max-width:580px;">
+        Drop your rough idea, bullet points, or partial script. The Script Intelligence Engine parses your input, detects scene boundaries, extracts characters, assigns emotional tone, and surfaces visual intelligence for every scene — ready for image generation.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEIGHTS -->
+  <div class="palette-label" style="margin-bottom:16px">DM Sans — Weight Scale</div>
+  <div class="weight-grid">
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-weight:200">Ag</div>
+      <div class="weight-name">Extralight</div>
+      <div class="weight-value">200 · Taglines, subtitles</div>
+    </div>
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-weight:300">Ag</div>
+      <div class="weight-name">Light</div>
+      <div class="weight-value">300 · Body copy, descriptions</div>
+    </div>
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-weight:400">Ag</div>
+      <div class="weight-name">Regular</div>
+      <div class="weight-value">400 · UI labels, inputs</div>
+    </div>
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-weight:600;color:var(--av-cream-100)">Ag</div>
+      <div class="weight-name">SemiBold</div>
+      <div class="weight-value">600 · Emphasis, callouts</div>
+    </div>
+  </div>
+
+  <div class="palette-label" style="margin-bottom:16px">Chakra Petch — Weight Scale</div>
+  <div class="weight-grid">
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-family:'Chakra Petch',sans-serif;font-weight:300">Ag</div>
+      <div class="weight-name">Light</div>
+      <div class="weight-value">300 · "Visual" in wordmark</div>
+    </div>
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-family:'Chakra Petch',sans-serif;font-weight:500">Ag</div>
+      <div class="weight-name">Medium</div>
+      <div class="weight-value">500 · Nav items, secondary labels</div>
+    </div>
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-family:'Chakra Petch',sans-serif;font-weight:600;color:var(--av-cream-100)">Ag</div>
+      <div class="weight-name">SemiBold</div>
+      <div class="weight-value">600 · Labels, eyebrows, badges</div>
+    </div>
+    <div class="weight-cell">
+      <div class="weight-specimen" style="font-family:'Chakra Petch',sans-serif;font-weight:700;color:var(--av-cream-100)">Ag</div>
+      <div class="weight-name">Bold</div>
+      <div class="weight-value">700 · Wordmark, headlines, H1</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════ SECTION 3: TEXT STYLES ══════════════ -->
+<div class="brand-section">
+  <div class="section-eyebrow">03 — Text Style Tokens</div>
+  <div class="section-heading">Every Text Style, Named</div>
+  <div class="section-sub">These are the named text styles to implement in Figma, CSS, and code. Every text element on the platform maps to exactly one of these tokens — no ad-hoc sizing.</div>
+
+  <div class="text-style-grid">
+
+    <!-- Display -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-display</div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:48px;font-weight:700;color:var(--av-cream-100);letter-spacing:-0.025em;line-height:1">AnythingVisual</div>
+      <div class="text-style-meta">Chakra Petch 700<br>48px / −2.5% tracking<br>Cream 100 · Page heroes only</div>
+    </div>
+
+    <!-- H1 -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-h1</div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:32px;font-weight:700;color:var(--av-cream-100);letter-spacing:-0.02em;line-height:1.1">Script Intelligence Board</div>
+      <div class="text-style-meta">Chakra Petch 700<br>32px / −2% tracking<br>Cream 100 · Section titles</div>
+    </div>
+
+    <!-- H2 -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-h2</div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:24px;font-weight:600;color:var(--av-cream-100);letter-spacing:-0.015em;line-height:1.2">Scene Intelligence Panel</div>
+      <div class="text-style-meta">Chakra Petch 600<br>24px / −1.5% tracking<br>Cream 100 · Subsections</div>
+    </div>
+
+    <!-- H3 -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-h3</div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:18px;font-weight:600;color:var(--av-cream-200);letter-spacing:-0.01em;line-height:1.3">The Discovery · Scene 01</div>
+      <div class="text-style-meta">Chakra Petch 600<br>18px / −1% tracking<br>Cream 200 · Card titles</div>
+    </div>
+
+    <!-- Scene Title -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-scene-title</div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:20px;font-weight:600;color:var(--av-cream-100);letter-spacing:-0.01em;line-height:1.2">The Confrontation</div>
+      <div class="text-style-meta">Chakra Petch 600<br>20px / −1% tracking<br>Cream 100 · Scene card headings</div>
+    </div>
+
+    <!-- Body Large -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-body-lg</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:16px;font-weight:300;color:var(--av-cream-300);line-height:1.7">Transform raw concepts into structured visual systems that power filmmaking, marketing, and digital storytelling.</div>
+      <div class="text-style-meta">DM Sans 300<br>16px / 1.7 leading<br>Cream 300 · Hero subtext</div>
+    </div>
+
+    <!-- Body -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-body</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:14px;font-weight:300;color:var(--av-cream-400);line-height:1.7">Elena uncovers a hidden file that changes everything. She must decide: expose the truth or protect the organisation.</div>
+      <div class="text-style-meta">DM Sans 300<br>14px / 1.7 leading<br>Cream 400 · Body copy, scene descriptions</div>
+    </div>
+
+    <!-- Body Small -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-body-sm</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:400;color:var(--av-cream-500);line-height:1.6">Last edited 3 hours ago · 4 scenes · 2 characters</div>
+      <div class="text-style-meta">DM Sans 400<br>12px / 1.6 leading<br>Cream 500 · Metadata, timestamps</div>
+    </div>
+
+    <!-- Label -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-label</div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;color:var(--av-cream-500);letter-spacing:0.3em;text-transform:uppercase;line-height:1">SCENE INTELLIGENCE ENGINE</div>
+      <div class="text-style-meta">Chakra Petch 600<br>10px / +30% tracking / CAPS<br>Cream 500 · Section labels, eyebrows</div>
+    </div>
+
+    <!-- Label Amber -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-label-accent</div>
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;color:var(--av-amber-400);letter-spacing:0.3em;text-transform:uppercase;line-height:1">PHASE 1 MVP · ACTIVE</div>
+      <div class="text-style-meta">Chakra Petch 600<br>10px / +30% tracking / CAPS<br>Amber 400 · Active labels, phase markers</div>
+    </div>
+
+    <!-- Caption -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-caption</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:300;color:var(--av-cream-600);line-height:1.5;font-style:italic">Scene 03 · The Escape · Key Frame · Generated via FLUX.1</div>
+      <div class="text-style-meta">DM Sans 300 italic<br>11px / 1.5 leading<br>Cream 600 · Image captions, footnotes</div>
+    </div>
+
+    <!-- Script / Mono -->
+    <div class="text-style-row">
+      <div class="text-style-token">--av-text-script</div>
+      <div style="font-family:'Outfit',monospace;font-size:12px;font-weight:300;color:var(--av-cream-400);line-height:1.9;background:var(--av-bg-base);padding:12px 16px;border-radius:6px;border:var(--av-border-subtle)">ELENA<br>(breathless)<br>This can't be real.</div>
+      <div class="text-style-meta">Outfit 300 mono<br>12px / 1.9 leading<br>Cream 400 · Screenplay text in script boxes</div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════ SECTION 4: LIVE PREVIEW ══════════════ -->
+<div class="brand-section">
+  <div class="section-eyebrow">04 — Live UI Preview</div>
+  <div class="section-heading">Brand in Context</div>
+  <div class="section-sub">How all the tokens come together in the actual product. Dark mode is the primary experience. Light mode is available for export views and print contexts.</div>
+
+  <!-- Nav -->
+  <div class="nav-preview">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <svg width="26" height="26" viewBox="0 0 120 120" fill="none" style="flex-shrink:0">
+        <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(0 60 60)"/>
+        <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#5A5850" stroke-width="0.7" opacity="0.82" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+        <circle cx="60" cy="60" r="20" fill="#080909" stroke="#D0CEC6" stroke-width="0.8" opacity="0.7"/>
+        <circle cx="70" cy="48" r="2.5" fill="#FFFFFF" opacity="0.7"/>
+        <circle cx="60" cy="60" r="9" fill="#020203"/>
+        <circle cx="60" cy="60" r="3.5" fill="#E8A510" opacity="0.95"/>
+        <circle cx="60" cy="60" r="1.8" fill="#F2C043"/>
+      </svg>
+      <div class="nav-logo-text">Anything<em>Visual</em></div>
+    </div>
+    <div class="nav-links">
+      <span class="nav-link active">Engine</span>
+      <span class="nav-link">Scenes</span>
+      <span class="nav-link">Generate</span>
+      <span class="nav-link">Export</span>
+    </div>
+    <button class="btn-primary" style="font-size:11px;padding:9px 18px;">+ New Project</button>
+  </div>
+
+  <!-- Scene card -->
+  <div class="ui-preview">
+    <div class="ui-preview-bar">
+      <div class="ui-dot" style="background:#3A2E1A"></div>
+      <div class="ui-dot" style="background:#2A2818"></div>
+      <div class="ui-dot" style="background:#1A1A10"></div>
+      <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--av-cream-600);margin-left:8px">Scene Intelligence Board</span>
+    </div>
+    <div class="ui-preview-body">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;">
+        <div>
+          <div style="font-family:'Chakra Petch',sans-serif;font-size:22px;font-weight:700;color:var(--av-cream-100);letter-spacing:-0.01em;margin-bottom:3px">The Whistleblower</div>
+          <div style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--av-cream-600)">3 scenes · 5 characters · 4 locations</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-secondary">↗ Export</button>
+          <button class="btn-primary">⬡ Generate All</button>
+        </div>
+      </div>
+
+      <!-- Scene card 1 -->
+      <div class="scene-card">
+        <div class="scene-card-header">
+          <div class="scene-number">Scene 01</div>
+          <div class="tone-tag" style="background:rgba(192,74,58,0.12);color:#C04A3A;border:1px solid rgba(192,74,58,0.25)">⚡ Tension</div>
+        </div>
+        <div class="scene-title">The Discovery</div>
+        <div class="scene-meta">
+          <span>📍 Abandoned Research Lab</span>
+          <span>🌙 Night</span>
+        </div>
+        <div>
+          <span class="char-tag">Dr. Elena Voss</span>
+          <span class="char-tag">Marcus</span>
+        </div>
+        <div class="scene-objective" style="margin-top:12px">Elena uncovers a classified file that changes everything she believed about the organisation.</div>
+        <div style="margin-top:16px;padding-top:14px;border-top:var(--av-border-subtle);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--av-cream-600)">▼ Scene Intelligence</span>
+          <button class="btn-ghost" style="font-size:10px;padding:6px 14px;">⬡ Key Frame</button>
+        </div>
+      </div>
+
+      <!-- Scene card 2 -->
+      <div class="scene-card">
+        <div class="scene-card-header">
+          <div class="scene-number">Scene 02</div>
+          <div class="tone-tag" style="background:rgba(212,118,10,0.12);color:#D4760A;border:1px solid rgba(212,118,10,0.25)">🔥 Defiance</div>
+        </div>
+        <div class="scene-title">The Confrontation</div>
+        <div class="scene-meta">
+          <span>📍 Rooftop · City Skyline</span>
+          <span>🌅 Dawn</span>
+        </div>
+        <div>
+          <span class="char-tag">Dr. Elena Voss</span>
+          <span class="char-tag">Director Cole</span>
+        </div>
+        <div class="scene-objective" style="margin-top:12px">Elena confronts her superior with the evidence. Neither will back down.</div>
+        <div style="margin-top:16px;padding-top:14px;border-top:var(--av-border-subtle);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--av-cream-600)">▼ Scene Intelligence</span>
+          <button class="btn-ghost" style="font-size:10px;padding:6px 14px;">⬡ Key Frame</button>
+        </div>
+      </div>
+
+      <!-- Input -->
+      <div style="margin-top:24px;padding:24px;background:var(--av-bg-base);border:var(--av-border-subtle);border-radius:var(--av-radius-lg)">
+        <label class="input-label">Your idea / script / concept</label>
+        <input class="input-demo" type="text" placeholder="A scientist discovers a government cover-up hidden in classified research files…" readonly>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+          <button class="btn-secondary">Use Sample</button>
+          <button class="btn-primary">Analyze & Structure →</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DARK / LIGHT SPLIT -->
+  <div style="margin-top:24px">
+    <div class="palette-label" style="margin-bottom:16px">Dark Mode (Primary) vs Light Mode (Export / Print)</div>
+    <div class="mode-grid">
+      <div class="mode-dark">
+        <div style="font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.3em;text-transform:uppercase;color:var(--av-amber-400);margin-bottom:16px">◈ Dark Mode · Primary</div>
+        <div style="font-family:'Chakra Petch',sans-serif;font-size:20px;font-weight:700;color:var(--av-cream-100);margin-bottom:6px">The Darkroom</div>
+        <div style="font-size:12px;color:var(--av-cream-400);line-height:1.7;margin-bottom:20px">Warm near-blacks, amber accents, cream text. The primary experience for all three user segments. Cinematic by nature.</div>
+        <button class="btn-primary" style="font-size:11px;padding:9px 18px;">Get Started</button>
+      </div>
+      <div class="mode-light">
+        <div class="light-label" style="margin-bottom:16px">◈ Light Mode · Export & Print</div>
+        <div class="light-heading">Export View</div>
+        <div class="light-body">Available for PDF export, storyboard print, and presentation contexts. Amber CTA carries through to light surfaces.</div>
+        <div class="light-card">
+          <div class="light-card-title">Scene 01 — The Discovery</div>
+          <div class="light-card-body">Night · Abandoned Lab · Dr. Elena Voss, Marcus</div>
+        </div>
+        <div class="light-btn">Export PDF</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page-wrap -->
+</body>
+</html>

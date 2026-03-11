@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnythingVisual — Logo Concepts V2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;900&family=Tenor+Sans&family=Chakra+Petch:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&family=Libre+Baskerville:wght@400;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #0C0D10;
+  color: #E0DDD8;
+  font-family: 'Outfit', sans-serif;
+  padding: 64px 48px 96px;
+  min-height: 100vh;
+}
+
+/* PAGE HEADER */
+.page-top {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 80px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #1E2028;
+}
+.page-top-left { }
+.page-kicker {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: #484C5A;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.page-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: #EDEAE3;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.page-heading span {
+  font-style: italic;
+  font-weight: 400;
+  color: #6A6E7C;
+}
+.page-meta {
+  font-size: 11px;
+  color: #3A3E4C;
+  text-align: right;
+  line-height: 1.8;
+}
+
+/* CONCEPT WRAPPER */
+.concept-wrap {
+  margin-bottom: 96px;
+}
+.concept-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 36px;
+}
+.concept-tag {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  color: #3A3E4C;
+  text-transform: uppercase;
+}
+.concept-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #C8C4BC;
+  letter-spacing: -0.01em;
+}
+.concept-desc {
+  font-size: 12px;
+  color: #484C5A;
+  margin-left: auto;
+  font-style: italic;
+}
+
+/* MAIN SHOWCASE GRID */
+.showcase {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 3px;
+  border-radius: 18px;
+  overflow: hidden;
+}
+.showcase-hero {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+  background: #07080A;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 60px;
+  position: relative;
+}
+.showcase-dark {
+  background: #0F1016;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 36px;
+  position: relative;
+}
+.showcase-mid {
+  background: #1C1E26;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 36px;
+  position: relative;
+}
+.showcase-light {
+  background: #EEEAE3;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  position: relative;
+}
+.showcase-warm {
+  background: #F5F2EC;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  position: relative;
+}
+.showcase-charcoal {
+  background: #2A2D38;
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  position: relative;
+}
+.cell-tag {
+  position: absolute;
+  bottom: 12px;
+  left: 14px;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-family: 'Chakra Petch', sans-serif;
+  opacity: 0.25;
+}
+
+/* RATIONALE BAR */
+.rationale-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin-top: 3px;
+  border-radius: 0 0 18px 18px;
+  overflow: hidden;
+}
+.rationale-cell {
+  background: #13151A;
+  padding: 20px 22px;
+}
+.rationale-cell-label {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #3A3E4C;
+  margin-bottom: 7px;
+}
+.rationale-cell-text {
+  font-size: 11.5px;
+  color: #6A6E7C;
+  line-height: 1.75;
+}
+
+/* ── LOGO ASSEMBLIES ── */
+
+/* === CONCEPT A: THE IRIS === */
+/* A geometric iris — concentric shapes that open like an eye/lens,
+   abstracting into pure geometry. The "A" of AnythingVisual
+   is embedded in the negative space of the iris blades. */
+
+.logo-iris {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.logo-iris-sm { gap: 13px; }
+.logo-iris-lg { gap: 26px; }
+
+.wm-iris-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.wm-iris-dot {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  color: #484C5A;
+}
+.wm-iris-sub {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+/* === CONCEPT B: THE SLIT SCAN === */
+/* Inspired by slit-scan photography — a vertical slit that
+   reveals/scans the world. Five vertical bars of varying
+   widths and opacities: raw data becoming image.
+   Ultra-geometric, no curves, pure editorial. */
+
+.logo-slit {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.wm-slit-name {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+.wm-slit-sub {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* === CONCEPT C: THE FOCAL POINT === */
+/* A single dot at the convergence of four arcs — the moment
+   light converges to a focal point. Simultaneously: an eye's
+   pupil, a lens focus, a scene's single point of truth.
+   Clean, precise, deeply cinematic. */
+
+.logo-focal {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.wm-focal-anything {
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.wm-focal-visual {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+.wm-focal-sub {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 5px;
+}
+
+/* DIVIDER */
+.div { border: none; border-top: 1px solid #1A1C24; margin: 72px 0; }
+
+/* SUMMARY */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.summary-card {
+  background: #13151A;
+  border: 1px solid #1E2028;
+  border-radius: 12px;
+  padding: 26px 22px 22px;
+}
+.summary-card-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C8C4BC;
+  margin-bottom: 3px;
+  font-family: 'Chakra Petch', sans-serif;
+}
+.summary-card-sub {
+  font-size: 10px;
+  color: #3A3E4C;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  font-family: 'Outfit', sans-serif;
+}
+.summary-card-body {
+  font-size: 12px;
+  color: #5A5E6C;
+  line-height: 1.75;
+}
+.summary-pick {
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: 14px;
+  color: #8A8E9A;
+}
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-top">
+  <div class="page-top-left">
+    <div class="page-kicker">Brand Identity · Round Two</div>
+    <div class="page-heading">AnythingVisual<br><span>Logo Concepts, V2</span></div>
+  </div>
+  <div class="page-meta">
+    Lens · Eye · Geometric abstraction<br>
+    Compound wordmark · Cinematic personality<br>
+    Three original directions
+  </div>
+</div>
+
+
+<!-- ═══════════════════ CONCEPT A: THE IRIS ═══════════════════ -->
+<div class="concept-wrap">
+  <div class="concept-header">
+    <span class="concept-tag">Concept A</span>
+    <span class="concept-title">The Iris</span>
+    <span class="concept-desc">Geometry that opens like an eye</span>
+  </div>
+
+  <div class="showcase">
+
+    <!-- HERO: large dark -->
+    <div class="showcase-hero">
+      <div class="logo-iris logo-iris-lg">
+        <!-- IRIS ICON — large -->
+        <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer thin ring -->
+          <circle cx="36" cy="36" r="33" stroke="#C8C4BC" stroke-width="0.75" opacity="0.3"/>
+          <!-- Four iris blades — rotated rhomboids creating the iris geometry -->
+          <!-- Blade 1: top -->
+          <path d="M36 3 C44 18 44 54 36 69 C28 54 28 18 36 3Z" fill="#2A2C34" stroke="#7A7880" stroke-width="0.6"/>
+          <!-- Blade 2: right -->
+          <path d="M69 36 C54 44 18 44 3 36 C18 28 54 28 69 36Z" fill="#222430" stroke="#6A6870" stroke-width="0.6"/>
+          <!-- Blade 3: diagonal TL-BR -->
+          <path d="M7.5 7.5 C20 22 52 52 64.5 64.5 C52 52 20 22 7.5 7.5Z" fill="none"/>
+          <path d="M9 10 C23 24 48 50 62 62 C50 48 24 24 10 10Z" fill="#1E2028" stroke="#585C68" stroke-width="0.6" opacity="0.8"/>
+          <!-- Blade 4: diagonal TR-BL -->
+          <path d="M62 10 C48 24 24 48 10 62 C24 48 48 24 62 10Z" fill="#1E2028" stroke="#585C68" stroke-width="0.6" opacity="0.8"/>
+          <!-- Mid ring -->
+          <circle cx="36" cy="36" r="18" fill="#0C0D10" stroke="#9A9890" stroke-width="1"/>
+          <!-- Pupil ring -->
+          <circle cx="36" cy="36" r="11" fill="#080909" stroke="#C8C4BC" stroke-width="0.75" opacity="0.6"/>
+          <!-- Specular highlight — top right -->
+          <circle cx="41" cy="31" r="2.5" fill="#D8D4CC" opacity="0.55"/>
+          <circle cx="42.5" cy="30" r="1" fill="#EDEAE3" opacity="0.7"/>
+          <!-- Center pupil dot -->
+          <circle cx="36" cy="36" r="4" fill="#E8E4DC" opacity="0.9"/>
+          <circle cx="36" cy="36" r="2" fill="#F5F3EF"/>
+        </svg>
+
+        <div>
+          <div class="wm-iris-name" style="font-size:28px; color:#EDEAE3">
+            Anything<span style="color:#9A9890">Visual</span>
+          </div>
+          <div class="wm-iris-sub" style="font-size:9px; color:#3A3E4C">
+            Script Intelligence Engine
+          </div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Primary · Black</div>
+    </div>
+
+    <!-- Top right: pure dark -->
+    <div class="showcase-dark">
+      <div class="logo-iris">
+        <svg width="44" height="44" viewBox="0 0 72 72" fill="none">
+          <circle cx="36" cy="36" r="33" stroke="#C8C4BC" stroke-width="0.75" opacity="0.3"/>
+          <path d="M36 3 C44 18 44 54 36 69 C28 54 28 18 36 3Z" fill="#2A2C34" stroke="#7A7880" stroke-width="0.6"/>
+          <path d="M69 36 C54 44 18 44 3 36 C18 28 54 28 69 36Z" fill="#222430" stroke="#6A6870" stroke-width="0.6"/>
+          <path d="M9 10 C23 24 48 50 62 62 C50 48 24 24 10 10Z" fill="#1E2028" stroke="#585C68" stroke-width="0.6" opacity="0.8"/>
+          <path d="M62 10 C48 24 24 48 10 62 C24 48 48 24 62 10Z" fill="#1E2028" stroke="#585C68" stroke-width="0.6" opacity="0.8"/>
+          <circle cx="36" cy="36" r="18" fill="#0F1016" stroke="#9A9890" stroke-width="1"/>
+          <circle cx="36" cy="36" r="11" fill="#080909" stroke="#C8C4BC" stroke-width="0.75" opacity="0.6"/>
+          <circle cx="41" cy="31" r="2.5" fill="#D8D4CC" opacity="0.55"/>
+          <circle cx="42.5" cy="30" r="1" fill="#EDEAE3" opacity="0.7"/>
+          <circle cx="36" cy="36" r="4" fill="#E8E4DC" opacity="0.9"/>
+          <circle cx="36" cy="36" r="2" fill="#F5F3EF"/>
+        </svg>
+        <div>
+          <div class="wm-iris-name" style="font-size:18px; color:#DEDAD2">Anything<span style="color:#7A7880">Visual</span></div>
+          <div class="wm-iris-sub" style="font-size:8px; color:#343840">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Dark Surface</div>
+    </div>
+
+    <!-- Mid-right: slate -->
+    <div class="showcase-mid">
+      <div class="logo-iris">
+        <svg width="44" height="44" viewBox="0 0 72 72" fill="none">
+          <circle cx="36" cy="36" r="33" stroke="#B8B4AC" stroke-width="0.75" opacity="0.35"/>
+          <path d="M36 3 C44 18 44 54 36 69 C28 54 28 18 36 3Z" fill="#34363E" stroke="#8A8880" stroke-width="0.6"/>
+          <path d="M69 36 C54 44 18 44 3 36 C18 28 54 28 69 36Z" fill="#2C2E38" stroke="#7A7870" stroke-width="0.6"/>
+          <path d="M9 10 C23 24 48 50 62 62 C50 48 24 24 10 10Z" fill="#282A32" stroke="#686870" stroke-width="0.6" opacity="0.8"/>
+          <path d="M62 10 C48 24 24 48 10 62 C24 48 48 24 62 10Z" fill="#282A32" stroke="#686870" stroke-width="0.6" opacity="0.8"/>
+          <circle cx="36" cy="36" r="18" fill="#1C1E26" stroke="#9A9890" stroke-width="1"/>
+          <circle cx="36" cy="36" r="11" fill="#141620" stroke="#C8C4BC" stroke-width="0.75" opacity="0.5"/>
+          <circle cx="41" cy="31" r="2.5" fill="#D8D4CC" opacity="0.5"/>
+          <circle cx="42.5" cy="30" r="1" fill="#EDEAE3" opacity="0.65"/>
+          <circle cx="36" cy="36" r="4" fill="#D8D4CC" opacity="0.85"/>
+          <circle cx="36" cy="36" r="2" fill="#EDEAE3"/>
+        </svg>
+        <div>
+          <div class="wm-iris-name" style="font-size:18px; color:#D4D0C8">Anything<span style="color:#6A6870">Visual</span></div>
+          <div class="wm-iris-sub" style="font-size:8px; color:#3E4250">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Mid Slate</div>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="showcase-light">
+      <div class="logo-iris logo-iris-sm">
+        <svg width="36" height="36" viewBox="0 0 72 72" fill="none">
+          <circle cx="36" cy="36" r="33" stroke="#1A1C22" stroke-width="0.75" opacity="0.4"/>
+          <path d="M36 3 C44 18 44 54 36 69 C28 54 28 18 36 3Z" fill="#C8C4BC" stroke="#1A1C22" stroke-width="0.8"/>
+          <path d="M69 36 C54 44 18 44 3 36 C18 28 54 28 69 36Z" fill="#B8B4AC" stroke="#1A1C22" stroke-width="0.8"/>
+          <path d="M9 10 C23 24 48 50 62 62 C50 48 24 24 10 10Z" fill="#D4D0C8" stroke="#282A30" stroke-width="0.6" opacity="0.9"/>
+          <path d="M62 10 C48 24 24 48 10 62 C24 48 48 24 62 10Z" fill="#D4D0C8" stroke="#282A30" stroke-width="0.6" opacity="0.9"/>
+          <circle cx="36" cy="36" r="18" fill="#EDEAE3" stroke="#1A1C22" stroke-width="1"/>
+          <circle cx="36" cy="36" r="11" fill="#F5F2EC" stroke="#1A1C22" stroke-width="0.75" opacity="0.7"/>
+          <circle cx="41" cy="31" r="2" fill="#FFFFFF" opacity="0.9"/>
+          <circle cx="36" cy="36" r="4" fill="#0C0D10" opacity="0.85"/>
+          <circle cx="36" cy="36" r="2" fill="#1A1C22"/>
+        </svg>
+        <div>
+          <div class="wm-iris-name" style="font-size:16px; color:#111318">Anything<span style="color:#6A6870">Visual</span></div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#111318">Light</div>
+    </div>
+
+    <div class="showcase-warm">
+      <!-- Icon only / favicon -->
+      <svg width="42" height="42" viewBox="0 0 72 72" fill="none">
+        <circle cx="36" cy="36" r="33" stroke="#1A1C22" stroke-width="0.75" opacity="0.35"/>
+        <path d="M36 3 C44 18 44 54 36 69 C28 54 28 18 36 3Z" fill="#C8C4BC" stroke="#1A1C22" stroke-width="0.8"/>
+        <path d="M69 36 C54 44 18 44 3 36 C18 28 54 28 69 36Z" fill="#B8B4AC" stroke="#1A1C22" stroke-width="0.8"/>
+        <path d="M9 10 C23 24 48 50 62 62 C50 48 24 24 10 10Z" fill="#D4D0C8" stroke="#282A30" stroke-width="0.6" opacity="0.9"/>
+        <path d="M62 10 C48 24 24 48 10 62 C24 48 48 24 62 10Z" fill="#D4D0C8" stroke="#282A30" stroke-width="0.6" opacity="0.9"/>
+        <circle cx="36" cy="36" r="18" fill="#EDEAE3" stroke="#1A1C22" stroke-width="1"/>
+        <circle cx="36" cy="36" r="11" fill="#F5F2EC" stroke="#1A1C22" stroke-width="0.75" opacity="0.7"/>
+        <circle cx="41" cy="31" r="2" fill="#FFFFFF" opacity="0.9"/>
+        <circle cx="36" cy="36" r="4" fill="#0C0D10" opacity="0.85"/>
+        <circle cx="36" cy="36" r="2" fill="#1A1C22"/>
+      </svg>
+      <div class="cell-tag" style="color:#111318">Icon only · Warm</div>
+    </div>
+
+    <div class="showcase-charcoal">
+      <div class="logo-iris logo-iris-sm">
+        <svg width="34" height="34" viewBox="0 0 72 72" fill="none">
+          <circle cx="36" cy="36" r="33" stroke="#C8C4BC" stroke-width="0.75" opacity="0.25"/>
+          <path d="M36 3 C44 18 44 54 36 69 C28 54 28 18 36 3Z" fill="#3A3C44" stroke="#7A7880" stroke-width="0.6"/>
+          <path d="M69 36 C54 44 18 44 3 36 C18 28 54 28 69 36Z" fill="#32343C" stroke="#6A6870" stroke-width="0.6"/>
+          <path d="M9 10 C23 24 48 50 62 62 C50 48 24 24 10 10Z" fill="#2E3038" stroke="#585868" stroke-width="0.6" opacity="0.8"/>
+          <path d="M62 10 C48 24 24 48 10 62 C24 48 48 24 62 10Z" fill="#2E3038" stroke="#585868" stroke-width="0.6" opacity="0.8"/>
+          <circle cx="36" cy="36" r="18" fill="#2A2D38" stroke="#9A9890" stroke-width="1"/>
+          <circle cx="36" cy="36" r="11" fill="#222530" stroke="#B8B4AC" stroke-width="0.75" opacity="0.5"/>
+          <circle cx="41" cy="31" r="2" fill="#D8D4CC" opacity="0.5"/>
+          <circle cx="36" cy="36" r="4" fill="#D4D0C8" opacity="0.8"/>
+          <circle cx="36" cy="36" r="2" fill="#EDEAE3"/>
+        </svg>
+        <div>
+          <div class="wm-iris-name" style="font-size:16px; color:#C8C4BC">Anything<span style="color:#5A5E68">Visual</span></div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Charcoal</div>
+    </div>
+  </div><!-- /showcase -->
+
+  <div class="rationale-bar">
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">The Mark</div>
+      <div class="rationale-cell-text">Four curved iris blades open around a lens eye — abstracting the camera iris into pure geometric form. The specular highlight and layered depth make it feel alive. At small sizes it reads as a pupil. At large sizes, a cinematic instrument.</div>
+    </div>
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">The Wordmark</div>
+      <div class="rationale-cell-text">Chakra Petch — a geometric, slightly technical sans-serif with cinematic precision. "Anything" in white, "Visual" in muted grey: a deliberate split that mirrors the product's duality — any input, structured visual output.</div>
+    </div>
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">Why it works</div>
+      <div class="rationale-cell-text">The iris is simultaneously an eye (seeing clearly), a lens (cinematic optics), and a geometric abstraction. It answers both briefs. It scales from favicon to billboard. No other AI platform has claimed this mark.</div>
+    </div>
+  </div>
+</div>
+
+
+<hr class="div">
+
+
+<!-- ═══════════════════ CONCEPT B: THE SLIT SCAN ═══════════════════ -->
+<div class="concept-wrap">
+  <div class="concept-header">
+    <span class="concept-tag">Concept B</span>
+    <span class="concept-title">The Slit Scan</span>
+    <span class="concept-desc">Data becoming image — five vertical realities</span>
+  </div>
+
+  <div class="showcase">
+
+    <div class="showcase-hero">
+      <div class="logo-slit">
+        <!-- SLIT SCAN ICON — 5 vertical bars, varying width + opacity -->
+        <svg width="52" height="64" viewBox="0 0 52 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bar 1: leftmost, thin, faint -->
+          <rect x="0" y="0" width="5" height="64" fill="#3A3C44" rx="1"/>
+          <!-- Bar 2: wider, brighter -->
+          <rect x="9" y="0" width="9" height="64" fill="#7A7880" rx="1"/>
+          <!-- Bar 3: widest, brightest — the focal slit -->
+          <rect x="22" y="0" width="14" height="64" fill="#D8D4CC" rx="1.5"/>
+          <!-- Specular line down the focal bar -->
+          <rect x="27" y="0" width="2" height="64" fill="#F5F3EF" opacity="0.6" rx="1"/>
+          <!-- Bar 4: medium, dimming -->
+          <rect x="40" y="0" width="7" height="64" fill="#5A5C64" rx="1"/>
+          <!-- Bar 5: thin, faintest -->
+          <rect x="51" y="0" width="3" height="64" fill="#2A2C32" rx="0.5"/>
+          <!-- Horizontal scan line across all bars -->
+          <line x1="0" y1="32" x2="54" y2="32" stroke="#E8E4DC" stroke-width="0.5" opacity="0.2"/>
+        </svg>
+
+        <div>
+          <div class="wm-slit-name" style="font-size:30px; color:#EDEAE3; letter-spacing:-0.03em">
+            AnythingVisual
+          </div>
+          <div class="wm-slit-sub" style="font-size:8.5px; color:#343840">
+            Script Intelligence Engine
+          </div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Primary · Black</div>
+    </div>
+
+    <div class="showcase-dark">
+      <div class="logo-slit" style="gap:16px">
+        <svg width="32" height="42" viewBox="0 0 52 64" fill="none">
+          <rect x="0" y="0" width="5" height="64" fill="#3A3C44" rx="1"/>
+          <rect x="9" y="0" width="9" height="64" fill="#6A6870" rx="1"/>
+          <rect x="22" y="0" width="14" height="64" fill="#C8C4BC" rx="1.5"/>
+          <rect x="27" y="0" width="2" height="64" fill="#E8E4DC" opacity="0.5" rx="1"/>
+          <rect x="40" y="0" width="7" height="64" fill="#4A4C54" rx="1"/>
+          <rect x="51" y="0" width="3" height="64" fill="#22242A" rx="0.5"/>
+        </svg>
+        <div>
+          <div class="wm-slit-name" style="font-size:19px; color:#DEDAD2">AnythingVisual</div>
+          <div class="wm-slit-sub" style="font-size:7.5px; color:#303440">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Dark</div>
+    </div>
+
+    <div class="showcase-mid">
+      <div class="logo-slit" style="gap:16px">
+        <svg width="32" height="42" viewBox="0 0 52 64" fill="none">
+          <rect x="0" y="0" width="5" height="64" fill="#484A54" rx="1"/>
+          <rect x="9" y="0" width="9" height="64" fill="#7A7C84" rx="1"/>
+          <rect x="22" y="0" width="14" height="64" fill="#C8C4BC" rx="1.5"/>
+          <rect x="27" y="0" width="2" height="64" fill="#E8E4DC" opacity="0.5" rx="1"/>
+          <rect x="40" y="0" width="7" height="64" fill="#5A5C64" rx="1"/>
+          <rect x="51" y="0" width="3" height="64" fill="#323440" rx="0.5"/>
+        </svg>
+        <div>
+          <div class="wm-slit-name" style="font-size:19px; color:#C8C4BC">AnythingVisual</div>
+          <div class="wm-slit-sub" style="font-size:7.5px; color:#404450">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Mid</div>
+    </div>
+
+    <div class="showcase-light">
+      <div class="logo-slit" style="gap:14px">
+        <svg width="28" height="36" viewBox="0 0 52 64" fill="none">
+          <rect x="0" y="0" width="5" height="64" fill="#C8C4BC" rx="1"/>
+          <rect x="9" y="0" width="9" height="64" fill="#5A5C62" rx="1"/>
+          <rect x="22" y="0" width="14" height="64" fill="#111318" rx="1.5"/>
+          <rect x="27" y="0" width="2" height="64" fill="#2A2C34" opacity="0.5" rx="1"/>
+          <rect x="40" y="0" width="7" height="64" fill="#7A7C84" rx="1"/>
+          <rect x="51" y="0" width="3" height="64" fill="#AAAAAA" rx="0.5"/>
+        </svg>
+        <div>
+          <div class="wm-slit-name" style="font-size:16px; color:#111318">AnythingVisual</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#111318">Light</div>
+    </div>
+
+    <div class="showcase-warm" style="justify-content:center;flex-direction:column;gap:10px">
+      <!-- Icon-only: the slit as standalone mark -->
+      <svg width="36" height="48" viewBox="0 0 52 64" fill="none">
+        <rect x="0" y="0" width="5" height="64" fill="#B8B4AC" rx="1"/>
+        <rect x="9" y="0" width="9" height="64" fill="#3A3C42" rx="1"/>
+        <rect x="22" y="0" width="14" height="64" fill="#111318" rx="1.5"/>
+        <rect x="27" y="0" width="2" height="64" fill="#2A2C34" opacity="0.4" rx="1"/>
+        <rect x="40" y="0" width="7" height="64" fill="#6A6C72" rx="1"/>
+        <rect x="51" y="0" width="3" height="64" fill="#AAAAAA" rx="0.5"/>
+      </svg>
+      <div class="cell-tag" style="color:#111318">Icon · Warm</div>
+    </div>
+
+    <div class="showcase-charcoal">
+      <div class="logo-slit" style="gap:13px">
+        <svg width="26" height="34" viewBox="0 0 52 64" fill="none">
+          <rect x="0" y="0" width="5" height="64" fill="#484A54" rx="1"/>
+          <rect x="9" y="0" width="9" height="64" fill="#7A7C84" rx="1"/>
+          <rect x="22" y="0" width="14" height="64" fill="#C8C4BC" rx="1.5"/>
+          <rect x="27" y="0" width="2" height="64" fill="#E8E4DC" opacity="0.4" rx="1"/>
+          <rect x="40" y="0" width="7" height="64" fill="#5A5C64" rx="1"/>
+          <rect x="51" y="0" width="3" height="64" fill="#323440" rx="0.5"/>
+        </svg>
+        <div>
+          <div class="wm-slit-name" style="font-size:16px; color:#C4C0B8">AnythingVisual</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Charcoal</div>
+    </div>
+  </div>
+
+  <div class="rationale-bar">
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">The Mark</div>
+      <div class="rationale-cell-text">Five vertical bars of varying widths and luminosities — a slit-scan exposure frozen in time. The bright central bar is the focal plane: where raw signal becomes clear image. Entirely geometric, zero literal meaning, unmistakably cinematic.</div>
+    </div>
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">The Wordmark</div>
+      <div class="rationale-cell-text">Playfair Display Bold — commanding editorial serif. The weight and drama of Playfair anchors the otherwise abstract icon. The combination feels like a film title card. Sophisticated but not precious.</div>
+    </div>
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">Why it works</div>
+      <div class="rationale-cell-text">The slit metaphor is the product: a scanner that reads the raw and outputs clarity. The graduated bars visualise the transformation from noise to precision — exactly what the Script Intelligence Engine does. Deeply ownable.</div>
+    </div>
+  </div>
+</div>
+
+
+<hr class="div">
+
+
+<!-- ═══════════════════ CONCEPT C: THE FOCAL POINT ═══════════════════ -->
+<div class="concept-wrap">
+  <div class="concept-header">
+    <span class="concept-tag">Concept C</span>
+    <span class="concept-title">The Focal Point</span>
+    <span class="concept-desc">Light converging — the single point of visual truth</span>
+  </div>
+
+  <div class="showcase">
+
+    <div class="showcase-hero">
+      <div class="logo-focal" style="gap:24px">
+        <!-- FOCAL POINT ICON -->
+        <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Four arcs converging on center — compass arcs -->
+          <!-- Top arc -->
+          <path d="M12 12 Q34 2 56 12" stroke="#9A9890" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <!-- Bottom arc -->
+          <path d="M12 56 Q34 66 56 56" stroke="#9A9890" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <!-- Left arc -->
+          <path d="M12 12 Q2 34 12 56" stroke="#7A7870" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <!-- Right arc -->
+          <path d="M56 12 Q66 34 56 56" stroke="#7A7870" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+
+          <!-- Corner dots -->
+          <circle cx="12" cy="12" r="2.5" fill="#6A6860" opacity="0.7"/>
+          <circle cx="56" cy="12" r="2.5" fill="#6A6860" opacity="0.7"/>
+          <circle cx="12" cy="56" r="2" fill="#5A5850" opacity="0.6"/>
+          <circle cx="56" cy="56" r="2" fill="#5A5850" opacity="0.6"/>
+
+          <!-- Convergence lines from corners to center -->
+          <line x1="12" y1="12" x2="34" y2="34" stroke="#6A6860" stroke-width="0.75" opacity="0.5"/>
+          <line x1="56" y1="12" x2="34" y2="34" stroke="#6A6860" stroke-width="0.75" opacity="0.5"/>
+          <line x1="12" y1="56" x2="34" y2="34" stroke="#5A5850" stroke-width="0.75" opacity="0.4"/>
+          <line x1="56" y1="56" x2="34" y2="34" stroke="#5A5850" stroke-width="0.75" opacity="0.4"/>
+
+          <!-- Outer reticle ring -->
+          <circle cx="34" cy="34" r="20" stroke="#8A8880" stroke-width="0.75" fill="none" opacity="0.4"/>
+
+          <!-- Cross-hair marks -->
+          <line x1="34" y1="14" x2="34" y2="19" stroke="#C8C4BC" stroke-width="1" stroke-linecap="round"/>
+          <line x1="34" y1="49" x2="34" y2="54" stroke="#C8C4BC" stroke-width="1" stroke-linecap="round"/>
+          <line x1="14" y1="34" x2="19" y2="34" stroke="#C8C4BC" stroke-width="1" stroke-linecap="round"/>
+          <line x1="49" y1="34" x2="54" y2="34" stroke="#C8C4BC" stroke-width="1" stroke-linecap="round"/>
+
+          <!-- Inner reticle ring -->
+          <circle cx="34" cy="34" r="10" stroke="#C8C4BC" stroke-width="1" fill="none" opacity="0.5"/>
+
+          <!-- The focal point — bright center convergence -->
+          <circle cx="34" cy="34" r="5.5" fill="#1A1C24" stroke="#E8E4DC" stroke-width="1.2"/>
+          <circle cx="34" cy="34" r="2.5" fill="#E8E4DC"/>
+          <!-- Specular -->
+          <circle cx="35.8" cy="32.2" r="1" fill="#FFFFFF" opacity="0.8"/>
+        </svg>
+
+        <div>
+          <div style="line-height:1; margin-bottom:5px">
+            <span class="wm-focal-anything" style="font-size:30px; color:#EDEAE3">Anything</span><span class="wm-focal-visual" style="font-size:30px; color:#9A9890">Visual</span>
+          </div>
+          <div class="wm-focal-sub" style="font-size:8.5px; color:#34383C">Script Intelligence Engine</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Primary · Black</div>
+    </div>
+
+    <div class="showcase-dark">
+      <div class="logo-focal" style="gap:16px">
+        <svg width="42" height="42" viewBox="0 0 68 68" fill="none">
+          <path d="M12 12 Q34 2 56 12" stroke="#8A8880" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 56 Q34 66 56 56" stroke="#8A8880" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 12 Q2 34 12 56" stroke="#6A6870" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M56 12 Q66 34 56 56" stroke="#6A6870" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="2.5" fill="#6A6860" opacity="0.7"/>
+          <circle cx="56" cy="12" r="2.5" fill="#6A6860" opacity="0.7"/>
+          <circle cx="12" cy="56" r="2" fill="#5A5850" opacity="0.6"/>
+          <circle cx="56" cy="56" r="2" fill="#5A5850" opacity="0.6"/>
+          <line x1="12" y1="12" x2="34" y2="34" stroke="#5A5A58" stroke-width="0.75" opacity="0.5"/>
+          <line x1="56" y1="12" x2="34" y2="34" stroke="#5A5A58" stroke-width="0.75" opacity="0.5"/>
+          <line x1="12" y1="56" x2="34" y2="34" stroke="#4A4A48" stroke-width="0.75" opacity="0.4"/>
+          <line x1="56" y1="56" x2="34" y2="34" stroke="#4A4A48" stroke-width="0.75" opacity="0.4"/>
+          <circle cx="34" cy="34" r="20" stroke="#7A7870" stroke-width="0.75" fill="none" opacity="0.35"/>
+          <line x1="34" y1="14" x2="34" y2="19" stroke="#B8B4AC" stroke-width="1" stroke-linecap="round"/>
+          <line x1="34" y1="49" x2="34" y2="54" stroke="#B8B4AC" stroke-width="1" stroke-linecap="round"/>
+          <line x1="14" y1="34" x2="19" y2="34" stroke="#B8B4AC" stroke-width="1" stroke-linecap="round"/>
+          <line x1="49" y1="34" x2="54" y2="34" stroke="#B8B4AC" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="34" cy="34" r="10" stroke="#B8B4AC" stroke-width="1" fill="none" opacity="0.45"/>
+          <circle cx="34" cy="34" r="5.5" fill="#0F1016" stroke="#D8D4CC" stroke-width="1.2"/>
+          <circle cx="34" cy="34" r="2.5" fill="#D8D4CC"/>
+          <circle cx="35.8" cy="32.2" r="1" fill="#FFFFFF" opacity="0.7"/>
+        </svg>
+        <div>
+          <div style="line-height:1;margin-bottom:4px">
+            <span class="wm-focal-anything" style="font-size:19px;color:#DEDAD2">Anything</span><span class="wm-focal-visual" style="font-size:19px;color:#8A8880">Visual</span>
+          </div>
+          <div class="wm-focal-sub" style="font-size:7.5px;color:#2E3238">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Dark</div>
+    </div>
+
+    <div class="showcase-mid">
+      <div class="logo-focal" style="gap:16px">
+        <svg width="42" height="42" viewBox="0 0 68 68" fill="none">
+          <path d="M12 12 Q34 2 56 12" stroke="#9A9888" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 56 Q34 66 56 56" stroke="#9A9888" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 12 Q2 34 12 56" stroke="#7A7868" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M56 12 Q66 34 56 56" stroke="#7A7868" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="2.5" fill="#7A7860" opacity="0.7"/>
+          <circle cx="56" cy="12" r="2.5" fill="#7A7860" opacity="0.7"/>
+          <line x1="12" y1="12" x2="34" y2="34" stroke="#6A6A60" stroke-width="0.75" opacity="0.5"/>
+          <line x1="56" y1="12" x2="34" y2="34" stroke="#6A6A60" stroke-width="0.75" opacity="0.5"/>
+          <line x1="12" y1="56" x2="34" y2="34" stroke="#5A5A50" stroke-width="0.75" opacity="0.4"/>
+          <line x1="56" y1="56" x2="34" y2="34" stroke="#5A5A50" stroke-width="0.75" opacity="0.4"/>
+          <circle cx="34" cy="34" r="20" stroke="#8A8878" stroke-width="0.75" fill="none" opacity="0.35"/>
+          <line x1="34" y1="14" x2="34" y2="19" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <line x1="34" y1="49" x2="34" y2="54" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <line x1="14" y1="34" x2="19" y2="34" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <line x1="49" y1="34" x2="54" y2="34" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="34" cy="34" r="10" stroke="#C8C4B4" stroke-width="1" fill="none" opacity="0.45"/>
+          <circle cx="34" cy="34" r="5.5" fill="#1C1E26" stroke="#D8D4C4" stroke-width="1.2"/>
+          <circle cx="34" cy="34" r="2.5" fill="#D8D4C4"/>
+          <circle cx="35.8" cy="32.2" r="1" fill="#FFFFFF" opacity="0.7"/>
+        </svg>
+        <div>
+          <div style="line-height:1;margin-bottom:4px">
+            <span class="wm-focal-anything" style="font-size:19px;color:#C8C4B4">Anything</span><span class="wm-focal-visual" style="font-size:19px;color:#8A8878">Visual</span>
+          </div>
+          <div class="wm-focal-sub" style="font-size:7.5px;color:#3E4248">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Mid</div>
+    </div>
+
+    <div class="showcase-light">
+      <div class="logo-focal" style="gap:13px">
+        <svg width="34" height="34" viewBox="0 0 68 68" fill="none">
+          <path d="M12 12 Q34 2 56 12" stroke="#3A3830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 56 Q34 66 56 56" stroke="#3A3830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 12 Q2 34 12 56" stroke="#4A4840" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M56 12 Q66 34 56 56" stroke="#4A4840" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="2.5" fill="#5A5850" opacity="0.7"/>
+          <circle cx="56" cy="12" r="2.5" fill="#5A5850" opacity="0.7"/>
+          <line x1="12" y1="12" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.4"/>
+          <line x1="56" y1="12" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.4"/>
+          <line x1="12" y1="56" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.3"/>
+          <line x1="56" y1="56" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.3"/>
+          <circle cx="34" cy="34" r="20" stroke="#4A4840" stroke-width="0.75" fill="none" opacity="0.35"/>
+          <line x1="34" y1="14" x2="34" y2="19" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+          <line x1="34" y1="49" x2="34" y2="54" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+          <line x1="14" y1="34" x2="19" y2="34" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+          <line x1="49" y1="34" x2="54" y2="34" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="34" cy="34" r="10" stroke="#1A1816" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="34" cy="34" r="5.5" fill="#EDEAE3" stroke="#111018" stroke-width="1.2"/>
+          <circle cx="34" cy="34" r="2.5" fill="#111018"/>
+          <circle cx="35.8" cy="32.2" r="1" fill="#EDEAE3" opacity="0.6"/>
+        </svg>
+        <div>
+          <span class="wm-focal-anything" style="font-size:17px;color:#111018">Anything</span><span class="wm-focal-visual" style="font-size:17px;color:#5A5850;font-style:italic">Visual</span>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#111318">Light</div>
+    </div>
+
+    <div class="showcase-warm">
+      <!-- Icon only -->
+      <svg width="44" height="44" viewBox="0 0 68 68" fill="none">
+        <path d="M12 12 Q34 2 56 12" stroke="#3A3830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M12 56 Q34 66 56 56" stroke="#3A3830" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M12 12 Q2 34 12 56" stroke="#4A4840" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <path d="M56 12 Q66 34 56 56" stroke="#4A4840" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <circle cx="12" cy="12" r="2.5" fill="#5A5850" opacity="0.7"/>
+        <circle cx="56" cy="12" r="2.5" fill="#5A5850" opacity="0.7"/>
+        <line x1="12" y1="12" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.35"/>
+        <line x1="56" y1="12" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.35"/>
+        <line x1="12" y1="56" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.25"/>
+        <line x1="56" y1="56" x2="34" y2="34" stroke="#8A8878" stroke-width="0.75" opacity="0.25"/>
+        <circle cx="34" cy="34" r="20" stroke="#4A4840" stroke-width="0.75" fill="none" opacity="0.3"/>
+        <line x1="34" y1="14" x2="34" y2="19" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+        <line x1="34" y1="49" x2="34" y2="54" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+        <line x1="14" y1="34" x2="19" y2="34" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+        <line x1="49" y1="34" x2="54" y2="34" stroke="#1A1816" stroke-width="1" stroke-linecap="round"/>
+        <circle cx="34" cy="34" r="10" stroke="#1A1816" stroke-width="1" fill="none" opacity="0.35"/>
+        <circle cx="34" cy="34" r="5.5" fill="#EDEAE3" stroke="#111018" stroke-width="1.2"/>
+        <circle cx="34" cy="34" r="2.5" fill="#111018"/>
+      </svg>
+      <div class="cell-tag" style="color:#111318">Icon · Warm</div>
+    </div>
+
+    <div class="showcase-charcoal">
+      <div class="logo-focal" style="gap:13px">
+        <svg width="34" height="34" viewBox="0 0 68 68" fill="none">
+          <path d="M12 12 Q34 2 56 12" stroke="#8A8878" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 56 Q34 66 56 56" stroke="#8A8878" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M12 12 Q2 34 12 56" stroke="#6A6858" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <path d="M56 12 Q66 34 56 56" stroke="#6A6858" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+          <circle cx="12" cy="12" r="2.5" fill="#7A7860" opacity="0.7"/>
+          <circle cx="56" cy="12" r="2.5" fill="#7A7860" opacity="0.7"/>
+          <line x1="12" y1="12" x2="34" y2="34" stroke="#5A5A50" stroke-width="0.75" opacity="0.4"/>
+          <line x1="56" y1="12" x2="34" y2="34" stroke="#5A5A50" stroke-width="0.75" opacity="0.4"/>
+          <circle cx="34" cy="34" r="20" stroke="#7A7860" stroke-width="0.75" fill="none" opacity="0.3"/>
+          <line x1="34" y1="14" x2="34" y2="19" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <line x1="34" y1="49" x2="34" y2="54" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <line x1="14" y1="34" x2="19" y2="34" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <line x1="49" y1="34" x2="54" y2="34" stroke="#C8C4B4" stroke-width="1" stroke-linecap="round"/>
+          <circle cx="34" cy="34" r="10" stroke="#C8C4B4" stroke-width="1" fill="none" opacity="0.4"/>
+          <circle cx="34" cy="34" r="5.5" fill="#2A2D38" stroke="#D8D4C4" stroke-width="1.2"/>
+          <circle cx="34" cy="34" r="2.5" fill="#D8D4C4"/>
+          <circle cx="35.8" cy="32.2" r="1" fill="#FFFFFF" opacity="0.65"/>
+        </svg>
+        <div>
+          <span class="wm-focal-anything" style="font-size:17px;color:#C4C0B0">Anything</span><span class="wm-focal-visual" style="font-size:17px;color:#7A7860;font-style:italic">Visual</span>
+        </div>
+      </div>
+      <div class="cell-tag" style="color:#E0DDD8">Charcoal</div>
+    </div>
+  </div>
+
+  <div class="rationale-bar">
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">The Mark</div>
+      <div class="rationale-cell-text">Four arcs converging onto a single reticle + bright central dot. The arcs are camera-lens fieldlines; the reticle is precision optics; the dot is the focal point — where everything becomes clear. Meditative, precise, cinematic.</div>
+    </div>
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">The Wordmark</div>
+      <div class="rationale-cell-text">DM Serif Display — editorial, warm, literary. "Anything" in roman, "Visual" in italic — a typographic duality that mirrors the product: structured intelligence (roman) meeting expressive output (italic). Quiet confidence.</div>
+    </div>
+    <div class="rationale-cell">
+      <div class="rationale-cell-label">Why it works</div>
+      <div class="rationale-cell-text">The focal point is the exact metaphor for the product: converging chaos (raw ideas, fragments, scripts) into a single point of structured visual clarity. It reads as both a lens and a target. Luxury feel. Highest versatility across contexts.</div>
+    </div>
+  </div>
+</div>
+
+
+<hr class="div">
+
+<!-- SUMMARY -->
+<div style="text-align:center;margin-bottom:40px">
+  <div class="page-kicker" style="margin-bottom:10px">Direction Summary</div>
+  <div class="page-heading" style="font-size:26px">Pick your direction</div>
+</div>
+
+<div class="summary-grid">
+  <div class="summary-card">
+    <div class="summary-card-name">A · The Iris</div>
+    <div class="summary-card-sub">Geometric · Technical · Alive</div>
+    <div class="summary-card-body">The iris blades + lens geometry with a living specular highlight. Most recognisable at small sizes. Chakra Petch gives it a technical precision. Best for: all three segments, strongest favicon presence, most scalable identity.</div>
+    <div class="summary-pick">✦ Most versatile across all touchpoints</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-card-name">B · The Slit Scan</div>
+    <div class="summary-card-sub">Abstract · Editorial · Unique</div>
+    <div class="summary-card-body">Five bars of light — the most abstract and ownable mark of the three. Nothing in the AI/video space looks like it. Playfair Display creates editorial gravitas. Best for: bold brand positioning, posters, investor decks, merch.</div>
+    <div class="summary-pick">✦ Most distinctive · Hardest to copy</div>
+  </div>
+  <div class="summary-card">
+    <div class="summary-card-name">C · The Focal Point</div>
+    <div class="summary-card-sub">Cinematic · Precise · Refined</div>
+    <div class="summary-card-body">Arcs converging to a reticle — the most cinematic and metaphorically precise. DM Serif Display with roman/italic split gives it literary sophistication. Best for: premium positioning, filmmaker audience, long-term brand equity.</div>
+    <div class="summary-pick">✦ Strongest conceptual depth</div>
+  </div>
+</div>
+
+<div style="background:#13151A;border:1px solid #1E2028;border-radius:14px;padding:32px 36px;text-align:center">
+  <div class="page-kicker" style="margin-bottom:10px">Next step</div>
+  <div style="font-family:'Playfair Display',serif;font-size:20px;color:#EDEAE3;letter-spacing:-0.01em">
+    Choose a concept — we'll refine it into final mark, full brand guidelines, and production-ready SVG files.
+  </div>
+</div>
+
+</body>
+</html>

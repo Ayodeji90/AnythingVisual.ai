@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnythingVisual — The Iris · Final Brand Identity</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #09090C;
+  --s1:        #0E0F14;
+  --s2:        #141620;
+  --s3:        #1C1E2A;
+  --border:    #21232E;
+  --muted:     #40445A;
+  --dim:       #6A6E82;
+  --text:      #C8C5BE;
+  --bright:    #E8E4DC;
+  --white:     #F4F1EB;
+
+  /* Brand greys */
+  --iris-1:    #E8E4DC;   /* bright — inner pupil */
+  --iris-2:    #C0BDB5;   /* mid-light — blade highlight */
+  --iris-3:    #8A8880;   /* mid — blade body */
+  --iris-4:    #52504C;   /* shadow blade */
+  --iris-5:    #2C2A28;   /* deep blade */
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  padding: 0;
+}
+
+/* ── UTILITIES ── */
+.kicker {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.section-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+.cell-label {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.22;
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+}
+
+/* ══════════════════════════════════════════
+   THE IRIS SVG — reusable at any size
+   Called via <use> or inline per context
+══════════════════════════════════════════ */
+
+/* ── SECTION 1: COVER ── */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 80px 40px;
+  background: var(--bg);
+  position: relative;
+  overflow: hidden;
+}
+.cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.18;
+  mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+}
+.cover-iris-wrap {
+  margin-bottom: 48px;
+  position: relative;
+}
+.cover-glow {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(ellipse at center, rgba(200,197,190,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cover-logo-text {
+  margin-bottom: 24px;
+}
+.cover-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 52px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: var(--bright);
+}
+.cover-name em {
+  font-style: normal;
+  color: var(--dim);
+  font-weight: 400;
+}
+.cover-tag {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 200;
+  font-size: 12px;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 10px;
+}
+.cover-meta {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-top: 24px;
+  font-family: 'Chakra Petch', sans-serif;
+}
+
+/* ── SECTION: LOGO SHOWCASE ── */
+.section {
+  padding: 80px 56px;
+  border-top: 1px solid var(--border);
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 3px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 3px;
+}
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 48px;
+  position: relative;
+  min-height: 240px;
+}
+.cell-sm {
+  min-height: 130px;
+  padding: 32px 36px;
+}
+.row-bottom {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;
+}
+
+/* bg swatches */
+.bg-void      { background: #050507; }
+.bg-near      { background: #0E0F14; }
+.bg-deep      { background: #1C1E2A; }
+.bg-charcoal  { background: #2C2E3A; }
+.bg-parchment { background: #EAE7E0; }
+.bg-white-w   { background: #F4F1EB; }
+.bg-warm-mid  { background: #D8D5CE; }
+.bg-cool-mid  { background: #C8C9D0; }
+
+/* ── WORDMARK STYLES ── */
+.wm {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.wm-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.wm-name .dim { font-weight: 300; }
+.wm-sub {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-top: 5px;
+  white-space: nowrap;
+}
+
+/* ── SECTION: CONSTRUCTION ── */
+.construction-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.construct-cell {
+  background: var(--s1);
+  padding: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 340px;
+}
+
+/* ── SECTION: SCALE ── */
+.scale-row {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--border);
+}
+.scale-row:last-child { border-bottom: none; }
+.scale-label-col {
+  width: 120px;
+  flex-shrink: 0;
+}
+.scale-label-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.scale-label-desc {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* ── SECTION: COLORS ── */
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 3px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.color-swatch {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+}
+.color-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.color-hex {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  opacity: 0.7;
+}
+
+/* ── SECTION: TYPOGRAPHY ── */
+.type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.type-cell {
+  background: var(--s1);
+  padding: 48px;
+}
+.type-specimen-lg {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--bright);
+  line-height: 1;
+  margin-bottom: 24px;
+}
+.type-specimen-body {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--dim);
+  line-height: 1.8;
+  max-width: 340px;
+}
+.type-meta {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.type-meta-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.type-meta-detail {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── SECTION: USAGE ── */
+.usage-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.usage-cell {
+  background: var(--s1);
+  padding: 36px 32px;
+}
+.usage-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.usage-body {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+.usage-do { border-top: 2px solid #6A8A5A; }
+.usage-dont { border-top: 2px solid #8A5A5A; }
+.usage-note { border-top: 2px solid var(--muted); }
+
+/* ── FOOTER ── */
+.brand-footer {
+  padding: 48px 56px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand-footer-left {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.brand-footer-right {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: right;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     COVER
+═══════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+
+  <div class="cover-iris-wrap">
+    <div class="cover-glow"></div>
+    <!-- THE IRIS — MASTER MARK — 120px -->
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer atmosphere ring -->
+      <circle cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.12"/>
+
+      <!-- === IRIS BLADES === -->
+      <!-- Six blades, each a pointed ellipse rotated around center -->
+      <!-- Blade geometry: narrow ellipse, tip at edge, base through center -->
+
+      <!-- Blade 1: 0° — vertical -->
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9"
+        transform="rotate(0 60 60)"/>
+      <!-- Blade 2: 60° -->
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85"
+        transform="rotate(60 60 60)"/>
+      <!-- Blade 3: 120° -->
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9"
+        transform="rotate(120 60 60)"/>
+      <!-- Blade 4: 180° -->
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.6" opacity="0.8"
+        transform="rotate(180 60 60)"/>
+      <!-- Blade 5: 240° -->
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9"
+        transform="rotate(240 60 60)"/>
+      <!-- Blade 6: 300° -->
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85"
+        transform="rotate(300 60 60)"/>
+
+      <!-- Blade edge highlight lines — top of each blade catches light -->
+      <ellipse cx="60" cy="32" rx="2" ry="28" fill="none" stroke="#B0AEA8" stroke-width="0.4" opacity="0.4"
+        transform="rotate(0 60 60)"/>
+      <ellipse cx="60" cy="32" rx="2" ry="28" fill="none" stroke="#909088" stroke-width="0.4" opacity="0.3"
+        transform="rotate(60 60 60)"/>
+      <ellipse cx="60" cy="32" rx="2" ry="28" fill="none" stroke="#B0AEA8" stroke-width="0.4" opacity="0.4"
+        transform="rotate(120 60 60)"/>
+
+      <!-- === LENS BARREL === -->
+      <!-- Outer lens ring -->
+      <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+      <!-- Barrel groove 1 -->
+      <circle cx="60" cy="60" r="26" fill="none" stroke="#3A3830" stroke-width="0.5" opacity="0.6"/>
+
+      <!-- === INNER LENS === -->
+      <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.8" opacity="0.7"/>
+      <!-- Lens coating shimmer — thin ring -->
+      <circle cx="60" cy="60" r="18.5" fill="none" stroke="#D8D5CC" stroke-width="0.3" opacity="0.25"/>
+
+      <!-- === SPECULAR HIGHLIGHTS === -->
+      <!-- Primary flare — top right -->
+      <ellipse cx="68" cy="50" rx="5" ry="3" fill="#E8E4DC" opacity="0.18" transform="rotate(-30 68 50)"/>
+      <!-- Bright specular dot -->
+      <circle cx="70" cy="48" r="2.8" fill="#F0EDE6" opacity="0.5"/>
+      <circle cx="71" cy="47" r="1.2" fill="#FFFFFF" opacity="0.8"/>
+      <!-- Secondary micro flare -->
+      <circle cx="53" cy="68" r="1" fill="#D8D5CC" opacity="0.25"/>
+
+      <!-- === PUPIL === -->
+      <circle cx="60" cy="60" r="9" fill="#030304" stroke="#E8E4DC" stroke-width="0.6" opacity="0.6"/>
+      <!-- Pupil inner depth -->
+      <circle cx="60" cy="60" r="6" fill="#010102"/>
+
+      <!-- === FOCAL POINT — the bright center dot === -->
+      <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+      <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+      <!-- Center micro-specular -->
+      <circle cx="61" cy="59" r="0.7" fill="#FFFFFF" opacity="0.9"/>
+    </svg>
+  </div>
+
+  <div class="cover-logo-text">
+    <div class="cover-name">Anything<em>Visual</em></div>
+    <div class="cover-tag">Brand Identity System · The Iris</div>
+  </div>
+
+  <div class="cover-meta">
+    Version 1.0 &nbsp;·&nbsp; Final Mark &nbsp;·&nbsp; 2026
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION: LOGO ON ALL BACKGROUNDS
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">01 — Primary Logo · All Contexts</div>
+
+  <div class="showcase-grid">
+
+    <!-- HERO: void black, large -->
+    <div class="cell bg-void" style="grid-row:1/3; min-height:480px;">
+      <div style="display:flex;align-items:center;gap:28px;">
+        <!-- IRIS 80px -->
+        <svg width="80" height="80" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.12"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.6" opacity="0.8" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(300 60 60)"/>
+          <ellipse cx="60" cy="32" rx="2" ry="28" fill="none" stroke="#B0AEA8" stroke-width="0.4" opacity="0.4" transform="rotate(0 60 60)"/>
+          <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+          <circle cx="60" cy="60" r="26" fill="none" stroke="#3A3830" stroke-width="0.5" opacity="0.6"/>
+          <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="70" cy="48" r="2.8" fill="#F0EDE6" opacity="0.5"/>
+          <circle cx="71" cy="47" r="1.2" fill="#FFFFFF" opacity="0.8"/>
+          <circle cx="60" cy="60" r="9" fill="#030304" stroke="#E8E4DC" stroke-width="0.6" opacity="0.6"/>
+          <circle cx="60" cy="60" r="6" fill="#010102"/>
+          <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+          <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+          <circle cx="61" cy="59" r="0.7" fill="#FFFFFF" opacity="0.9"/>
+        </svg>
+        <div class="wm">
+          <div class="wm-name" style="font-size:36px;color:#E8E4DC;">Anything<span class="dim" style="color:#6A6E82">Visual</span></div>
+          <div class="wm-sub" style="font-size:9px;color:#40445A;">Script Intelligence Engine</div>
+        </div>
+      </div>
+      <div class="cell-label" style="color:#fff">Primary · Void Black</div>
+    </div>
+
+    <!-- Dark navy -->
+    <div class="cell bg-near">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <svg width="48" height="48" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.1"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.6" opacity="0.8" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(300 60 60)"/>
+          <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+          <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="70" cy="48" r="2.8" fill="#F0EDE6" opacity="0.45"/>
+          <circle cx="71" cy="47" r="1.2" fill="#FFFFFF" opacity="0.75"/>
+          <circle cx="60" cy="60" r="9" fill="#030304" stroke="#E8E4DC" stroke-width="0.6" opacity="0.6"/>
+          <circle cx="60" cy="60" r="6" fill="#010102"/>
+          <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+          <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+          <circle cx="61" cy="59" r="0.7" fill="#FFFFFF" opacity="0.85"/>
+        </svg>
+        <div class="wm">
+          <div class="wm-name" style="font-size:22px;color:#D8D5CE;">Anything<span class="dim" style="color:#50546A">Visual</span></div>
+          <div class="wm-sub" style="font-size:7.5px;color:#383C52;">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-label" style="color:#fff">Dark Navy</div>
+    </div>
+
+    <!-- Charcoal -->
+    <div class="cell bg-charcoal">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <svg width="48" height="48" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.1"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#3C3A38" stroke="#807E78" stroke-width="0.6" opacity="0.9" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#343230" stroke="#706E68" stroke-width="0.6" opacity="0.85" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#3C3A38" stroke="#807E78" stroke-width="0.6" opacity="0.9" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#302E2C" stroke="#605E58" stroke-width="0.6" opacity="0.8" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#3C3A38" stroke="#807E78" stroke-width="0.6" opacity="0.9" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#343230" stroke="#706E68" stroke-width="0.6" opacity="0.85" transform="rotate(300 60 60)"/>
+          <circle cx="60" cy="60" r="28" fill="#1A1C22" stroke="#A0A098" stroke-width="1.2"/>
+          <circle cx="60" cy="60" r="20" fill="#121314" stroke="#C8C5BE" stroke-width="0.8" opacity="0.65"/>
+          <circle cx="70" cy="48" r="2.8" fill="#F0EDE6" opacity="0.45"/>
+          <circle cx="71" cy="47" r="1.2" fill="#FFFFFF" opacity="0.75"/>
+          <circle cx="60" cy="60" r="9" fill="#060607" stroke="#E8E4DC" stroke-width="0.6" opacity="0.55"/>
+          <circle cx="60" cy="60" r="6" fill="#020203"/>
+          <circle cx="60" cy="60" r="3.5" fill="#DEDAD2" opacity="0.9"/>
+          <circle cx="60" cy="60" r="1.8" fill="#EDE9E1"/>
+          <circle cx="61" cy="59" r="0.7" fill="#FFFFFF" opacity="0.8"/>
+        </svg>
+        <div class="wm">
+          <div class="wm-name" style="font-size:22px;color:#C8C5BE;">Anything<span class="dim" style="color:#585C6E">Visual</span></div>
+          <div class="wm-sub" style="font-size:7.5px;color:#484C60;">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-label" style="color:#fff">Charcoal</div>
+    </div>
+
+    <!-- Deep slate -->
+    <div class="cell bg-deep">
+      <div style="display:flex;align-items:center;gap:18px;">
+        <svg width="48" height="48" viewBox="0 0 120 120" fill="none">
+          <circle cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.1"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.6" opacity="0.8" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(300 60 60)"/>
+          <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+          <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="70" cy="48" r="2.8" fill="#F0EDE6" opacity="0.5"/>
+          <circle cx="71" cy="47" r="1.2" fill="#FFFFFF" opacity="0.8"/>
+          <circle cx="60" cy="60" r="9" fill="#030304" stroke="#E8E4DC" stroke-width="0.6" opacity="0.6"/>
+          <circle cx="60" cy="60" r="6" fill="#010102"/>
+          <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+          <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+          <circle cx="61" cy="59" r="0.7" fill="#FFFFFF" opacity="0.9"/>
+        </svg>
+        <div class="wm">
+          <div class="wm-name" style="font-size:22px;color:#CCCAC2;">Anything<span class="dim" style="color:#4C5068">Visual</span></div>
+          <div class="wm-sub" style="font-size:7.5px;color:#383C52;">Script Intelligence</div>
+        </div>
+      </div>
+      <div class="cell-label" style="color:#fff">Deep Slate</div>
+    </div>
+  </div>
+
+  <!-- Bottom row: light backgrounds -->
+  <div class="row-bottom">
+    <div class="cell bg-white-w cell-sm">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <svg width="38" height="38" viewBox="0 0 120 120" fill="none">
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#D0CEC8" stroke="#4A4840" stroke-width="0.8" opacity="0.9" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#C0BEB8" stroke="#3A3830" stroke-width="0.8" opacity="0.85" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#D0CEC8" stroke="#4A4840" stroke-width="0.8" opacity="0.9" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#B8B6B0" stroke="#3A3830" stroke-width="0.8" opacity="0.8" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#D0CEC8" stroke="#4A4840" stroke-width="0.8" opacity="0.9" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#C0BEB8" stroke="#3A3830" stroke-width="0.8" opacity="0.85" transform="rotate(300 60 60)"/>
+          <circle cx="60" cy="60" r="28" fill="#EDEAE3" stroke="#1A1816" stroke-width="1.2"/>
+          <circle cx="60" cy="60" r="20" fill="#F4F1EB" stroke="#1A1816" stroke-width="0.8" opacity="0.5"/>
+          <circle cx="70" cy="48" r="2.5" fill="#FFFFFF" opacity="0.9"/>
+          <circle cx="71" cy="47" r="1" fill="#FFFFFF" opacity="0.7"/>
+          <circle cx="60" cy="60" r="9" fill="#E0DDD6" stroke="#111018" stroke-width="0.8" opacity="0.7"/>
+          <circle cx="60" cy="60" r="6" fill="#D4D1CA"/>
+          <circle cx="60" cy="60" r="3.5" fill="#111018" opacity="0.9"/>
+          <circle cx="60" cy="60" r="1.8" fill="#0A0A0C"/>
+          <circle cx="61" cy="59" r="0.7" fill="#4A4840" opacity="0.8"/>
+        </svg>
+        <div class="wm">
+          <div class="wm-name" style="font-size:17px;color:#111018;">Anything<span class="dim" style="color:#8A8878;font-weight:300">Visual</span></div>
+        </div>
+      </div>
+      <div class="cell-label" style="color:#111">Pure White</div>
+    </div>
+
+    <div class="cell bg-parchment cell-sm">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <svg width="38" height="38" viewBox="0 0 120 120" fill="none">
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#C8C5BE" stroke="#3A3830" stroke-width="0.8" opacity="0.9" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#B8B5AE" stroke="#2A2820" stroke-width="0.8" opacity="0.85" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#C8C5BE" stroke="#3A3830" stroke-width="0.8" opacity="0.9" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#B0ADA6" stroke="#2A2820" stroke-width="0.8" opacity="0.8" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#C8C5BE" stroke="#3A3830" stroke-width="0.8" opacity="0.9" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="32" rx="9" ry="30" fill="#B8B5AE" stroke="#2A2820" stroke-width="0.8" opacity="0.85" transform="rotate(300 60 60)"/>
+          <circle cx="60" cy="60" r="28" fill="#E0DDD6" stroke="#111018" stroke-width="1.2"/>
+          <circle cx="60" cy="60" r="20" fill="#EAE7E0" stroke="#111018" stroke-width="0.8" opacity="0.45"/>
+          <circle cx="70" cy="48" r="2.5" fill="#FFFFFF" opacity="0.85"/>
+          <circle cx="60" cy="60" r="9" fill="#D8D5CE" stroke="#111018" stroke-width="0.8" opacity="0.6"/>
+          <circle cx="60" cy="60" r="6" fill="#CCC9C2"/>
+          <circle cx="60" cy="60" r="3.5" fill="#111018" opacity="0.9"/>
+          <circle cx="60" cy="60" r="1.8" fill="#0A0A0C"/>
+        </svg>
+        <div class="wm">
+          <div class="wm-name" style="font-size:17px;color:#111018;">Anything<span class="dim" style="color:#7A7868;font-weight:300">Visual</span></div>
+        </div>
+      </div>
+      <div class="cell-label" style="color:#111">Parchment</div>
+    </div>
+
+    <div class="cell bg-warm-mid cell-sm" style="justify-content:center;">
+      <!-- Icon only -->
+      <svg width="52" height="52" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#9A9890" stroke="#2A2820" stroke-width="0.8" opacity="0.9" transform="rotate(0 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#888680" stroke="#1A1810" stroke-width="0.8" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#9A9890" stroke="#2A2820" stroke-width="0.8" opacity="0.9" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#807E78" stroke="#1A1810" stroke-width="0.8" opacity="0.8" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#9A9890" stroke="#2A2820" stroke-width="0.8" opacity="0.9" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#888680" stroke="#1A1810" stroke-width="0.8" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="28" fill="#D0CDC6" stroke="#0A0A0C" stroke-width="1.2"/>
+        <circle cx="60" cy="60" r="20" fill="#D8D5CE" stroke="#0A0A0C" stroke-width="0.8" opacity="0.4"/>
+        <circle cx="70" cy="48" r="2.5" fill="#FFFFFF" opacity="0.8"/>
+        <circle cx="60" cy="60" r="9" fill="#C8C5BE" stroke="#0A0A0C" stroke-width="0.8" opacity="0.6"/>
+        <circle cx="60" cy="60" r="6" fill="#BDB9B2"/>
+        <circle cx="60" cy="60" r="3.5" fill="#0A0A0C" opacity="0.9"/>
+        <circle cx="60" cy="60" r="1.8" fill="#050507"/>
+      </svg>
+      <div class="cell-label" style="color:#111">Icon · Mid Grey</div>
+    </div>
+
+    <div class="cell bg-cool-mid cell-sm" style="justify-content:center;">
+      <!-- Minimal wordmark only -->
+      <div class="wm">
+        <div class="wm-name" style="font-size:22px;color:#111018;letter-spacing:0.01em;">Anything<span style="color:#7A7E8E;font-weight:300">Visual</span></div>
+        <div class="wm-sub" style="font-size:7px;color:#8A8E9A;">Script Intelligence Engine</div>
+      </div>
+      <div class="cell-label" style="color:#111">Wordmark · Cool Grey</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION: SCALE SYSTEM
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">02 — Scale System</div>
+
+  <!-- 96px -->
+  <div class="scale-row">
+    <div class="scale-label-col">
+      <div class="scale-label-name">Hero</div>
+      <div class="scale-label-desc">96px · Landing pages, splash screens</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:24px;">
+      <svg width="96" height="96" viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.12"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(0 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.6" opacity="0.8" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+        <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.8" opacity="0.7"/>
+        <ellipse cx="68" cy="50" rx="5" ry="3" fill="#E8E4DC" opacity="0.18" transform="rotate(-30 68 50)"/>
+        <circle cx="70" cy="48" r="2.8" fill="#F0EDE6" opacity="0.5"/>
+        <circle cx="71" cy="47" r="1.2" fill="#FFFFFF" opacity="0.8"/>
+        <circle cx="60" cy="60" r="9" fill="#030304" stroke="#E8E4DC" stroke-width="0.6" opacity="0.6"/>
+        <circle cx="60" cy="60" r="6" fill="#010102"/>
+        <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+        <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+        <circle cx="61" cy="59" r="0.7" fill="#FFFFFF" opacity="0.9"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- 64px -->
+  <div class="scale-row">
+    <div class="scale-label-col">
+      <div class="scale-label-name">Standard</div>
+      <div class="scale-label-desc">64px · Navigation, headers</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <svg width="64" height="64" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(0 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.6" opacity="0.8" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+        <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.8" opacity="0.7"/>
+        <circle cx="70" cy="48" r="2.8" fill="#F0EDE6" opacity="0.5"/>
+        <circle cx="71" cy="47" r="1.2" fill="#FFFFFF" opacity="0.8"/>
+        <circle cx="60" cy="60" r="9" fill="#030304" stroke="#E8E4DC" stroke-width="0.6" opacity="0.6"/>
+        <circle cx="60" cy="60" r="6" fill="#010102"/>
+        <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+        <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+        <circle cx="61" cy="59" r="0.7" fill="#FFFFFF" opacity="0.9"/>
+      </svg>
+      <div class="wm-name" style="font-size:26px;color:#C8C5BE;">Anything<span style="color:#50546A;font-weight:300">Visual</span></div>
+    </div>
+  </div>
+
+  <!-- 40px -->
+  <div class="scale-row">
+    <div class="scale-label-col">
+      <div class="scale-label-name">Small</div>
+      <div class="scale-label-desc">40px · App nav, sidebar</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <svg width="40" height="40" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.7" opacity="0.9" transform="rotate(0 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.7" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.7" opacity="0.9" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.7" opacity="0.8" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.7" opacity="0.9" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.7" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.4"/>
+        <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.9" opacity="0.7"/>
+        <circle cx="70" cy="48" r="2.5" fill="#FFFFFF" opacity="0.7"/>
+        <circle cx="60" cy="60" r="9" fill="#030304"/>
+        <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+        <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+      </svg>
+      <div class="wm-name" style="font-size:18px;color:#B8B5AE;">Anything<span style="color:#484C62;font-weight:300">Visual</span></div>
+    </div>
+  </div>
+
+  <!-- 24px favicon -->
+  <div class="scale-row">
+    <div class="scale-label-col">
+      <div class="scale-label-name">Favicon</div>
+      <div class="scale-label-desc">24px · Browser tabs, system UI</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <!-- Show at 24, 32, 48 side by side -->
+      <svg width="24" height="24" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.9" transform="rotate(0 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.9" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#706E68" stroke-width="1" opacity="0.8" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.9" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#B0AEA8" stroke-width="2"/>
+        <circle cx="60" cy="60" r="18" fill="#050607"/>
+        <circle cx="60" cy="60" r="3.5" fill="#E8E4DC"/>
+        <circle cx="60" cy="60" r="1.8" fill="#FFFFFF"/>
+      </svg>
+      <div class="dim" style="font-size:11px;color:var(--muted)">24px</div>
+
+      <svg width="32" height="32" viewBox="0 0 120 120" fill="none">
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.9" transform="rotate(0 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#808078" stroke-width="1" opacity="0.85" transform="rotate(60 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.9" transform="rotate(120 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#706E68" stroke-width="1" opacity="0.8" transform="rotate(180 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#908E88" stroke-width="1" opacity="0.9" transform="rotate(240 60 60)"/>
+        <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#808078" stroke-width="1" opacity="0.85" transform="rotate(300 60 60)"/>
+        <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#A8A8A0" stroke-width="1.5"/>
+        <circle cx="60" cy="60" r="19" fill="#060708"/>
+        <circle cx="68" cy="52" r="2" fill="#FFFFFF" opacity="0.5"/>
+        <circle cx="60" cy="60" r="4" fill="#E8E4DC"/>
+        <circle cx="60" cy="60" r="2" fill="#FFFFFF"/>
+      </svg>
+      <div class="dim" style="font-size:11px;color:var(--muted)">32px</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION: COLOUR SYSTEM
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">03 — Colour System</div>
+
+  <div class="color-grid">
+    <div class="color-swatch" style="background:#E8E4DC;">
+      <div class="color-name" style="color:#111018;">Iris White</div>
+      <div class="color-hex" style="color:#111018;">#E8E4DC</div>
+    </div>
+    <div class="color-swatch" style="background:#9A9890;">
+      <div class="color-name" style="color:#111018;">Lens Mid</div>
+      <div class="color-hex" style="color:#111018;">#9A9890</div>
+    </div>
+    <div class="color-swatch" style="background:#52504C;">
+      <div class="color-name" style="color:#E8E4DC;">Blade Shadow</div>
+      <div class="color-hex" style="color:#E8E4DC;">#52504C</div>
+    </div>
+    <div class="color-swatch" style="background:#1C1E2A;">
+      <div class="color-name" style="color:#9A9890;">Deep Void</div>
+      <div class="color-hex" style="color:#9A9890;">#1C1E2A</div>
+    </div>
+    <div class="color-swatch" style="background:#09090C;">
+      <div class="color-name" style="color:#52504C;">Abyss</div>
+      <div class="color-hex" style="color:#52504C;">#09090C</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:3px;border-radius:0 0 12px 12px;overflow:hidden;margin-bottom:32px">
+    <div style="background:var(--s1);padding:14px 16px">
+      <div class="kicker" style="margin-bottom:4px">Role</div>
+      <div style="font-size:12px;color:var(--dim)">Highlights, pupil, wordmark primary</div>
+    </div>
+    <div style="background:var(--s1);padding:14px 16px">
+      <div class="kicker" style="margin-bottom:4px">Role</div>
+      <div style="font-size:12px;color:var(--dim)">Lens barrel, blade stroke</div>
+    </div>
+    <div style="background:var(--s1);padding:14px 16px">
+      <div class="kicker" style="margin-bottom:4px">Role</div>
+      <div style="font-size:12px;color:var(--dim)">Blade fill, wordmark secondary</div>
+    </div>
+    <div style="background:var(--s1);padding:14px 16px">
+      <div class="kicker" style="margin-bottom:4px">Role</div>
+      <div style="font-size:12px;color:var(--dim)">Background surface, UI panels</div>
+    </div>
+    <div style="background:var(--s1);padding:14px 16px">
+      <div class="kicker" style="margin-bottom:4px">Role</div>
+      <div style="font-size:12px;color:var(--dim)">Page background, deepest layer</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION: TYPOGRAPHY
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">04 — Typography</div>
+  <div class="type-grid">
+    <div class="type-cell">
+      <div class="type-specimen-lg">AaBbGg<br>0123</div>
+      <div class="type-meta">
+        <div class="type-meta-name">Primary · Chakra Petch</div>
+        <div class="type-meta-detail">Wordmark · Headlines · UI labels · Navigation<br>Weights used: 300, 400, 600, 700</div>
+      </div>
+    </div>
+    <div class="type-cell">
+      <div style="font-family:'Outfit',sans-serif;font-size:48px;font-weight:200;color:var(--bright);line-height:1;margin-bottom:24px;letter-spacing:-0.01em">AaBbGg<br>0123</div>
+      <div class="type-specimen-body">
+        The intelligence layer between idea and visual execution. Script Intelligence Engine.
+      </div>
+      <div class="type-meta">
+        <div class="type-meta-name">Secondary · Outfit</div>
+        <div class="type-meta-detail">Subheadings · Body copy · UI text · Captions<br>Weights used: 200, 300, 400, 500</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     SECTION: USAGE GUIDELINES
+═══════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">05 — Usage Guidelines</div>
+  <div class="usage-grid">
+    <div class="usage-cell usage-do">
+      <div class="usage-title" style="color:#8AB87A">✓ Do</div>
+      <div class="usage-body">
+        Use the icon on dark backgrounds for maximum specular effect. Always maintain the icon-to-wordmark spacing ratio (icon width × 0.35). Use "Anything" in full weight and "Visual" in light weight. Scale the mark proportionally — never stretch independently.
+      </div>
+    </div>
+    <div class="usage-cell usage-dont">
+      <div class="usage-title" style="color:#B87A7A">✗ Don't</div>
+      <div class="usage-body">
+        Never rotate the mark. Never apply colour fills to the iris blades. Never use the wordmark without the icon in primary contexts. Never place the logo on busy photographic backgrounds without a dark overlay. Never use the iris icon below 20px.
+      </div>
+    </div>
+    <div class="usage-cell usage-note">
+      <div class="usage-title">Clearspace</div>
+      <div class="usage-body">
+        Maintain clearspace equal to the height of the capital "A" in the wordmark on all sides of the combined mark. The icon requires clearspace equal to its own radius on all sides when used standalone.
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════ -->
+<div class="brand-footer">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <svg width="28" height="28" viewBox="0 0 120 120" fill="none">
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(0 60 60)"/>
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(60 60 60)"/>
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(120 60 60)"/>
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#201E1C" stroke="#504E4A" stroke-width="0.6" opacity="0.8" transform="rotate(180 60 60)"/>
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#2C2A28" stroke="#706E68" stroke-width="0.6" opacity="0.9" transform="rotate(240 60 60)"/>
+      <ellipse cx="60" cy="32" rx="9" ry="30" fill="#242220" stroke="#606058" stroke-width="0.6" opacity="0.85" transform="rotate(300 60 60)"/>
+      <circle cx="60" cy="60" r="28" fill="#0C0D10" stroke="#9A9890" stroke-width="1.2"/>
+      <circle cx="60" cy="60" r="20" fill="#080909" stroke="#C8C5BE" stroke-width="0.8" opacity="0.7"/>
+      <circle cx="70" cy="48" r="2.5" fill="#FFFFFF" opacity="0.7"/>
+      <circle cx="60" cy="60" r="9" fill="#030304"/>
+      <circle cx="60" cy="60" r="3.5" fill="#E8E4DC" opacity="0.95"/>
+      <circle cx="60" cy="60" r="1.8" fill="#F5F3EF"/>
+    </svg>
+    <div class="brand-footer-left">AnythingVisual · The Iris · Brand Identity v1.0</div>
+  </div>
+  <div class="brand-footer-right">
+    Primary font: Chakra Petch · Secondary: Outfit<br>
+    Five-tone monochromatic palette · 2026
+  </div>
+</div>
+
+</body>
+</html>

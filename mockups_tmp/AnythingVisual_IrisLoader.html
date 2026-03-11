@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AnythingVisual — Iris Loader</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Outfit:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:     #09090C;
+  --s1:     #0E0F14;
+  --border: #1C1E2A;
+  --muted:  #40445A;
+  --dim:    #6A6E82;
+  --text:   #C8C5BE;
+  --bright: #E8E4DC;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'Outfit', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 64px 40px 80px;
+  gap: 80px;
+  color: var(--text);
+}
+
+/* ── LABELS ── */
+.block-label {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 32px;
+  text-align: center;
+}
+.size-label {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 16px;
+  text-align: center;
+  opacity: 0.6;
+}
+
+/* ══════════════════════════════════════════
+   THE IRIS LOADER ANIMATION
+══════════════════════════════════════════ */
+
+.iris-loader {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* The entire iris SVG rotates — blades spin like a real iris */
+.iris-loader .iris-svg {
+  animation: irisRotate 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transform-origin: center center;
+}
+
+/* The lens barrel (inner circles) counter-rotates slightly — creates depth */
+.iris-loader .lens-group {
+  transform-origin: 60px 60px;
+  animation: lensCounter 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* Specular highlight orbits the lens */
+.iris-loader .specular-group {
+  transform-origin: 60px 60px;
+  animation: specularOrbit 3s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* The beam — pupil pulses in and out (scale + opacity) */
+.iris-loader .beam-group {
+  transform-origin: 60px 60px;
+  animation: beam 1.8s ease-in-out infinite;
+}
+
+/* The outer atmosphere ring pulses */
+.iris-loader .atmosphere {
+  transform-origin: 60px 60px;
+  animation: atmospherePulse 1.8s ease-in-out infinite;
+}
+
+/* Glow behind the iris */
+.iris-glow {
+  position: absolute;
+  inset: -30%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(200,197,190,0.07) 0%, transparent 65%);
+  animation: glowPulse 1.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── KEYFRAMES ── */
+
+@keyframes irisRotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes lensCounter {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(-120deg); }
+}
+
+@keyframes specularOrbit {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes beam {
+  0%   { opacity: 0.3; transform: scale(0.7); }
+  50%  { opacity: 1;   transform: scale(1.15); }
+  100% { opacity: 0.3; transform: scale(0.7); }
+}
+
+@keyframes atmospherePulse {
+  0%   { opacity: 0.06; transform: scale(0.96); }
+  50%  { opacity: 0.22; transform: scale(1.04); }
+  100% { opacity: 0.06; transform: scale(0.96); }
+}
+
+@keyframes glowPulse {
+  0%   { opacity: 0; transform: scale(0.9); }
+  50%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(0.9); }
+}
+
+/* ── WITH TEXT LABEL ── */
+.loader-with-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.loader-text {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: textFade 1.8s ease-in-out infinite;
+}
+
+.loader-subtext {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 200;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.6;
+  animation: textFade 1.8s ease-in-out infinite 0.3s;
+}
+
+@keyframes textFade {
+  0%   { opacity: 0.3; }
+  50%  { opacity: 0.85; }
+  100% { opacity: 0.3; }
+}
+
+/* Dots loader alongside text */
+.loader-dots {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+.loader-dots span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--muted);
+  display: inline-block;
+  animation: dotBounce 1.4s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2) { animation-delay: 0.18s; }
+.loader-dots span:nth-child(3) { animation-delay: 0.36s; }
+
+@keyframes dotBounce {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.7); }
+  40%           { opacity: 1;   transform: scale(1.1); }
+}
+
+/* ── FULL PAGE LOADER ── */
+.full-page-loader {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  overflow: hidden;
+}
+
+/* Grid behind full page loader */
+.full-page-loader::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 48px 48px;
+  opacity: 0.25;
+  mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black 20%, transparent 100%);
+}
+
+.full-page-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  color: var(--bright);
+  animation: textFade 1.8s ease-in-out infinite;
+}
+.full-page-name em { font-style: normal; color: var(--dim); font-weight: 300; }
+
+/* ── INLINE / BUTTON LOADERS ── */
+.inline-demo {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  cursor: default;
+}
+
+.card-loader {
+  width: 280px;
+  background: var(--s1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.card-loader-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.card-loader-sub {
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
+  animation: textFade 1.8s ease-in-out infinite 0.2s;
+}
+
+/* Progress bar beneath loader */
+.progress-bar {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  border-radius: 1px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--text), transparent);
+  border-radius: 1px;
+  animation: progressSweep 2s ease-in-out infinite;
+}
+@keyframes progressSweep {
+  0%   { transform: translateX(-100%); opacity: 0.3; }
+  50%  { opacity: 1; }
+  100% { transform: translateX(200%); opacity: 0.3; }
+}
+
+/* ── SIZE GRID ── */
+.size-grid {
+  display: flex;
+  align-items: flex-end;
+  gap: 48px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.size-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── CONTEXT STRIP ── */
+.context-strip {
+  width: 100%;
+  max-width: 900px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.ctx-cell {
+  background: var(--s1);
+  border: 1px solid var(--border);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  border-radius: 0;
+}
+.ctx-cell:first-child { border-radius: 16px 0 0 16px; }
+.ctx-cell:last-child  { border-radius: 0 16px 16px 0; }
+.ctx-name {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  text-align: center;
+  width: 100%;
+  max-width: 700px;
+}
+.page-kicker {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+.page-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--bright);
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+.page-title em { font-style: normal; color: var(--dim); font-weight: 300; }
+.page-sub {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* Light surface demo */
+.light-cell {
+  background: #EAE7E0;
+  border-radius: 14px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 220px;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="page-header">
+  <div class="page-kicker">Loading States</div>
+  <div class="page-title">Anything<em>Visual</em> · The Iris Loader</div>
+  <div class="page-sub">The iris blades rotate as a real camera lens opens. The pupil beams in and out — contracting and expanding like an eye adjusting to light. Used across all loading states on the platform.</div>
+</div>
+
+
+<!-- ══════════════ HERO: FULL PAGE LOADER ══════════════ -->
+<div style="width:100%;max-width:900px;">
+  <div class="block-label">Full Page · Processing State</div>
+  <div class="full-page-loader">
+    <div class="loader-with-text">
+
+      <!-- THE IRIS LOADER — 96px, full detail -->
+      <div class="iris-loader" style="width:96px;height:96px;">
+        <div class="iris-glow"></div>
+        <svg class="iris-svg" width="96" height="96" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Atmosphere ring -->
+          <circle class="atmosphere" cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.6" opacity="0.15"/>
+
+          <!-- Six iris blades -->
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#5A5850" stroke-width="0.7" opacity="0.82" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(300 60 60)"/>
+
+          <!-- Blade highlight edge -->
+          <ellipse cx="60" cy="30" rx="2.5" ry="30" fill="none" stroke="#C0BEB0" stroke-width="0.5" opacity="0.35" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="30" rx="2.5" ry="30" fill="none" stroke="#C0BEB0" stroke-width="0.5" opacity="0.25" transform="rotate(120 60 60)"/>
+
+          <!-- Lens barrel group — counter-rotates -->
+          <g class="lens-group">
+            <circle cx="60" cy="60" r="29" fill="#080909" stroke="#A8A8A0" stroke-width="1.4"/>
+            <circle cx="60" cy="60" r="27" fill="none" stroke="#2A2820" stroke-width="0.6" opacity="0.7"/>
+            <circle cx="60" cy="60" r="21" fill="#050606" stroke="#D0CEC6" stroke-width="0.9" opacity="0.75"/>
+            <circle cx="60" cy="60" r="19.5" fill="none" stroke="#E0DDD5" stroke-width="0.3" opacity="0.2"/>
+          </g>
+
+          <!-- Specular — orbits opposite to blades -->
+          <g class="specular-group">
+            <ellipse cx="70" cy="46" rx="5.5" ry="3" fill="#E8E4DC" opacity="0.15" transform="rotate(-30 70 46)"/>
+            <circle cx="72" cy="44" r="3" fill="#F0EDE6" opacity="0.45"/>
+            <circle cx="73.5" cy="43" r="1.4" fill="#FFFFFF" opacity="0.85"/>
+            <circle cx="51" cy="70" r="1" fill="#D8D5CC" opacity="0.2"/>
+          </g>
+
+          <!-- Beam group — pulses in/out -->
+          <g class="beam-group">
+            <!-- Outer beam ring -->
+            <circle cx="60" cy="60" r="11" fill="none" stroke="#E8E4DC" stroke-width="0.5" opacity="0.35"/>
+            <!-- Pupil dark -->
+            <circle cx="60" cy="60" r="9.5" fill="#020203"/>
+            <!-- Inner glow -->
+            <circle cx="60" cy="60" r="7" fill="none" stroke="#E8E4DC" stroke-width="0.3" opacity="0.15"/>
+            <!-- Bright focal point -->
+            <circle cx="60" cy="60" r="4" fill="#D8D5CC" opacity="0.9"/>
+            <circle cx="60" cy="60" r="2.2" fill="#EDEAE3"/>
+            <circle cx="60" cy="60" r="1" fill="#FFFFFF"/>
+            <!-- Micro center -->
+            <circle cx="60.8" cy="59.2" r="0.6" fill="#FFFFFF" opacity="0.9"/>
+          </g>
+        </svg>
+      </div>
+
+      <div style="text-align:center;">
+        <div class="full-page-name">Anything<em>Visual</em></div>
+        <div class="loader-subtext" style="margin-top:6px;">
+          Analyzing script&nbsp;<span class="loader-dots"><span></span><span></span><span></span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════ SIZE VARIATIONS ══════════════ -->
+<div style="width:100%;max-width:900px;">
+  <div class="block-label">Scale Variations</div>
+  <div class="size-grid">
+
+    <!-- 20px -->
+    <div class="size-item">
+      <div class="iris-loader" style="width:20px;height:20px;">
+        <div class="iris-glow"></div>
+        <svg class="iris-svg" width="20" height="20" viewBox="0 0 120 120" fill="none">
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#A0A098" stroke-width="1.5" opacity="0.92" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#909090" stroke-width="1.5" opacity="0.86" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#A0A098" stroke-width="1.5" opacity="0.92" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#707068" stroke-width="1.5" opacity="0.82" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#A0A098" stroke-width="1.5" opacity="0.92" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#909090" stroke-width="1.5" opacity="0.86" transform="rotate(300 60 60)"/>
+          <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#060708" stroke="#C0C0B8" stroke-width="2"/><circle cx="60" cy="60" r="20" fill="#020203"/></g>
+          <g class="beam-group"><circle cx="60" cy="60" r="4" fill="#D8D5CC" opacity="0.9"/><circle cx="60" cy="60" r="2" fill="#FFFFFF"/></g>
+        </svg>
+      </div>
+      <div class="size-label">20px</div>
+    </div>
+
+    <!-- 32px -->
+    <div class="size-item">
+      <div class="iris-loader" style="width:32px;height:32px;">
+        <div class="iris-glow"></div>
+        <svg class="iris-svg" width="32" height="32" viewBox="0 0 120 120" fill="none">
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#908E80" stroke-width="1" opacity="0.92" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#807870" stroke-width="1" opacity="0.86" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#908E80" stroke-width="1" opacity="0.92" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#605850" stroke-width="1" opacity="0.82" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#908E80" stroke-width="1" opacity="0.92" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#807870" stroke-width="1" opacity="0.86" transform="rotate(300 60 60)"/>
+          <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#070809" stroke="#B0B0A8" stroke-width="1.6"/><circle cx="60" cy="60" r="21" fill="#040405" stroke="#D0CEC6" stroke-width="0.8" opacity="0.7"/></g>
+          <g class="specular-group"><circle cx="71" cy="45" r="2" fill="#FFFFFF" opacity="0.6"/></g>
+          <g class="beam-group"><circle cx="60" cy="60" r="9.5" fill="#020203"/><circle cx="60" cy="60" r="4" fill="#D8D5CC" opacity="0.9"/><circle cx="60" cy="60" r="2" fill="#EDEAE3"/><circle cx="60" cy="60" r="0.9" fill="#FFFFFF"/></g>
+        </svg>
+      </div>
+      <div class="size-label">32px</div>
+    </div>
+
+    <!-- 48px -->
+    <div class="size-item">
+      <div class="iris-loader" style="width:48px;height:48px;">
+        <div class="iris-glow"></div>
+        <svg class="iris-svg" width="48" height="48" viewBox="0 0 120 120" fill="none">
+          <circle class="atmosphere" cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.12"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#5A5850" stroke-width="0.7" opacity="0.82" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(300 60 60)"/>
+          <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#080909" stroke="#A8A8A0" stroke-width="1.4"/><circle cx="60" cy="60" r="21" fill="#050606" stroke="#D0CEC6" stroke-width="0.9" opacity="0.75"/></g>
+          <g class="specular-group"><circle cx="72" cy="44" r="2.5" fill="#F0EDE6" opacity="0.45"/><circle cx="73.5" cy="43" r="1.1" fill="#FFFFFF" opacity="0.85"/></g>
+          <g class="beam-group"><circle cx="60" cy="60" r="9.5" fill="#020203"/><circle cx="60" cy="60" r="4" fill="#D8D5CC" opacity="0.9"/><circle cx="60" cy="60" r="2.2" fill="#EDEAE3"/><circle cx="60" cy="60" r="1" fill="#FFFFFF"/></g>
+        </svg>
+      </div>
+      <div class="size-label">48px</div>
+    </div>
+
+    <!-- 64px -->
+    <div class="size-item">
+      <div class="iris-loader" style="width:64px;height:64px;">
+        <div class="iris-glow"></div>
+        <svg class="iris-svg" width="64" height="64" viewBox="0 0 120 120" fill="none">
+          <circle class="atmosphere" cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.5" opacity="0.13"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#5A5850" stroke-width="0.7" opacity="0.82" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(300 60 60)"/>
+          <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#080909" stroke="#A8A8A0" stroke-width="1.4"/><circle cx="60" cy="60" r="27" fill="none" stroke="#2A2820" stroke-width="0.6" opacity="0.7"/><circle cx="60" cy="60" r="21" fill="#050606" stroke="#D0CEC6" stroke-width="0.9" opacity="0.75"/></g>
+          <g class="specular-group"><circle cx="72" cy="44" r="3" fill="#F0EDE6" opacity="0.45"/><circle cx="73.5" cy="43" r="1.4" fill="#FFFFFF" opacity="0.85"/></g>
+          <g class="beam-group"><circle cx="60" cy="60" r="11" fill="none" stroke="#E8E4DC" stroke-width="0.5" opacity="0.3"/><circle cx="60" cy="60" r="9.5" fill="#020203"/><circle cx="60" cy="60" r="4" fill="#D8D5CC" opacity="0.9"/><circle cx="60" cy="60" r="2.2" fill="#EDEAE3"/><circle cx="60" cy="60" r="1" fill="#FFFFFF"/></g>
+        </svg>
+      </div>
+      <div class="size-label">64px</div>
+    </div>
+
+    <!-- 96px -->
+    <div class="size-item">
+      <div class="iris-loader" style="width:96px;height:96px;">
+        <div class="iris-glow"></div>
+        <svg class="iris-svg" width="96" height="96" viewBox="0 0 120 120" fill="none">
+          <circle class="atmosphere" cx="60" cy="60" r="57" stroke="#C8C5BE" stroke-width="0.6" opacity="0.15"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(0 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(60 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(120 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#5A5850" stroke-width="0.7" opacity="0.82" transform="rotate(180 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.7" opacity="0.92" transform="rotate(240 60 60)"/>
+          <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.7" opacity="0.86" transform="rotate(300 60 60)"/>
+          <ellipse cx="60" cy="30" rx="2.5" ry="30" fill="none" stroke="#C0BEB0" stroke-width="0.5" opacity="0.35" transform="rotate(0 60 60)"/>
+          <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#080909" stroke="#A8A8A0" stroke-width="1.4"/><circle cx="60" cy="60" r="27" fill="none" stroke="#2A2820" stroke-width="0.6" opacity="0.7"/><circle cx="60" cy="60" r="21" fill="#050606" stroke="#D0CEC6" stroke-width="0.9" opacity="0.75"/><circle cx="60" cy="60" r="19.5" fill="none" stroke="#E0DDD5" stroke-width="0.3" opacity="0.2"/></g>
+          <g class="specular-group"><ellipse cx="70" cy="46" rx="5.5" ry="3" fill="#E8E4DC" opacity="0.15" transform="rotate(-30 70 46)"/><circle cx="72" cy="44" r="3" fill="#F0EDE6" opacity="0.45"/><circle cx="73.5" cy="43" r="1.4" fill="#FFFFFF" opacity="0.85"/><circle cx="51" cy="70" r="1" fill="#D8D5CC" opacity="0.2"/></g>
+          <g class="beam-group"><circle cx="60" cy="60" r="11" fill="none" stroke="#E8E4DC" stroke-width="0.5" opacity="0.35"/><circle cx="60" cy="60" r="9.5" fill="#020203"/><circle cx="60" cy="60" r="7" fill="none" stroke="#E8E4DC" stroke-width="0.3" opacity="0.15"/><circle cx="60" cy="60" r="4" fill="#D8D5CC" opacity="0.9"/><circle cx="60" cy="60" r="2.2" fill="#EDEAE3"/><circle cx="60" cy="60" r="1" fill="#FFFFFF"/><circle cx="60.8" cy="59.2" r="0.6" fill="#FFFFFF" opacity="0.9"/></g>
+        </svg>
+      </div>
+      <div class="size-label">96px</div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ IN-CONTEXT: ALL LOADING STATES ══════════════ -->
+<div style="width:100%;max-width:900px;">
+  <div class="block-label">In-Context Usage</div>
+  <div class="context-strip">
+
+    <!-- Button loading state -->
+    <div class="ctx-cell">
+      <div class="ctx-name">Button State</div>
+      <div class="btn-loading">
+        <div class="iris-loader" style="width:18px;height:18px;">
+          <svg class="iris-svg" width="18" height="18" viewBox="0 0 120 120" fill="none">
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#A0A098" stroke-width="1.5" opacity="0.9" transform="rotate(0 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#909088" stroke-width="1.5" opacity="0.85" transform="rotate(60 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#A0A098" stroke-width="1.5" opacity="0.9" transform="rotate(120 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#707068" stroke-width="1.5" opacity="0.8" transform="rotate(180 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#A0A098" stroke-width="1.5" opacity="0.9" transform="rotate(240 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#909088" stroke-width="1.5" opacity="0.85" transform="rotate(300 60 60)"/>
+            <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#060708" stroke="#C0C0B8" stroke-width="2"/><circle cx="60" cy="60" r="20" fill="#020203"/></g>
+            <g class="beam-group"><circle cx="60" cy="60" r="4.5" fill="#D8D5CC" opacity="0.9"/><circle cx="60" cy="60" r="2.2" fill="#FFFFFF"/></g>
+          </svg>
+        </div>
+        Analyze &amp; Structure
+      </div>
+      <div class="ctx-name" style="margin-top:4px;opacity:0.5">Processing request</div>
+    </div>
+
+    <!-- Scene card loading -->
+    <div class="ctx-cell">
+      <div class="ctx-name">Scene Card</div>
+      <div class="card-loader">
+        <div class="iris-loader" style="width:40px;height:40px;">
+          <div class="iris-glow"></div>
+          <svg class="iris-svg" width="40" height="40" viewBox="0 0 120 120" fill="none">
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.8" opacity="0.92" transform="rotate(0 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.8" opacity="0.86" transform="rotate(60 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.8" opacity="0.92" transform="rotate(120 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#1C1A14" stroke="#5A5850" stroke-width="0.8" opacity="0.82" transform="rotate(180 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#28261E" stroke="#807E70" stroke-width="0.8" opacity="0.92" transform="rotate(240 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#201E18" stroke="#706860" stroke-width="0.8" opacity="0.86" transform="rotate(300 60 60)"/>
+            <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#080909" stroke="#A8A8A0" stroke-width="1.4"/><circle cx="60" cy="60" r="21" fill="#050606" stroke="#D0CEC6" stroke-width="0.9" opacity="0.7"/></g>
+            <g class="specular-group"><circle cx="72" cy="44" r="2.5" fill="#FFFFFF" opacity="0.6"/></g>
+            <g class="beam-group"><circle cx="60" cy="60" r="9.5" fill="#020203"/><circle cx="60" cy="60" r="4" fill="#D8D5CC" opacity="0.9"/><circle cx="60" cy="60" r="2" fill="#EDEAE3"/><circle cx="60" cy="60" r="0.9" fill="#FFFFFF"/></g>
+          </svg>
+        </div>
+        <div class="card-loader-title">Scene 03</div>
+        <div class="card-loader-sub">Building scene intelligence<span class="loader-dots" style="margin-left:4px"><span></span><span></span><span></span></span></div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+
+    <!-- Light background -->
+    <div class="ctx-cell" style="background:#EAE7E0;">
+      <div class="ctx-name" style="color:#5A5850">Light Surface</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <div class="iris-loader" style="width:48px;height:48px;">
+          <svg class="iris-svg" width="48" height="48" viewBox="0 0 120 120" fill="none">
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#C8C5BE" stroke="#2A2820" stroke-width="0.8" opacity="0.85" transform="rotate(0 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#B8B5AE" stroke="#1A1810" stroke-width="0.8" opacity="0.8" transform="rotate(60 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#C8C5BE" stroke="#2A2820" stroke-width="0.8" opacity="0.85" transform="rotate(120 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#A8A5A0" stroke="#1A1810" stroke-width="0.8" opacity="0.75" transform="rotate(180 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#C8C5BE" stroke="#2A2820" stroke-width="0.8" opacity="0.85" transform="rotate(240 60 60)"/>
+            <ellipse cx="60" cy="30" rx="9.5" ry="32" fill="#B8B5AE" stroke="#1A1810" stroke-width="0.8" opacity="0.8" transform="rotate(300 60 60)"/>
+            <g class="lens-group"><circle cx="60" cy="60" r="29" fill="#DEDAD3" stroke="#111018" stroke-width="1.4"/><circle cx="60" cy="60" r="21" fill="#E8E5DE" stroke="#111018" stroke-width="0.9" opacity="0.5"/></g>
+            <g class="specular-group"><circle cx="72" cy="44" r="2.5" fill="#FFFFFF" opacity="0.9"/></g>
+            <g class="beam-group"><circle cx="60" cy="60" r="9.5" fill="#D4D1CA"/><circle cx="60" cy="60" r="4" fill="#111018" opacity="0.85"/><circle cx="60" cy="60" r="2" fill="#0A0A0C"/></g>
+          </svg>
+        </div>
+        <div style="font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#8A8878;animation:textFade 1.8s ease-in-out infinite;">
+          Loading
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════════ ANIMATION SPEC ══════════════ -->
+<div style="width:100%;max-width:900px;">
+  <div class="block-label">Animation Specification</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;border-radius:16px;overflow:hidden;">
+    <div style="background:var(--s1);padding:28px 32px;">
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text);margin-bottom:16px;">Iris Rotation</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.9;">
+        Duration: <span style="color:var(--text)">3s</span><br>
+        Easing: <span style="color:var(--text)">cubic-bezier(0.45, 0.05, 0.55, 0.95)</span><br>
+        Direction: <span style="color:var(--text)">Clockwise · 360°</span><br>
+        Iteration: <span style="color:var(--text)">Infinite</span><br>
+        Lens counter-rotation: <span style="color:var(--text)">−120° over same duration</span><br>
+        Specular orbit: <span style="color:var(--text)">−360° (full counter-orbit)</span>
+      </div>
+    </div>
+    <div style="background:var(--s1);padding:28px 32px;">
+      <div style="font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text);margin-bottom:16px;">Beam Pulse</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.9;">
+        Duration: <span style="color:var(--text)">1.8s</span><br>
+        Easing: <span style="color:var(--text)">ease-in-out</span><br>
+        Keyframes: <span style="color:var(--text)">opacity 0.3 → 1.0 → 0.3</span><br>
+        Scale: <span style="color:var(--text)">0.7 → 1.15 → 0.7</span><br>
+        Glow: <span style="color:var(--text)">radial, synced to beam pulse</span><br>
+        Text fade: <span style="color:var(--text)">Synced, 0.3s offset delay</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
