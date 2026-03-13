@@ -27,6 +27,8 @@ def health_check():
 # Future: Include routers
 from backend.api.projects import router as projects_router
 from backend.api.ai_pipeline import router as ai_router
+from backend.api.admin import router as admin_router
 
 app.include_router(projects_router, prefix=settings.API_V1_STR, tags=["projects"])
 app.include_router(ai_router, prefix=settings.API_V1_STR, tags=["ai"])
+app.include_router(admin_router, prefix=f"{settings.API_V1_STR}/admin", tags=["admin"])

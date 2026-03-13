@@ -5,6 +5,7 @@ from typing import List
 import openai
 from ai_stack.schemas import SceneObject
 from ai_stack.models import model_settings
+from ai_stack.prompts.loader import prompt_loader
 
 logger = logging.getLogger("ai_stack.segmentation")
 
@@ -14,26 +15,7 @@ class SceneSegmenter:
         self.model = model_settings.SEGMENTATION_MODEL
 
     def _get_system_prompt(self) -> str:
-        return """
-        You are an expert Script Supervisor and Scene Analyst. 
-        Your job is to take a formatted script and break it into individual scenes.
-        
-        CRITICAL RULES:
-        1. Every scene boundary must be detected by: location changes, time-of-day shifts, character entrances/exits, or tonal pivots.
-        2. Wrap EVERY scene in a <scene> tag.
-        3. Inside <scene>, use the following tags:
-           <title>: Short descriptive title
-           <location>: Specific setting (e.g., "Kitchen", "Spaceship Bridge")
-           <setting>: INT. or EXT.
-           <time_of_day>: DAY, NIGHT, DAWN, DUSK, etc.
-           <characters>: Comma-separated list of characters present
-           <objective>: What is the primary goal of this scene?
-           <tone>: Emotional tone
-           <energy>: Visual energy level (Low, Medium, High, Explosive)
-           <content>: The raw script text for this scene
-        
-        Output ONLY the XML. Do not include any other text.
-        """
+        return prompt_loader.get_prompt("segmentation")
 
     async def segment_script(self, script_text: str, trace_id: Optional[str] = None) -> List[SceneObject]:
         log_prefix = f"[{trace_id}] " if trace_id else ""

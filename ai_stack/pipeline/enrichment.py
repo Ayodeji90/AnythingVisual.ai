@@ -1,10 +1,11 @@
 import json
 import logging
 import asyncio
-from typing import List
+from typing import List, Optional
 import openai
 from ai_stack.schemas import SceneObject
 from ai_stack.models import model_settings
+from ai_stack.prompts.loader import prompt_loader
 
 logger = logging.getLogger("ai_stack.enrichment")
 
@@ -14,20 +15,7 @@ class VisualEnricher:
         self.model = model_settings.ENRICHMENT_MODEL
 
     def _get_system_prompt(self) -> str:
-        return """
-        You are an experienced Director of Photography and Visual Futurist.
-        Your job is to take a scene description and add the visual/cinematic layer.
-        
-        Provide specific, cinematic suggestions for:
-        - shooting_style: Overall camera language
-        - shot_types: List of specific shots (e.g., "Extreme Close-up", "Low-angle Tracking")
-        - lighting: Specific lighting setup (e.g., "Tungsten motivated by desk lamp, 4:1 ratio")
-        - props: Essential physical items
-        - environment_elements: Essential environmental details
-        
-        Return ONLY a JSON object with these fields. 
-        Be professional, specific, and technically accurate.
-        """
+        return prompt_loader.get_prompt("enrichment")
 
     async def enrich_scene(self, scene: SceneObject, trace_id: Optional[str] = None) -> SceneObject:
         log_prefix = f"[{trace_id}] " if trace_id else ""

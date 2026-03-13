@@ -1,0 +1,337 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.shell{display:flex;min-height:820px;background:var(--color-background-tertiary)}
+.sidebar{width:200px;flex-shrink:0;background:var(--color-background-primary);border-right:0.5px solid var(--color-border-tertiary);display:flex;flex-direction:column;padding:20px 0}
+.logo{padding:0 16px 20px;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:16px}
+.logo-mark{display:flex;align-items:center;gap:8px}
+.logo-iris{width:24px;height:24px;border-radius:50%;background:#E8A510;display:flex;align-items:center;justify-content:center}
+.logo-iris svg{width:14px;height:14px}
+.logo-text{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.logo-sub{font-size:10px;color:var(--color-text-secondary);margin-top:2px;letter-spacing:0.04em}
+.nav-section{padding:0 8px;margin-bottom:8px}
+.nav-label{font-size:10px;color:var(--color-text-tertiary);letter-spacing:0.06em;padding:0 8px;margin-bottom:4px}
+.nav-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--border-radius-md);font-size:13px;color:var(--color-text-secondary);cursor:pointer;transition:background 0.1s}
+.nav-item:hover{background:var(--color-background-secondary)}
+.nav-item.active{background:var(--color-background-secondary);color:var(--color-text-primary);font-weight:500}
+.nav-item .dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:0.5;flex-shrink:0}
+.nav-item.active .dot{opacity:1;background:#E8A510}
+.nav-spacer{flex:1}
+.nav-footer{padding:12px 16px;border-top:0.5px solid var(--color-border-tertiary);font-size:11px;color:var(--color-text-tertiary)}
+.main{flex:1;overflow:auto;padding:24px}
+.top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.page-title{font-size:18px;font-weight:500;color:var(--color-text-primary)}
+.top-right{display:flex;align-items:center;gap:10px}
+.date-badge{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:5px 10px}
+.range-select{font-size:12px;border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:5px 10px;background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer}
+.section-title{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:12px;letter-spacing:0.02em}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:28px}
+.metric-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px 16px}
+.metric-label{font-size:11px;color:var(--color-text-tertiary);margin-bottom:6px;letter-spacing:0.03em}
+.metric-value{font-size:22px;font-weight:500;color:var(--color-text-primary);line-height:1}
+.metric-delta{font-size:11px;margin-top:5px}
+.delta-up{color:var(--color-text-success)}
+.delta-dn{color:var(--color-text-danger)}
+.charts-row{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px;margin-bottom:24px}
+.charts-row-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-bottom:24px}
+.chart-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.chart-title{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.chart-sub{font-size:11px;color:var(--color-text-tertiary);margin-top:2px}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.pill{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500}
+.pill-amber{background:#FAEEDA;color:#633806}
+.pill-teal{background:#E1F5EE;color:#085041}
+.pill-coral{background:#FAECE7;color:#712B13}
+.pill-blue{background:#E6F1FB;color:#0C447C}
+@media(prefers-color-scheme:dark){
+  .pill-amber{background:#412402;color:#FAC775}
+  .pill-teal{background:#04342C;color:#9FE1CB}
+  .pill-coral{background:#4A1B0C;color:#F5C4B3}
+  .pill-blue{background:#042C53;color:#B5D4F4}
+}
+.user-table{width:100%;border-collapse:collapse;font-size:12px}
+.user-table th{text-align:left;color:var(--color-text-tertiary);font-weight:500;padding:6px 8px;border-bottom:0.5px solid var(--color-border-tertiary);letter-spacing:0.03em;font-size:11px}
+.user-table td{padding:8px 8px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-secondary)}
+.user-table td:first-child{color:var(--color-text-primary);font-weight:500}
+.user-table tr:last-child td{border-bottom:none}
+.avatar{width:26px;height:26px;border-radius:50%;font-size:10px;font-weight:500;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;background:var(--color-background-info);color:var(--color-text-info)}
+.segment-badge{display:inline-block;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:500}
+.activity-bar{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--color-text-secondary);padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.activity-bar:last-child{border-bottom:none}
+.act-icon{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:12px}
+.act-time{margin-left:auto;font-size:10px;color:var(--color-text-tertiary);white-space:nowrap}
+</style>
+
+<div class="shell">
+
+<div class="sidebar">
+  <div class="logo">
+    <div class="logo-mark">
+      <div class="logo-iris">
+        <svg viewBox="0 0 14 14" fill="none">
+          <ellipse cx="7" cy="7" rx="2" ry="5" stroke="#0a0907" stroke-width="1" transform="rotate(0 7 7)"/>
+          <ellipse cx="7" cy="7" rx="2" ry="5" stroke="#0a0907" stroke-width="1" transform="rotate(60 7 7)"/>
+          <ellipse cx="7" cy="7" rx="2" ry="5" stroke="#0a0907" stroke-width="1" transform="rotate(120 7 7)"/>
+          <circle cx="7" cy="7" r="1.5" fill="#0a0907"/>
+        </svg>
+      </div>
+      <div>
+        <div class="logo-text">AnythingVisual</div>
+        <div class="logo-sub">ADMIN CONSOLE</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <div class="nav-item active" onclick="showSection('overview')"><span class="dot"></span>Dashboard</div>
+    <div class="nav-item" onclick="showSection('users')"><span class="dot"></span>Users</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Platform</div>
+    <div class="nav-item" onclick="showSection('content')"><span class="dot"></span>Content</div>
+    <div class="nav-item" onclick="showSection('pipeline')"><span class="dot"></span>Pipeline</div>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Intelligence</div>
+    <div class="nav-item" onclick="showSection('ai')"><span class="dot"></span>AI consumption</div>
+    <div class="nav-item" onclick="showSection('revenue')"><span class="dot"></span>Revenue</div>
+  </div>
+
+  <div class="nav-spacer"></div>
+  <div class="nav-footer">Last sync: today 06:00 UTC</div>
+</div>
+
+<div class="main" id="main-content">
+
+  <div class="top-bar">
+    <div>
+      <div class="page-title" id="page-title">Dashboard overview</div>
+    </div>
+    <div class="top-right">
+      <div class="date-badge" id="today-date"></div>
+      <select class="range-select" id="range-select" onchange="updateRange(this.value)">
+        <option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option>
+        <option value="90">Last 90 days</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="section-overview">
+    <div class="section-title">Key metrics</div>
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Total users</div>
+        <div class="metric-value" id="m-users">1,284</div>
+        <div class="metric-delta delta-up" id="d-users">↑ 12% vs prev period</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Scripts generated</div>
+        <div class="metric-value" id="m-scripts">3,871</div>
+        <div class="metric-delta delta-up" id="d-scripts">↑ 18% vs prev period</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Keyframes created</div>
+        <div class="metric-value" id="m-kf">9,204</div>
+        <div class="metric-delta delta-up" id="d-kf">↑ 31% vs prev period</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">API spend (USD)</div>
+        <div class="metric-value" id="m-spend">$847</div>
+        <div class="metric-delta delta-dn" id="d-spend">↑ 22% vs prev period</div>
+      </div>
+    </div>
+
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">User registrations</div>
+            <div class="chart-sub">New signups per day</div>
+          </div>
+          <span class="pill pill-teal">Daily</span>
+        </div>
+        <div class="legend">
+          <span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Filmmakers</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#7F77DD"></span>Creators</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#E8A510"></span>Agencies</span>
+        </div>
+        <div style="position:relative;height:200px"><canvas id="regChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div>
+            <div class="chart-title">User segments</div>
+            <div class="chart-sub">All-time distribution</div>
+          </div>
+        </div>
+        <div class="legend">
+          <span class="leg-item"><span class="leg-dot" style="background:#1D9E75"></span>Filmmaker 41%</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#7F77DD"></span>Creator 35%</span>
+          <span class="leg-item"><span class="leg-dot" style="background:#E8A510"></span>Agency 24%</span>
+        </div>
+        <div style="position:relative;height:180px"><canvas id="segChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="charts-row-3">
+      <div class="chart-card">
+        <div class="chart-header">
+          <div><div class="chart-title">Scripts per day</div></div>
+          <span class="pill pill-amber">Content</span>
+        </div>
+        <div style="position:relative;height:140px"><canvas id="scriptsChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div><div class="chart-title">API tokens consumed</div></div>
+          <span class="pill pill-blue">AI</span>
+        </div>
+        <div style="position:relative;height:140px"><canvas id="tokensChart"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header">
+          <div><div class="chart-title">Revenue by plan</div></div>
+          <span class="pill pill-coral">MRR</span>
+        </div>
+        <div style="position:relative;height:140px"><canvas id="revenueChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="charts-row" style="grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+      <div class="chart-card">
+        <div class="chart-header"><div class="chart-title">Recent registrations</div></div>
+        <table class="user-table">
+          <thead><tr><th>User</th><th>Segment</th><th>Plan</th><th>Registered</th></tr></thead>
+          <tbody id="recent-users"></tbody>
+        </table>
+      </div>
+      <div class="chart-card">
+        <div class="chart-header"><div class="chart-title">Platform activity feed</div></div>
+        <div id="activity-feed"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const AMBER='#E8A510', TEAL='#1D9E75', PURPLE='#7F77DD', CORAL='#D85A30', BLUE='#378ADD', GRAY='#888780';
+const AMBER_D='#FAEEDA20', TEAL_D='#1D9E7520', PURPLE_D='#7F77DD20';
+
+const today=new Date();
+document.getElementById('today-date').textContent=today.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+function makeDates(n){
+  const d=[];
+  for(let i=n-1;i>=0;i--){
+    const dt=new Date(today);
+    dt.setDate(dt.getDate()-i);
+    d.push(dt.toLocaleDateString('en-GB',{day:'numeric',month:'short'}));
+  }
+  return d;
+}
+
+function rng(seed,n,lo,hi){
+  const arr=[];let s=seed;
+  for(let i=0;i<n;i++){s=(s*9301+49297)%233280;arr.push(Math.round(lo+(s/233280)*(hi-lo)));}
+  return arr;
+}
+
+let days=30;
+let charts={};
+
+const defaultOpts={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false}},scales:{x:{grid:{display:false},ticks:{color:GRAY,font:{size:10},maxTicksLimit:8}},y:{grid:{color:'#88878020'},ticks:{color:GRAY,font:{size:10}}}}};
+
+function buildCharts(n){
+  Object.values(charts).forEach(c=>c.destroy());
+  charts={};
+  const labels=makeDates(n);
+
+  const film=rng(1,n,8,28), cre=rng(2,n,5,22), ag=rng(3,n,3,14);
+
+  charts.reg=new Chart(document.getElementById('regChart'),{type:'bar',data:{labels,datasets:[
+    {label:'Filmmakers',data:film,backgroundColor:TEAL,borderRadius:3,stack:'s'},
+    {label:'Creators',data:cre,backgroundColor:PURPLE,borderRadius:3,stack:'s'},
+    {label:'Agencies',data:ag,backgroundColor:AMBER,borderRadius:3,stack:'s'},
+  ]},options:{...defaultOpts,scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,stacked:true},x:{...defaultOpts.scales.x,stacked:true}}}});
+
+  charts.seg=new Chart(document.getElementById('segChart'),{type:'doughnut',data:{labels:['Filmmaker','Creator','Agency'],datasets:[{data:[41,35,24],backgroundColor:[TEAL,PURPLE,AMBER],borderWidth:0,hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false}}}});
+
+  const sc=rng(4,n,60,180);
+  charts.scripts=new Chart(document.getElementById('scriptsChart'),{type:'line',data:{labels,datasets:[{label:'Scripts',data:sc,borderColor:AMBER,backgroundColor:AMBER+'20',fill:true,tension:0.4,pointRadius:0,borderWidth:2}]},options:{...defaultOpts,plugins:{legend:{display:false}}}});
+
+  const tok=rng(5,n,120000,480000);
+  charts.tokens=new Chart(document.getElementById('tokensChart'),{type:'line',data:{labels,datasets:[{label:'Tokens',data:tok,borderColor:BLUE,backgroundColor:BLUE+'20',fill:true,tension:0.4,pointRadius:0,borderWidth:2}]},options:{...defaultOpts,plugins:{legend:{display:false}},scales:{...defaultOpts.scales,y:{...defaultOpts.scales.y,ticks:{...defaultOpts.scales.y.ticks,callback:v=>v>=1000?Math.round(v/1000)+'k':v}}}}});
+
+  charts.rev=new Chart(document.getElementById('revenueChart'),{type:'bar',data:{labels:['Free','Pro','Team'],datasets:[{data:[0,4900,2800],backgroundColor:[GRAY+'60',TEAL,PURPLE],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:GRAY,font:{size:11}}},y:{display:false}}}});
+
+  updateMetrics(n);
+}
+
+function updateMetrics(n){
+  const scale=n/30;
+  document.getElementById('m-users').textContent=(Math.round(1284*Math.max(0.3,scale))).toLocaleString();
+  document.getElementById('m-scripts').textContent=(Math.round(3871*Math.max(0.3,scale))).toLocaleString();
+  document.getElementById('m-kf').textContent=(Math.round(9204*Math.max(0.3,scale))).toLocaleString();
+  document.getElementById('m-spend').textContent='$'+Math.round(847*Math.max(0.3,scale)).toLocaleString();
+}
+
+function updateRange(v){
+  days=parseInt(v);
+  buildCharts(days);
+}
+
+const USERS=[
+  ['Amara O.','AO','Filmmaker','Pro','2 mins ago'],
+  ['Lucas M.','LM','Creator','Free','18 mins ago'],
+  ['Priya S.','PS','Agency','Team','1 hr ago'],
+  ['Daniel K.','DK','Filmmaker','Pro','3 hrs ago'],
+  ['Sofia R.','SR','Creator','Free','5 hrs ago'],
+  ['Yemi A.','YA','Agency','Team','Yesterday'],
+];
+const SEGS={Filmmaker:['pill-teal',''],Creator:['pill-purple',''],Agency:['pill-amber','']};
+const PLANS={Pro:'pill-teal',Free:'',Team:'pill-blue'};
+
+const tbody=document.getElementById('recent-users');
+USERS.forEach(([name,ini,seg,plan,time])=>{
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td><span class="avatar">${ini}</span>${name}</td><td><span class="segment-badge pill pill-teal" style="opacity:${seg==='Filmmaker'?1:seg==='Creator'?0.85:0.7}">${seg}</span></td><td><span class="segment-badge pill ${plan==='Pro'?'pill-teal':plan==='Team'?'pill-blue':''}">${plan}</span></td><td>${time}</td>`;
+  tbody.appendChild(tr);
+});
+
+const FEED=[
+  ['#E8A510','S','Script generated','Filmmaker · 3 scenes · 1.2k tokens','4 mins ago'],
+  ['#1D9E75','K','Keyframe created','Stage 5 complete · FLUX 1.1 · 3.4s','11 mins ago'],
+  ['#D85A30','E','Export downloaded','PDF storyboard · 8 scenes','22 mins ago'],
+  ['#7F77DD','S','Script generated','Agency · 7 scenes · 3.8k tokens','34 mins ago'],
+  ['#378ADD','U','New user signup','Creator segment · Free plan','1 hr ago'],
+  ['#1D9E75','K','Keyframe batch','4 keyframes · Stage 5 · 14.2s total','2 hrs ago'],
+  ['#888780','P','Pipeline error','Stage 3 retry · recovered ok','3 hrs ago'],
+];
+
+const feed=document.getElementById('activity-feed');
+FEED.forEach(([col,ic,title,sub,time])=>{
+  const div=document.createElement('div');
+  div.className='activity-bar';
+  div.innerHTML=`<div class="act-icon" style="background:${col}22;color:${col};font-size:10px;font-weight:600">${ic}</div><div style="flex:1;min-width:0"><div style="font-size:12px;color:var(--color-text-primary);font-weight:500">${title}</div><div style="font-size:11px;color:var(--color-text-tertiary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${sub}</div></div><div class="act-time">${time}</div>`;
+  feed.appendChild(div);
+});
+
+function showSection(id){
+  document.getElementById('section-overview').style.display='block';
+  const titles={overview:'Dashboard overview',users:'User growth & registrations',content:'Content & pipeline activity',ai:'AI model consumption',revenue:'Revenue & plan distribution',pipeline:'Pipeline activity'};
+  document.getElementById('page-title').textContent=titles[id]||'Dashboard';
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+buildCharts(30);
+</script>

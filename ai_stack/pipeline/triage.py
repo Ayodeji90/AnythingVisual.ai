@@ -7,6 +7,7 @@ import openai
 from pydantic import ValidationError
 from ai_stack.schemas import TriageResult, ContentType
 from ai_stack.models import model_settings
+from ai_stack.prompts.loader import prompt_loader
 
 # Configure logging
 logger = logging.getLogger("ai_stack.triage")
@@ -18,32 +19,16 @@ if not logger.handlers:
     logger.setLevel(logging.INFO)
 
 class InputTriager:
-    def __init__(self, client: openai.AsyncOpenAI, model: Optional[str] = None):
+    def __init__(self, client: openai.AsyncOpenAI):
         self.client = client
-        self.model = model or model_settings.TRIAGE_MODEL
+        self.model = model_settings.TRIAGE_MODEL
         self.max_retries = 3
-        self.backoff_factor = 2
+        self.backoff_factor = 2.0
 
     def _get_system_prompt(self) -> str:
-        allowed_types = ", ".join([f"'{t.value}'" for t in ContentType])
-        return f"""
-        You are an expert Content Analyst for a visual production pipeline.
-        Your job is to read raw input and classify it accurately.
-        
-        CLASSIFICATION RULES:
-        - content_type MUST be one of: {allowed_types}
-        - estimated_scenes MUST be an integer between 1 and 100.
-        - language: detect the primary language.
-        
-        EXAMPLES:
-        1. Input: "A knight fights a dragon in a dark cave."
-           Output: {{"content_type": "rough idea", "estimated_scenes": 1, "genre": "Fantasy", "detected_characters": ["Knight", "Dragon"], "language": "English"}}
-        
-        2. Input: "- INT. KITCHEN - DAY. Mom is cooking. - Mom's phone rings."
-           Output: {{"content_type": "partial script", "estimated_scenes": 1, "genre": "Drama", "detected_characters": ["Mom"], "language": "English"}}
-        
-        Return ONLY a JSON object. No markdown code fences, no preamble.
-        """
+        allowed_types = ", ".join([t.value for t in ContentType])
+        template = prompt_loader.get_prompt("triage")
+        return template.format(allowed_types=allowed_types)
 
     def _validate_input(self, raw_text: str) -> str:
         if not raw_text or not raw_text.strip():

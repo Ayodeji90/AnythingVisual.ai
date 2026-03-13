@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { projectApi } from './services/api'
 import Layout from './components/Layout'
 import LogoIris from './components/LogoIris'
@@ -15,6 +15,7 @@ import InputStudioView from './views/InputStudioView'
 import SceneBoardView from './views/SceneBoardView'
 import SceneDetailView from './views/SceneDetailView'
 import SettingsView from './views/SettingsView'
+import AdminDashboardView from './views/AdminDashboardView'
 import ProcessingOverlay from './components/ProcessingOverlay'
 import './index.css'
 
@@ -33,7 +34,7 @@ interface Blueprint {
 }
 
 function App() {
-  const [view, setView] = useState<'home' | 'board' | 'auth' | 'dashboard' | 'input-studio' | 'scene-detail' | 'settings'>('home')
+  const [view, setView] = useState<'home' | 'board' | 'auth' | 'dashboard' | 'input-studio' | 'scene-detail' | 'settings' | 'admin'>('home')
   const [userProfile, setUserProfile] = useState<any>(null)
   const [projects, setProjects] = useState<Project[]>([])
   const [currentProject, setCurrentProject] = useState<Project | null>(null)
@@ -42,6 +43,12 @@ function App() {
   const [scriptText, setScriptText] = useState('')
   const [loading, setLoading] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
+
+  useEffect(() => {
+    if (window.location.pathname === '/admin') {
+      setView('admin');
+    }
+  }, []);
 
   const handleAnalyze = async () => {
     if (!scriptText.trim()) return
@@ -226,6 +233,8 @@ function App() {
               setUserProfile({ ...userProfile, ...data });
             }}
           />
+        ) : view === 'admin' ? (
+          <AdminDashboardView />
         ) : view === 'home' ? (
           <div>
             <HeroSection onStart={() => setView('auth')} />
