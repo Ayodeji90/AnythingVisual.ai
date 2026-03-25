@@ -1,7 +1,7 @@
 import re
 import logging
 import xml.etree.ElementTree as ET
-from typing import List
+from typing import List, Optional
 import openai
 from ai_stack.schemas import SceneObject
 from ai_stack.models import model_settings

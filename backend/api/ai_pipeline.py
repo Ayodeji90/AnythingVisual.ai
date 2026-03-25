@@ -1,12 +1,44 @@
 import asyncio
+import logging
 from fastapi import APIRouter, BackgroundTasks, Depends
 from fastapi.responses import StreamingResponse
 from ai_stack.orchestrator import PipelineOrchestrator
 from backend.core.config import settings
+import openai
 import json
 
+logger = logging.getLogger("ai_stack.pipeline_api")
+
 router = APIRouter()
-orchestrator = PipelineOrchestrator(api_key=settings.OPENAI_API_KEY)
+
+def _build_llm_client() -> openai.AsyncOpenAI:
+    """
+    Build the correct AsyncOpenAI client based on the LLM_PROVIDER setting.
+    Groq's API is OpenAI-compatible, so we just swap base_url and api_key.
+    """
+    provider = settings.LLM_PROVIDER.lower()
+    
+    if provider == "groq":
+        if not settings.GROQ_API_KEY:
+            raise ValueError("GROQ_API_KEY is required when LLM_PROVIDER=groq. Set it in ai_stack/.env")
+        logger.info("Using Groq (Llama) as LLM provider")
+        return openai.AsyncOpenAI(
+            api_key=settings.GROQ_API_KEY,
+            base_url="https://api.groq.com/openai/v1"
+        )
+    elif provider == "openai":
+        if not settings.OPENAI_API_KEY:
+            raise ValueError("OPENAI_API_KEY is required when LLM_PROVIDER=openai")
+        logger.info("Using OpenAI (GPT) as LLM provider")
+        return openai.AsyncOpenAI(
+            api_key=settings.OPENAI_API_KEY
+        )
+    else:
+        raise ValueError(f"Unknown LLM_PROVIDER: {provider}. Use 'groq' or 'openai'.")
+
+# Build client and orchestrator
+_client = _build_llm_client()
+orchestrator = PipelineOrchestrator(_client)
 
 # Simple in-memory store for demo/MVP purposes
 # In production, use Redis or a database to track job states

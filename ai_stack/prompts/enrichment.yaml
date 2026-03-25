@@ -10,3 +10,4 @@ v1: |
   - environment_elements: e.g., Fog, Dust, Rain, Crowded.
 
   Be professional, specific, and technically accurate.
+  Return ONLY a JSON object.

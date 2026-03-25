@@ -24,11 +24,17 @@ def root():
 def health_check():
     return {"status": "healthy"}
 
-# Future: Include routers
-from backend.api.projects import router as projects_router
-from backend.api.ai_pipeline import router as ai_router
-from backend.api.admin import router as admin_router
+# Create database tables explicitly via script if needed
+# from backend.database.session import init_db
+# init_db()
 
+# --- Routers ---
+# AI Pipeline (advanced streaming/orchestration)
+from backend.api.ai_pipeline import router as ai_router
+app.include_router(ai_router, prefix=f"{settings.API_V1_STR}/ai-pipeline", tags=["ai"])
+
+# Database-dependent routes
+from backend.api.projects import router as projects_router
+from backend.api.admin import router as admin_router
 app.include_router(projects_router, prefix=settings.API_V1_STR, tags=["projects"])
-app.include_router(ai_router, prefix=settings.API_V1_STR, tags=["ai"])
 app.include_router(admin_router, prefix=f"{settings.API_V1_STR}/admin", tags=["admin"])

@@ -318,42 +318,52 @@ const AdminDashboardView: React.FC = () => {
                 )}
 
                 {activeSection === 'users' && (
-                    <div className="chart-card" style={{ background: 'rgba(26, 24, 20, 0.4)', border: '0.5px solid var(--av-neutral-800)', borderRadius: '8px', padding: '24px' }}>
-                        <h2 style={{ fontSize: '16px', fontWeight: 500, marginBottom: '24px' }}>User Management</h2>
-                        <div style={{ height: '300px', marginBottom: '32px' }}><Bar options={{ ...chartOptions, maintainAspectRatio: false }} data={regData} /></div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div className="metrics-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
+                            <div className="metric-card" style={{ background: 'var(--av-neutral-900)', borderRadius: '6px', padding: '14px 16px', border: '0.5px solid var(--av-neutral-800)' }}>
+                                <div className="metric-label" style={{ fontSize: '11px', color: 'var(--av-cream-500)', marginBottom: '6px' }}>Total Registered Users</div>
+                                <div className="metric-value" style={{ fontSize: '22px', fontWeight: 500, color: 'var(--av-cream-100)', lineHeight: '1' }}>{stats.metrics.total_users}</div>
+                                <div className="metric-delta" style={{ fontSize: '11px', marginTop: '5px', color: '#10B981' }}>Platform Wide</div>
+                            </div>
+                        </div>
 
-                        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
-                            <thead>
-                                <tr style={{ textAlign: 'left', color: 'var(--av-cream-600)', borderBottom: '1px solid var(--av-neutral-800)' }}>
-                                    <th style={{ padding: '12px' }}>Name</th>
-                                    <th style={{ padding: '12px' }}>Segment</th>
-                                    <th style={{ padding: '12px' }}>Plan</th>
-                                    <th style={{ padding: '12px' }}>Registered At</th>
-                                    <th style={{ padding: '12px' }}>Last Active</th>
-                                    <th style={{ padding: '12px' }}>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {stats.recent_users.map((u: any, i: number) => (
-                                    <tr key={i} style={{ borderBottom: '0.5px solid var(--av-neutral-800)' }}>
-                                        <td style={{ padding: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                            <span style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--av-neutral-800)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px' }}>{u.initials}</span>
-                                            {u.name}
-                                        </td>
-                                        <td style={{ padding: '12px' }}>{u.segment}</td>
-                                        <td style={{ padding: '12px' }}><span style={{ padding: '2px 8px', borderRadius: '100px', background: 'rgba(55, 138, 221, 0.1)', color: BLUE, fontSize: '11px' }}>{u.plan}</span></td>
-                                        <td style={{ padding: '12px', color: 'var(--av-cream-600)' }}>{new Date(u.registered).toLocaleString()}</td>
-                                        <td style={{ padding: '12px', color: 'var(--av-cream-600)' }}>{u.last_active}</td>
-                                        <td style={{ padding: '12px' }}>
-                                            <span style={{ color: u.status === 'Active' ? '#10B981' : '#EF4444', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: u.status === 'Active' ? '#10B981' : '#EF4444' }}></div>
-                                                {u.status}
-                                            </span>
-                                        </td>
+                        <div className="chart-card" style={{ background: 'rgba(26, 24, 20, 0.4)', border: '0.5px solid var(--av-neutral-800)', borderRadius: '8px', padding: '24px' }}>
+                            <h2 style={{ fontSize: '16px', fontWeight: 500, marginBottom: '24px' }}>User Management</h2>
+                            <div style={{ height: '300px', marginBottom: '32px' }}><Bar options={{ ...chartOptions, maintainAspectRatio: false }} data={regData} /></div>
+
+                            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                                <thead>
+                                    <tr style={{ textAlign: 'left', color: 'var(--av-cream-600)', borderBottom: '1px solid var(--av-neutral-800)' }}>
+                                        <th style={{ padding: '12px' }}>Name</th>
+                                        <th style={{ padding: '12px' }}>Segment</th>
+                                        <th style={{ padding: '12px' }}>Plan</th>
+                                        <th style={{ padding: '12px' }}>Registered At</th>
+                                        <th style={{ padding: '12px' }}>Last Active</th>
+                                        <th style={{ padding: '12px' }}>Status</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    {stats.recent_users.map((u: any, i: number) => (
+                                        <tr key={i} style={{ borderBottom: '0.5px solid var(--av-neutral-800)' }}>
+                                            <td style={{ padding: '12px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                <span style={{ width: '28px', height: '28px', borderRadius: '50%', background: 'var(--av-neutral-800)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px' }}>{u.initials}</span>
+                                                {u.name}
+                                            </td>
+                                            <td style={{ padding: '12px' }}>{u.segment}</td>
+                                            <td style={{ padding: '12px' }}><span style={{ padding: '2px 8px', borderRadius: '100px', background: 'rgba(55, 138, 221, 0.1)', color: BLUE, fontSize: '11px' }}>{u.plan}</span></td>
+                                            <td style={{ padding: '12px', color: 'var(--av-cream-600)' }}>{new Date(u.registered).toLocaleString()}</td>
+                                            <td style={{ padding: '12px', color: 'var(--av-cream-600)' }}>{u.last_active}</td>
+                                            <td style={{ padding: '12px' }}>
+                                                <span style={{ color: u.status === 'Active' ? '#10B981' : '#EF4444', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: u.status === 'Active' ? '#10B981' : '#EF4444' }}></div>
+                                                    {u.status}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 )}
 
