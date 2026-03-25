@@ -25,9 +25,9 @@ def get_stats(session: Session = Depends(get_session)):
     user_list = [
         {
             "name": u.full_name or u.email.split('@')[0],
-            "initials": "".join([n[0] for n in (u.full_name or u.email).split()[:2]]).upper(),
-            "segment": "Filmmaker", # Mocked segment for now
-            "plan": "Pro", # Mocked plan for now
+            "initials": "".join([n[0] for n in (u.full_name or (u.email.split('@')[0])).split()[:2]]).upper(),
+            "segment": u.role.capitalize() if u.role else "Individual",
+            "plan": "Free",
             "registered": u.created_at.isoformat()
         } for u in recent_users
     ]

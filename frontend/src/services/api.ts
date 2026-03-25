@@ -16,4 +16,14 @@ export const projectApi = {
         api.post(`/projects/${projectId}/analyze?text=${encodeURIComponent(text)}`),
 };
 
+export const authApi = {
+    register: (data: any) => api.post('/auth/register', data),
+    login: (email: string, pass: string) => {
+        const formData = new FormData();
+        formData.append('username', email);
+        formData.append('password', pass);
+        return api.post('/auth/login/access-token', formData);
+    }
+};
+
 export default api;

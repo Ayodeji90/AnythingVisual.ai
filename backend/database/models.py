@@ -7,6 +7,8 @@ class User(SQLModel, table=True):
     email: str = Field(unique=True, index=True)
     hashed_password: str
     full_name: Optional[str] = None
+    role: Optional[str] = None  # filmmaker | creator | agency
+    intent: Optional[str] = None # feature | short | youtube | ad | social
     created_at: datetime = Field(default_factory=datetime.utcnow)
     
     projects: List["Project"] = Relationship(back_populates="owner")

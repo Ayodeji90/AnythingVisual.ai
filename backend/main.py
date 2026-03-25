@@ -31,7 +31,9 @@ def health_check():
 # --- Routers ---
 # AI Pipeline (advanced streaming/orchestration)
 from backend.api.ai_pipeline import router as ai_router
+from backend.api.auth import router as auth_router
 app.include_router(ai_router, prefix=f"{settings.API_V1_STR}/ai-pipeline", tags=["ai"])
+app.include_router(auth_router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
 
 # Database-dependent routes
 from backend.api.projects import router as projects_router

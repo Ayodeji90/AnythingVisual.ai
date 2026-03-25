@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import LogoIris from '../components/LogoIris';
+import { authApi } from '../services/api';
 
 interface AuthPageProps {
     onComplete: (profile: any) => void;
@@ -48,13 +49,33 @@ const AuthPage: React.FC<AuthPageProps> = ({ onComplete, onBack }) => {
 
     const prevStep = () => setStep(s => s - 1);
 
-    const handleFinish = () => {
+    const handleFinish = async () => {
         if (!validateEmail(formData.email)) {
             setEmailError('Please enter a valid email address');
             return;
         }
         setEmailError('');
-        onComplete(formData);
+
+        try {
+            if (authMode === 'signup') {
+                const res = await authApi.register({
+                    email: formData.email,
+                    password: formData.password,
+                    full_name: formData.name,
+                    role: formData.role,
+                    intent: formData.intent
+                });
+                onComplete(res.data);
+            } else {
+                const res = await authApi.login(formData.email, formData.password);
+                // For now we just pass a mock profile, but in a real app 
+                // we'd fetch the user profile using the token
+                onComplete({ email: formData.email, token: res.data.access_token });
+            }
+        } catch (error: any) {
+            console.error("Auth failed:", error);
+            setEmailError(error.response?.data?.detail || "Authentication failed. Please try again.");
+        }
     };
 
     return (

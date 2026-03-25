@@ -17,9 +17,13 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     password: str
+    role: Optional[str] = None
+    intent: Optional[str] = None
 
 class User(UserBase):
     id: int
+    role: Optional[str] = None
+    intent: Optional[str] = None
     created_at: datetime
 
     class Config:
