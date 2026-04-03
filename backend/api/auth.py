@@ -6,11 +6,12 @@ from backend.database.session import get_session
 from backend.database.models import User as DBUser
 from backend.api import schemas
 from backend.core import security
+from backend.core.security import get_current_user
 from backend.core.config import settings
 
 router = APIRouter()
 
-@router.post("/register", response_model=schemas.User)
+@router.post("/register")
 def register(user_in: schemas.UserCreate, session: Session = Depends(get_session)):
     # Check if user already exists
     user = session.exec(select(DBUser).where(DBUser.email == user_in.email)).first()
@@ -30,9 +31,24 @@ def register(user_in: schemas.UserCreate, session: Session = Depends(get_session
     session.add(db_obj)
     session.commit()
     session.refresh(db_obj)
-    return db_obj
+    
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = security.create_access_token(
+        db_obj.id, expires_delta=access_token_expires
+    )
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": db_obj.id,
+            "email": db_obj.email,
+            "full_name": db_obj.full_name,
+            "role": db_obj.role,
+            "intent": db_obj.intent,
+        }
+    }
 
-@router.post("/login/access-token", response_model=schemas.Token)
+@router.post("/login/access-token")
 def login_access_token(
     session: Session = Depends(get_session), 
     form_data: OAuth2PasswordRequestForm = Depends()
@@ -45,9 +61,30 @@ def login_access_token(
         raise HTTPException(status_code=400, detail="Incorrect email or password")
     
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = security.create_access_token(
+        user.id, expires_delta=access_token_expires
+    )
     return {
-        "access_token": security.create_access_token(
-            user.id, expires_delta=access_token_expires
-        ),
+        "access_token": access_token,
         "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "full_name": user.full_name,
+            "role": user.role,
+            "intent": user.intent,
+        }
     }
+
+@router.get("/me", response_model=schemas.User)
+def get_me(
+    session: Session = Depends(get_session),
+    user_id: int = Depends(get_current_user)
+):
+    """
+    Get current authenticated user's profile.
+    """
+    user = session.get(DBUser, user_id)
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user

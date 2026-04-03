@@ -5,26 +5,70 @@ from backend.database.session import get_session
 from backend.database import models
 from backend.api import schemas
 from backend.services.llm_engine import llm_engine
+from backend.core.security import get_current_user
 
 router = APIRouter()
 
 @router.post("/projects", response_model=schemas.Project)
-def create_project(project: schemas.ProjectCreate, db: Session = Depends(get_session)):
-    # Mock owner_id for now as we haven't wired authentications
-    db_project = models.Project(**project.model_dump(), owner_id=1)
+def create_project(
+    project: schemas.ProjectCreate,
+    db: Session = Depends(get_session),
+    user_id: int = Depends(get_current_user)
+):
+    db_project = models.Project(**project.model_dump(), owner_id=user_id)
     db.add(db_project)
     db.commit()
     db.refresh(db_project)
     return db_project
 
 @router.get("/projects", response_model=List[schemas.Project])
-def read_projects(skip: int = 0, limit: int = 100, db: Session = Depends(get_session)):
-    projects = db.query(models.Project).offset(skip).limit(limit).all()
+def read_projects(
+    skip: int = 0,
+    limit: int = 100,
+    db: Session = Depends(get_session),
+    user_id: int = Depends(get_current_user)
+):
+    projects = db.query(models.Project).filter(
+        models.Project.owner_id == user_id
+    ).offset(skip).limit(limit).all()
     return projects
 
+@router.delete("/projects/{project_id}")
+def delete_project(
+    project_id: int,
+    db: Session = Depends(get_session),
+    user_id: int = Depends(get_current_user)
+):
+    project = db.query(models.Project).filter(
+        models.Project.id == project_id,
+        models.Project.owner_id == user_id
+    ).first()
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    # Cascade delete: scenes → blueprints, generated_scripts, scripts
+    blueprints = db.query(models.Blueprint).filter(models.Blueprint.project_id == project_id).all()
+    for bp in blueprints:
+        db.query(models.Scene).filter(models.Scene.blueprint_id == bp.id).delete()
+    db.query(models.Blueprint).filter(models.Blueprint.project_id == project_id).delete()
+    db.query(models.GeneratedScript).filter(models.GeneratedScript.project_id == project_id).delete()
+    db.query(models.Script).filter(models.Script.project_id == project_id).delete()
+
+    db.delete(project)
+    db.commit()
+    return {"message": "Project deleted", "id": project_id}
+
 @router.post("/projects/{project_id}/analyze", response_model=schemas.Blueprint)
-async def analyze_script(project_id: int, text: str, db: Session = Depends(get_session)):
-    project = db.query(models.Project).filter(models.Project.id == project_id).first()
+async def analyze_script(
+    project_id: int,
+    text: str,
+    db: Session = Depends(get_session),
+    user_id: int = Depends(get_current_user)
+):
+    project = db.query(models.Project).filter(
+        models.Project.id == project_id,
+        models.Project.owner_id == user_id
+    ).first()
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
     

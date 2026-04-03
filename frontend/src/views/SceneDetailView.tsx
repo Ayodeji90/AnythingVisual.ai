@@ -4,15 +4,33 @@ interface Scene {
   id: string;
   scene_number: number;
   slug: string;
+  title?: string;
   int_ext: string;
   location: string;
   day_night: string;
   description: string;
-  tone: string;
+  tone?: string;
+  emotional_tone?: string;
   visual_style?: string;
-  shot_types: string[];
-  characters: string[];
-  required_elements: string[];
+  shooting_style?: string;
+  shot_types?: string[] | string;
+  characters?: string[] | string;
+  required_elements?: string[];
+  objective?: string;
+  script_text?: string;
+  visual_energy?: string;
+  lighting?: string;
+  props?: string[] | string;
+  environment_elements?: string[] | string;
+  keyframe_prompt?: string;
+}
+
+function parseJsonArray(val: any): string[] {
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'string') {
+    try { return JSON.parse(val); } catch { return []; }
+  }
+  return [];
 }
 
 interface SceneDetailViewProps {
@@ -26,7 +44,19 @@ interface SceneDetailViewProps {
 
 const SceneDetailView: React.FC<SceneDetailViewProps> = ({ scene, projectTitle, onBack, onNext, onPrev, onUpdate }) => {
   const [activeStyle, setActiveStyle] = useState('Cinematic');
-  const [prompt, setPrompt] = useState(`Wide anamorphic shot of ${scene.location}, ${scene.visual_style || 'cinematic lighting, 8k resolution'}`);
+
+  const tone = scene?.emotional_tone || scene?.tone || 'Tension';
+  const characters = parseJsonArray(scene?.characters);
+  const shotTypes = parseJsonArray(scene?.shot_types);
+  const sceneProps = parseJsonArray(scene?.props);
+  const envElements = parseJsonArray(scene?.environment_elements);
+  const objective = scene?.objective || scene?.description || '';
+  const scriptText = scene?.script_text || scene?.description || '';
+  const visualStyle = scene?.shooting_style || scene?.visual_style || 'cinematic lighting';
+
+  const [prompt, setPrompt] = useState(
+    scene?.keyframe_prompt || `Wide anamorphic shot of ${scene?.location}, ${visualStyle}, 8k resolution`
+  );
   const [generating, setGenerating] = useState(false);
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
 
@@ -86,7 +116,7 @@ const SceneDetailView: React.FC<SceneDetailViewProps> = ({ scene, projectTitle, 
             </div>
             <div className="detail-field-group">
               <label className="detail-label">Atmospheric Tone</label>
-              <input className="detail-input" value={scene.tone} readOnly />
+              <input className="detail-input" value={tone} readOnly />
             </div>
           </div>
 
@@ -95,17 +125,48 @@ const SceneDetailView: React.FC<SceneDetailViewProps> = ({ scene, projectTitle, 
             <textarea
               className="detail-input"
               style={{ height: '80px', resize: 'none' }}
-              value="Establish the protagonist's isolation through high-contrast lighting and slow tracking shots."
+              value={objective}
               readOnly
             />
           </div>
 
           <div className="detail-field-group">
             <label className="detail-label">Screenplay Script</label>
-            <div className="scene-script-box" style={{ maxHeaderHeight: 'none', height: '300px', fontSize: '14px', background: 'var(--av-bg-raised)', border: '1px solid var(--av-neutral-800)' }}>
-              {scene.description}
+            <div className="scene-script-box" style={{ maxHeaderHeight: 'none', height: '300px', fontSize: '14px', background: 'var(--av-bg-raised)', border: '1px solid var(--av-neutral-800)', overflow: 'auto', whiteSpace: 'pre-wrap' }}>
+              {scriptText}
             </div>
           </div>
+
+          {(scene?.visual_energy || scene?.lighting || shotTypes.length > 0) && (
+            <div className="detail-field-group">
+              <label className="detail-label">Visual Intelligence</label>
+              <div className="glass-card" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {scene?.visual_energy && (
+                  <div style={{ fontSize: '12px', color: 'var(--av-cream-500)' }}><strong>Energy:</strong> {scene.visual_energy}</div>
+                )}
+                {visualStyle && (
+                  <div style={{ fontSize: '12px', color: 'var(--av-cream-500)' }}><strong>Style:</strong> {visualStyle}</div>
+                )}
+                {scene?.lighting && (
+                  <div style={{ fontSize: '12px', color: 'var(--av-cream-500)' }}><strong>Lighting:</strong> {scene.lighting}</div>
+                )}
+                {shotTypes.length > 0 && (
+                  <div style={{ fontSize: '12px', color: 'var(--av-cream-500)' }}>
+                    <strong>Shots:</strong>{' '}
+                    {shotTypes.map(s => (
+                      <span key={s} style={{ display: 'inline-block', padding: '2px 8px', margin: '2px', borderRadius: '4px', background: 'var(--av-bg-base)', fontSize: '10px' }}>{s}</span>
+                    ))}
+                  </div>
+                )}
+                {sceneProps.length > 0 && (
+                  <div style={{ fontSize: '12px', color: 'var(--av-cream-500)' }}><strong>Props:</strong> {sceneProps.join(', ')}</div>
+                )}
+                {envElements.length > 0 && (
+                  <div style={{ fontSize: '12px', color: 'var(--av-cream-500)' }}><strong>Environment:</strong> {envElements.join(', ')}</div>
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="detail-field-group">
             <label className="detail-label">Character Breakdown</label>
@@ -119,13 +180,17 @@ const SceneDetailView: React.FC<SceneDetailViewProps> = ({ scene, projectTitle, 
                   </tr>
                 </thead>
                 <tbody>
-                  {scene.characters.map((char, i) => (
-                    <tr key={char} style={{ borderBottom: i < scene.characters.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+                  {characters.length > 0 ? characters.map((char, i) => (
+                    <tr key={char} style={{ borderBottom: i < characters.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
                       <td style={{ padding: '12px', color: 'var(--av-cream-100)', fontWeight: 600 }}>{char}</td>
-                      <td style={{ padding: '12px' }}>{i === 0 ? 'Defance -> Curiosity' : 'Passive Monitoring'}</td>
-                      <td style={{ padding: '12px', textAlign: 'right' }}>{Math.floor(Math.random() * 5) + 1}</td>
+                      <td style={{ padding: '12px' }}>{tone}</td>
+                      <td style={{ padding: '12px', textAlign: 'right' }}>—</td>
                     </tr>
-                  ))}
+                  )) : (
+                    <tr>
+                      <td colSpan={3} style={{ padding: '12px', textAlign: 'center', opacity: 0.5 }}>No characters detected</td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

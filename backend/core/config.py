@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     
     STRIPE_API_KEY: Optional[str] = None
     
+    # CORS origins (comma-separated in env, e.g. "https://myapp.com,https://www.myapp.com")
+    CORS_ORIGINS: str = "http://localhost:5173,http://localhost:3000"
+    
     # S3 / Storage
     AWS_ACCESS_KEY_ID: Optional[str] = None
     AWS_SECRET_ACCESS_KEY: Optional[str] = None

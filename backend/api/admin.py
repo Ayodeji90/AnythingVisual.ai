@@ -3,12 +3,16 @@ from typing import List, Any
 from sqlmodel import Session, select, func
 from backend.database.session import get_session
 from backend.database.models import User, Project, Script, Blueprint, Scene
+from backend.core.security import get_current_user
 from datetime import datetime, timedelta
 
 router = APIRouter()
 
 @router.get("/stats")
-def get_stats(session: Session = Depends(get_session)):
+def get_stats(
+    session: Session = Depends(get_session),
+    user_id: int = Depends(get_current_user)
+):
     # Basic counts
     total_users = session.exec(select(func.count(User.id))).one()
     total_projects = session.exec(select(func.count(Project.id))).one()

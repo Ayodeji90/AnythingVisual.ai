@@ -87,3 +87,45 @@ class PipelineState(BaseModel):
     # Observability
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: Optional[datetime] = None
+
+# --- Script Generation (Idea → Full Script) ---
+
+class ScriptOutline(BaseModel):
+    title: str = Field(..., min_length=1)
+    logline: str = Field(..., max_length=300)
+    genre: str = Field(default="Drama")
+    tone: str = Field(default="")
+    setting: str = Field(default="")
+    time_period: str = Field(default="Contemporary")
+    protagonist: str = Field(default="")
+    antagonist: Optional[str] = None
+    theme: str = Field(default="")
+    act_structure: List[str] = Field(default_factory=list, description="Beat-by-beat act breakdown")
+    character_descriptions: List[Dict[str, Any]] = Field(default_factory=list)
+
+class GeneratedScript(BaseModel):
+    title: str
+    logline: str
+    genre: str
+    format: str = Field(default="feature", description="feature | short | pilot | webisode")
+    target_pages: int = Field(default=30, description="Target page count")
+    outline: Optional[ScriptOutline] = None
+    full_script: str = Field(default="", description="The complete screenplay text in industry format")
+    page_count: int = Field(default=0)
+
+class ScriptGenStage(str, Enum):
+    CONCEPT = "concept_development"
+    OUTLINE = "outline"
+    SCRIPT_WRITING = "script_writing"
+    POLISH = "polish"
+
+class ScriptGenerationState(BaseModel):
+    project_id: str
+    current_stage: str = ScriptGenStage.CONCEPT
+    stage_number: int = 0
+    total_stages: int = 4
+    status: PipelineStatus = PipelineStatus.PENDING
+    outline: Optional[ScriptOutline] = None
+    generated_script: Optional[GeneratedScript] = None
+    error_message: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)

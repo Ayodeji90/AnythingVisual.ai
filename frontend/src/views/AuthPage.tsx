@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import LogoIris from '../components/LogoIris';
-import { authApi } from '../services/api';
+import { authApi, setToken, saveUser } from '../services/api';
 
 interface AuthPageProps {
     onComplete: (profile: any) => void;
@@ -65,12 +65,16 @@ const AuthPage: React.FC<AuthPageProps> = ({ onComplete, onBack }) => {
                     role: formData.role,
                     intent: formData.intent
                 });
-                onComplete(res.data);
+                setToken(res.data.access_token);
+                const profile = res.data.user;
+                saveUser(profile);
+                onComplete(profile);
             } else {
                 const res = await authApi.login(formData.email, formData.password);
-                // For now we just pass a mock profile, but in a real app 
-                // we'd fetch the user profile using the token
-                onComplete({ email: formData.email, token: res.data.access_token });
+                setToken(res.data.access_token);
+                const profile = res.data.user;
+                saveUser(profile);
+                onComplete(profile);
             }
         } catch (error: any) {
             console.error("Auth failed:", error);

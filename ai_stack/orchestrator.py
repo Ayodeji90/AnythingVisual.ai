@@ -2,12 +2,14 @@ import logging
 import asyncio
 from typing import List, AsyncGenerator, Optional
 import openai
-from ai_stack.schemas import PipelineState, TriageResult, StructuredScript, SceneObject
+from ai_stack.schemas import PipelineState, TriageResult, StructuredScript, SceneObject, ScriptGenerationState
 from ai_stack.pipeline.triage import InputTriager
 from ai_stack.pipeline.structuring import ScriptStructurer
 from ai_stack.pipeline.segmentation import SceneSegmenter
 from ai_stack.pipeline.enrichment import VisualEnricher
+from ai_stack.pipeline.story_hub import StoryGenerator
 from ai_stack.pipeline.generation import ImageGenerator
+from ai_stack.pipeline.script_writer import ScriptWriter
 
 logger = logging.getLogger("ai_stack.orchestrator")
 
@@ -23,9 +25,18 @@ class PipelineOrchestrator:
         self.segment_tool = SceneSegmenter(self.client)
         self.enrich_tool = VisualEnricher(self.client)
         self.gen_tool = ImageGenerator(self.client)
+        self.story_tool = StoryGenerator(self.client)
+        self.script_writer_tool = ScriptWriter(self.client)
         self.pipeline_timeout = 120.0 # 2 minute timeout for the full pipeline
+        self.script_gen_timeout = 300.0 # 5 minute timeout for script generation
 
-    async def run_pipeline(self, project_id: str, raw_input: str) -> AsyncGenerator[PipelineState, None]:
+    async def generate_story_variants(self, raw_input: str, triage: Optional[TriageResult] = None, trace_id: str = "default") -> List[dict]:
+        """
+        Stage 0: Generate 3 creative directions.
+        """
+        return await self.story_tool.generate_variants(raw_input, triage=triage, trace_id=trace_id)
+
+    async def run_pipeline(self, project_id: str, raw_input: str, target_stage: Optional[int] = None) -> AsyncGenerator[PipelineState, None]:
         state = PipelineState(project_id=project_id, status="processing")
         log_prefix = f"[{project_id}] "
         
@@ -45,6 +56,10 @@ class PipelineOrchestrator:
                     state.error_message = f"Triage failed: {str(e)}"
                     return # Stop pipeline on critical stage 1 failure
 
+                if target_stage == 1:
+                    state.status = "complete"
+                    return
+
                 # STAGE 2: STRUCTURING
                 state.current_stage = 2
                 yield state
@@ -62,6 +77,10 @@ class PipelineOrchestrator:
                     state.error_message = f"Structuring failed: {str(e)}"
                     return
 
+                if target_stage == 2:
+                    state.status = "complete"
+                    return
+
                 # STAGE 3: SEGMENTATION
                 state.current_stage = 3
                 yield state
@@ -77,6 +96,10 @@ class PipelineOrchestrator:
                     state.status = "failed"
                     state.failed_stage = 3
                     state.error_message = f"Segmentation failed: {str(e)}"
+                    return
+
+                if target_stage == 3:
+                    state.status = "complete"
                     return
 
                 # STAGE 4: ENRICHMENT (Parallelized)
@@ -110,3 +133,34 @@ class PipelineOrchestrator:
             # Ensure a terminal state is ALWAYS yielded
             yield state
             logger.info(f"{log_prefix}Pipeline finished with status: {state.status}")
+
+    async def run_script_generation(
+        self,
+        project_id: str,
+        raw_idea: str,
+        script_format: str = "short",
+        target_pages: Optional[int] = None,
+    ) -> AsyncGenerator[ScriptGenerationState, None]:
+        """
+        Run the Idea → Full Script generation pipeline.
+        Yields ScriptGenerationState at each stage for SSE streaming.
+        """
+        log_prefix = f"[{project_id}] "
+        logger.info(f"{log_prefix}Starting script generation. Format: {script_format}")
+        try:
+            async with asyncio.timeout(self.script_gen_timeout):
+                async for state in self.script_writer_tool.run_script_generation(
+                    project_id=project_id,
+                    raw_idea=raw_idea,
+                    script_format=script_format,
+                    target_pages=target_pages,
+                ):
+                    yield state
+        except asyncio.TimeoutError:
+            logger.error(f"{log_prefix}Script generation timed out after {self.script_gen_timeout}s")
+            from ai_stack.schemas import ScriptGenerationState as SGS
+            yield SGS(
+                project_id=project_id,
+                status="failed",
+                error_message="Script generation timed out.",
+            )

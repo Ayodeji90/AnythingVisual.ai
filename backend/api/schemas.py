@@ -53,6 +53,9 @@ class BlueprintBase(BaseModel):
     status: str
     logline: Optional[str] = None
     synopsis: Optional[str] = None
+    genre: Optional[str] = None
+    script_content: Optional[str] = None
+    detected_characters: Optional[str] = None
 
 class Blueprint(BlueprintBase):
     id: int
@@ -71,10 +74,29 @@ class SceneBase(BaseModel):
     location: str
     description: str
     locked: bool = False
+    title: Optional[str] = None
+    characters: Optional[str] = None
+    objective: Optional[str] = None
+    emotional_tone: Optional[str] = None
+    visual_energy: Optional[str] = None
+    script_text: Optional[str] = None
+    shooting_style: Optional[str] = None
+    shot_types: Optional[str] = None
+    lighting: Optional[str] = None
+    props: Optional[str] = None
+    environment_elements: Optional[str] = None
+    keyframe_url: Optional[str] = None
+    keyframe_prompt: Optional[str] = None
 
 class Scene(SceneBase):
     id: int
     blueprint_id: int
+
+    class Config:
+        from_attributes = True
+
+class BlueprintWithScenes(Blueprint):
+    scenes: List[Scene] = []
 
     class Config:
         from_attributes = True
@@ -89,6 +111,26 @@ class ProductionPackBase(BaseModel):
 class ProductionPack(ProductionPackBase):
     id: int
     scene_id: int
+
+    class Config:
+        from_attributes = True
+
+# Generated Script Schemas
+class GeneratedScriptBase(BaseModel):
+    title: str
+    logline: Optional[str] = None
+    genre: Optional[str] = None
+    format: str = "short"
+    target_pages: int = 30
+    page_count: int = 0
+    outline_json: Optional[str] = None
+    full_script: Optional[str] = None
+    status: str = "pending"
+
+class GeneratedScriptResponse(GeneratedScriptBase):
+    id: int
+    project_id: int
+    created_at: datetime
 
     class Config:
         from_attributes = True

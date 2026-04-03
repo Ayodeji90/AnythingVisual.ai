@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
-import { projectApi } from './services/api'
+import { useState, useEffect, useCallback } from 'react'
+import { projectApi, getToken, getSavedUser, clearAuth, getApiBaseUrl } from './services/api'
+import { exportBlueprintPdf } from './services/exportPdf'
 import Layout from './components/Layout'
 import LogoIris from './components/LogoIris'
 import HeroSection from './components/sections/HeroSection'
@@ -8,6 +9,7 @@ import ShowcaseSection from './components/sections/ShowcaseSection'
 import ModulesSection from './components/sections/ModulesSection'
 import SocialProofSection from './components/sections/SocialProofSection'
 import Footer from './components/sections/Footer'
+import LandingNav from './components/sections/LandingNav'
 import IrisLoader from './components/IrisLoader'
 import AuthPage from './views/AuthPage'
 import DashboardView from './views/DashboardView'
@@ -16,6 +18,8 @@ import SceneBoardView from './views/SceneBoardView'
 import SceneDetailView from './views/SceneDetailView'
 import SettingsView from './views/SettingsView'
 import AdminDashboardView from './views/AdminDashboardView'
+import ProductionStudioView from './views/ProductionStudioView'
+import ScriptWriterView from './views/ScriptWriterView'
 import ProcessingOverlay from './components/ProcessingOverlay'
 import './index.css'
 
@@ -34,7 +38,7 @@ interface Blueprint {
 }
 
 function App() {
-  const [view, setView] = useState<'home' | 'board' | 'auth' | 'dashboard' | 'input-studio' | 'scene-detail' | 'settings' | 'admin'>('home')
+  const [view, setView] = useState<'home' | 'board' | 'auth' | 'dashboard' | 'input-studio' | 'scene-detail' | 'settings' | 'admin' | 'production-studio' | 'script-writer'>('home')
   const [userProfile, setUserProfile] = useState<any>(null)
   const [projects, setProjects] = useState<Project[]>([])
   const [currentProject, setCurrentProject] = useState<Project | null>(null)
@@ -43,36 +47,127 @@ function App() {
   const [scriptText, setScriptText] = useState('')
   const [loading, setLoading] = useState(false)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [processingStage, setProcessingStage] = useState(0)
 
+  const handleLogout = useCallback(() => {
+    clearAuth();
+    setUserProfile(null);
+    setProjects([]);
+    setCurrentProject(null);
+    setCurrentBlueprint(null);
+    setView('home');
+  }, []);
+
+  // Restore session from localStorage on mount
   useEffect(() => {
     if (window.location.pathname === '/admin') {
       setView('admin');
+      return;
     }
-  }, []);
+    const savedUser = getSavedUser();
+    const token = getToken();
+    if (savedUser && token) {
+      setUserProfile(savedUser);
+      setView('dashboard');
+      // Fetch projects for the restored session
+      projectApi.getProjects()
+        .then(res => setProjects(res.data))
+        .catch(() => handleLogout());
+    }
+  }, [handleLogout]);
+
+  // Listen for 401 logout events from axios interceptor
+  useEffect(() => {
+    const onForceLogout = () => handleLogout();
+    window.addEventListener('auth:logout', onForceLogout);
+    return () => window.removeEventListener('auth:logout', onForceLogout);
+  }, [handleLogout]);
+
+  const fetchBlueprint = async (projectId: number): Promise<any | null> => {
+    try {
+      const res = await projectApi.getBlueprint(projectId);
+      return res.data;
+    } catch (e) {
+      console.error('Failed to fetch blueprint:', e);
+      return null;
+    }
+  };
+
+  const runPipelineSSE = (projectId: number, targetStage?: number): Promise<{ status: string; blueprintId?: number }> => {
+    return new Promise((resolve) => {
+      const token = getToken();
+      const stageParam = targetStage ? `&target_stage=${targetStage}` : '';
+      const eventSource = new EventSource(
+        `${getApiBaseUrl()}/ai-pipeline/projects/${projectId}/stream?token=${token}${stageParam}`
+      );
+
+      eventSource.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.current_stage) setProcessingStage(data.current_stage);
+
+        if (data.status === 'complete' || data.status === 'failed') {
+          eventSource.close();
+          if (data.status === 'complete') {
+            resolve({ status: 'complete', blueprintId: data.blueprint_id });
+          } else {
+            resolve({ status: 'failed' });
+          }
+        }
+      };
+
+      eventSource.onerror = () => {
+        eventSource.close();
+        resolve({ status: 'failed' });
+      };
+    });
+  };
 
   const handleAnalyze = async () => {
-    if (!scriptText.trim()) return
-    setLoading(true)
+    if (!scriptText.trim()) return;
+    if (!userProfile) {
+      setView('auth');
+      return;
+    }
+    setLoading(true);
+    setIsProcessing(true);
+    setProcessingStage(1);
     try {
+      // 1. Create project
       const projectRes = await projectApi.createProject({
         title: "New Project " + new Date().toLocaleTimeString(),
         content_type: "film",
         language: "en"
-      })
-      const project = projectRes.data
-      setCurrentProject(project)
-      setProjects(prev => [project, ...prev])
+      });
+      const project = projectRes.data;
+      setCurrentProject(project);
+      setProjects(prev => [project, ...prev]);
 
-      const blueprintRes = await projectApi.analyzeScript(project.id, scriptText)
-      setCurrentBlueprint(blueprintRes.data)
-      setIsProcessing(false)
-      setView('board')
-      window.scrollTo(0, 0)
+      // 2. Save input to project
+      await projectApi.analyzeScript(project.id, scriptText);
+
+      // 3. Run the full pipeline via SSE
+      const result = await runPipelineSSE(project.id);
+
+      if (result.status === 'complete') {
+        // 4. Fetch the persisted blueprint from DB
+        const bp = await fetchBlueprint(project.id);
+        if (bp) {
+          setCurrentBlueprint(bp);
+          setView('board');
+          window.scrollTo(0, 0);
+        } else {
+          alert('Pipeline completed but failed to load results.');
+        }
+      } else {
+        alert('Analysis pipeline failed. Check your API key and try again.');
+      }
     } catch (error) {
-      console.error("Analysis failed:", error)
-      alert("Analysis failed. Make sure your backend is running and OpenAI API key is set.")
+      console.error("Analysis failed:", error);
+      alert("Analysis failed. Make sure your backend is running and API key is set.");
     } finally {
-      setLoading(false)
+      setLoading(false);
+      setIsProcessing(false);
+      setProcessingStage(0);
     }
   }
 
@@ -97,6 +192,80 @@ function App() {
     link.click();
     document.body.removeChild(link);
   }
+
+  const handleExportPDF = () => {
+    if (!currentBlueprint?.scenes) return;
+    exportBlueprintPdf(
+      currentProject?.title || 'Untitled Project',
+      currentBlueprint
+    );
+  }
+
+  const handleGenerateScenes = async (text: string) => {
+    if (!currentProject) return;
+
+    // If we haven't selected a story yet, we generate variants first
+    const projectAny = currentProject as any;
+    if (!projectAny.selected_story) {
+      setIsProcessing(true);
+      setProcessingStage(1);
+      try {
+        const res = await projectApi.generateVariants(currentProject.id, text);
+        setCurrentProject({ ...currentProject, story_variants: JSON.stringify(res.data.variants) } as any);
+        setProcessingStage(0);
+      } catch (e) {
+        console.error(e);
+        alert("Variant generation failed.");
+      } finally {
+        setIsProcessing(false);
+      }
+      return;
+    }
+
+    setIsProcessing(true);
+    setProcessingStage(2);
+
+    try {
+      // Save the input
+      await projectApi.analyzeScript(currentProject.id, text);
+
+      // Run the full pipeline via SSE
+      const result = await runPipelineSSE(currentProject.id);
+
+      if (result.status === 'complete') {
+        const bp = await fetchBlueprint(currentProject.id);
+        if (bp) {
+          setCurrentBlueprint(bp);
+        } else {
+          alert('Pipeline completed but failed to load results.');
+        }
+      } else {
+        alert('Scene generation failed.');
+      }
+    } catch (error) {
+      console.error("Failed to sync:", error);
+    } finally {
+      setIsProcessing(false);
+      setProcessingStage(0);
+    }
+  };
+
+  const handleSelectStory = async (story: string) => {
+    if (!currentProject) return;
+    try {
+      await projectApi.selectVariant(currentProject.id, story);
+      setCurrentProject({ ...currentProject, selected_story: story } as any);
+      // After selection, trigger scene generation automatically
+      handleGenerateScenes(story);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleGenerateVisual = async (sceneId: string) => {
+    // Placeholder for per-scene visual generation
+    alert("Generating visual for scene " + sceneId);
+  };
 
   return (
     <Layout>
@@ -155,6 +324,10 @@ function App() {
             onBack={() => setView('home')}
             onComplete={(profile) => {
               setUserProfile(profile);
+              // Fetch user's projects after login
+              projectApi.getProjects()
+                .then(res => setProjects(res.data))
+                .catch(err => console.error('Failed to fetch projects:', err));
               setView('dashboard');
             }}
           />
@@ -162,41 +335,54 @@ function App() {
           <DashboardView
             userProfile={userProfile}
             projects={projects}
-            onLogout={() => {
-              setUserProfile(null);
-              setView('home');
-            }}
-            onNewProject={() => {
-              setView('input-studio');
+            onLogout={handleLogout}
+            onNewProject={async () => {
+              // Create a blank project and go to studio
+              setLoading(true);
+              try {
+                const res = await projectApi.createProject({
+                  title: "New Production",
+                  content_type: "film",
+                  language: "en"
+                });
+                setCurrentProject(res.data);
+                setCurrentBlueprint({ scenes: [] } as any);
+                setView('production-studio');
+              } catch (e) {
+                console.error(e);
+              } finally {
+                setLoading(false);
+              }
             }}
             onOpenSettings={() => setView('settings')}
-            onOpenProject={(id) => {
+            onOpenScriptWriter={() => setView('script-writer')}
+            onOpenProject={async (id) => {
               const p = projects.find(p => p.id === id);
               if (p) {
                 setCurrentProject(p);
-                // In a real app we'd fetch blueprint here
-                setView('board');
+                // Fetch the persisted blueprint if it exists
+                const bp = await fetchBlueprint(p.id);
+                setCurrentBlueprint(bp || { scenes: [] } as any);
+                setView('production-studio');
               }
             }}
           />
-        ) : view === 'input-studio' ? (
-          <InputStudioView
-            projectTitle={currentProject?.title || 'New Project'}
+        ) : view === 'production-studio' ? (
+          <ProductionStudioView
+            project={{ ...currentProject, blueprint: currentBlueprint }}
             onBack={() => setView('dashboard')}
-            onAnalyze={async (text, _options) => {
-              setScriptText(text);
-              setIsProcessing(true);
-              // Simulated delay for cinematic effect
-              await new Promise(r => setTimeout(r, 6000));
-              handleAnalyze();
-              setIsProcessing(false);
-            }}
+            onUpdateProject={(updates) => setCurrentProject({ ...currentProject, ...updates })}
+            onGenerateScenes={handleGenerateScenes}
+            onGenerateVisual={handleGenerateVisual}
+            onExport={handleExportPDF}
+            isProcessing={isProcessing}
+            processingStage={processingStage}
           />
         ) : view === 'board' ? (
           <SceneBoardView
             blueprint={currentBlueprint}
             onBack={() => setView('dashboard')}
-            onExport={handleExportCSV}
+            onExport={handleExportPDF}
             onOpenScene={(id) => {
               setCurrentSceneId(id);
               setView('scene-detail');
@@ -204,26 +390,33 @@ function App() {
           />
         ) : view === 'scene-detail' ? (
           <SceneDetailView
-            scene={currentBlueprint?.scenes.find((s: any) => (s.id || s.scene_number.toString()) === currentSceneId)}
+            scene={currentBlueprint?.scenes.find((s: any) => String(s.id || s.scene_number) === currentSceneId)}
             projectTitle={currentProject?.title || 'Untitled Project'}
             onBack={() => setView('board')}
             onNext={() => {
               const scenes = currentBlueprint?.scenes || [];
-              const index = scenes.findIndex((s: any) => (s.id || s.scene_number.toString()) === currentSceneId);
+              const index = scenes.findIndex((s: any) => String(s.id || s.scene_number) === currentSceneId);
               if (index < scenes.length - 1) {
-                setCurrentSceneId(scenes[index + 1].id || scenes[index + 1].scene_number.toString());
+                const next = scenes[index + 1];
+                setCurrentSceneId(String(next.id || next.scene_number));
               }
             }}
             onPrev={() => {
               const scenes = currentBlueprint?.scenes || [];
-              const index = scenes.findIndex((s: any) => (s.id || s.scene_number.toString()) === currentSceneId);
+              const index = scenes.findIndex((s: any) => String(s.id || s.scene_number) === currentSceneId);
               if (index > 0) {
-                setCurrentSceneId(scenes[index - 1].id || scenes[index - 1].scene_number.toString());
+                const prev = scenes[index - 1];
+                setCurrentSceneId(String(prev.id || prev.scene_number));
               }
             }}
             onUpdate={(_updatedScene) => {
               // Update local state simulation
             }}
+          />
+        ) : view === 'script-writer' ? (
+          <ScriptWriterView
+            onBack={() => setView('dashboard')}
+            userId={userProfile?.id}
           />
         ) : view === 'settings' ? (
           <SettingsView
@@ -237,71 +430,79 @@ function App() {
           <AdminDashboardView />
         ) : view === 'home' ? (
           <div>
+            <LandingNav onStart={() => setView('auth')} />
             <HeroSection onStart={() => setView('auth')} />
             <ProblemSection />
-            <div id="demo">
+            <div id="how-it-works">
               <ShowcaseSection />
             </div>
 
-            {/* Analyzer Section - The Core Experience */}
-            <section id="analyzer" className="landing-section" style={{ background: 'var(--av-bg-base)' }}>
-              <div className="container">
-                <div className="section-eyebrow">Blueprint Engine</div>
-                <div className="glass-card" style={{ padding: '40px', position: 'relative', overflow: 'hidden' }}>
+            {/* Try It Now Section */}
+            <section id="try-it" className="landing-section" style={{ background: 'var(--av-bg-base)' }}>
+              <div className="container" style={{ maxWidth: '800px' }}>
+                <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+                  <div className="section-eyebrow" style={{ justifyContent: 'center' }}>Try It Now</div>
+                  <h2 style={{
+                    fontFamily: 'var(--av-font-display)', fontSize: '32px',
+                    color: 'var(--av-cream-100)', marginBottom: '12px',
+                  }}>Paste a script. <span className="amber">See the magic.</span></h2>
+                  <p style={{ color: 'var(--av-cream-500)', fontSize: '15px', maxWidth: '500px', margin: '0 auto' }}>
+                    Drop any creative text below and watch our AI pipeline transform it into a production-ready blueprint.
+                  </p>
+                </div>
+
+                <div className="glass-card" style={{ padding: '32px', position: 'relative', overflow: 'hidden' }}>
                   <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '100%',
-                    height: '4px',
-                    background: 'var(--av-amber-400)'
+                    position: 'absolute', top: 0, left: 0, width: '100%', height: '3px',
+                    background: 'linear-gradient(to right, var(--av-amber-400), var(--av-amber-600))',
                   }} />
 
-                  <div style={{ marginBottom: '24px' }}>
-                    <label className="section-eyebrow" style={{ marginBottom: '12px', fontSize: '9px' }}>
-                      Analyze Creative Content
-                    </label>
-                    <textarea
-                      className="input-field"
-                      value={scriptText}
-                      onChange={(e) => setScriptText(e.target.value)}
-                      placeholder="Paste your rough script, screenplay fragment, or core visual idea here..."
-                      style={{ height: '240px', resize: 'none' }}
-                    />
-                  </div>
+                  <textarea
+                    className="input-field"
+                    value={scriptText}
+                    onChange={(e) => setScriptText(e.target.value)}
+                    placeholder="EXT. ROOFTOP — NIGHT&#10;&#10;Rain hammers the concrete. MAYA stands at the edge, looking down at the city lights bleeding through the storm...&#10;&#10;Or just describe your idea: 'A thriller about two detectives chasing a serial killer through Tokyo at night'"
+                    style={{
+                      height: '200px', resize: 'none', fontSize: '14px',
+                      background: 'var(--av-bg-base)', lineHeight: 1.7,
+                    }}
+                  />
 
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '20px' }}>
+                    <span style={{ fontSize: '12px', color: 'var(--av-cream-600)' }}>
+                      {scriptText.length > 0 ? `${scriptText.length} characters` : 'Paste or type your script'}
+                    </span>
                     <button
                       className="btn-primary"
                       onClick={handleAnalyze}
                       disabled={loading || !scriptText.trim()}
+                      style={{ padding: '14px 32px', fontSize: '12px' }}
                     >
-                      Generate AI Blueprint
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+                      Generate Blueprint
                     </button>
                   </div>
 
                   {loading && (
                     <div style={{
-                      position: 'absolute',
-                      inset: 0,
-                      background: 'rgba(10, 9, 7, 0.95)',
-                      zIndex: 10,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backdropFilter: 'blur(8px)'
+                      position: 'absolute', inset: 0,
+                      background: 'rgba(10, 9, 7, 0.95)', zIndex: 10,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      backdropFilter: 'blur(8px)', borderRadius: 'var(--av-radius-lg)',
                     }}>
-                      <IrisLoader text="AnythingVisual" subtext="Processing Visual Data" />
+                      <IrisLoader text="AnythingVisual" subtext="Generating your production blueprint..." />
                     </div>
                   )}
                 </div>
               </div>
             </section>
 
-            <div id="features">
+            <div id="pipeline">
               <ModulesSection />
             </div>
-            <SocialProofSection />
+            <div id="testimonials">
+              <SocialProofSection />
+            </div>
             <Footer />
           </div>
         ) : (

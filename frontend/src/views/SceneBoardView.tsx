@@ -8,12 +8,34 @@ interface SceneBoardViewProps {
   onOpenScene: (id: string) => void;
 }
 
+function parseJsonArray(val: any): string[] {
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'string') {
+    try { return JSON.parse(val); } catch { return []; }
+  }
+  return [];
+}
+
+function normalizeScene(scene: any) {
+  return {
+    ...scene,
+    id: String(scene.id || scene.scene_number),
+    tone: scene.emotional_tone || scene.tone || 'Tension',
+    visual_style: scene.shooting_style || scene.visual_style || null,
+    characters: parseJsonArray(scene.characters),
+    shot_types: parseJsonArray(scene.shot_types).length > 0 ? parseJsonArray(scene.shot_types) : ['Medium Shot'],
+    required_elements: parseJsonArray(scene.props).concat(parseJsonArray(scene.environment_elements)),
+    description: scene.script_text || scene.description || scene.objective || '',
+    slug: scene.title || scene.slug || `Scene ${scene.scene_number}`,
+  };
+}
+
 const SceneBoardView: React.FC<SceneBoardViewProps> = ({ blueprint, onBack, onExport, onOpenScene }) => {
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null);
   const [showScript, setShowScript] = useState(false);
   const [viewMode, setViewMode] = useState('board');
 
-  const scenes = blueprint?.scenes || [];
+  const scenes = (blueprint?.scenes || []).map(normalizeScene);
 
   return (
     <div className="board-container">
@@ -82,11 +104,7 @@ const SceneBoardView: React.FC<SceneBoardViewProps> = ({ blueprint, onBack, onEx
             <span style={{ fontSize: '10px', color: 'var(--av-cream-600)' }}>LAST SYNC 2M AGO</span>
           </div>
           <div className="scene-script-box" style={{ maxHeaderHeight: 'none', background: 'transparent', padding: 0, fontSize: '14px', border: 'none' }}>
-            {blueprint?.full_script || blueprint?.synopsis || "No script content loaded."}
-            <br /><br />
-            INT. OBSERVATORY - CONTINUOUS
-            <br /><br />
-            ELARA leans in closer. The static is forming patterns. Not noise. Mathematics.
+            {blueprint?.script_content || blueprint?.synopsis || "No script content loaded."}
           </div>
         </div>
       </div>
@@ -94,15 +112,10 @@ const SceneBoardView: React.FC<SceneBoardViewProps> = ({ blueprint, onBack, onEx
       <main className="board-grid">
         {scenes.map((scene: any) => (
           <SceneCard
-            key={scene.id || scene.scene_number}
-            scene={{
-              ...scene,
-              shot_types: scene.shot_types || ["Medium Shot", "Eye Level"],
-              characters: scene.characters || ["Unknown"],
-              required_elements: scene.required_elements || ["Ambient Sound"]
-            }}
-            isExpanded={expandedCardId === (scene.id || scene.scene_number.toString())}
-            onToggle={() => setExpandedCardId(expandedCardId === (scene.id || scene.scene_number.toString()) ? null : (scene.id || scene.scene_number.toString()))}
+            key={scene.id}
+            scene={scene}
+            isExpanded={expandedCardId === scene.id}
+            onToggle={() => setExpandedCardId(expandedCardId === scene.id ? null : scene.id)}
             onOpenScene={(id) => onOpenScene(id)}
           />
         ))}

@@ -7,10 +7,10 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# Set all CORS enabled origins
+# CORS - use configurable origins from settings (comma-separated string)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, specify real origins
+    allow_origins=[o.strip() for o in settings.CORS_ORIGINS.split(",")],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -24,9 +24,9 @@ def root():
 def health_check():
     return {"status": "healthy"}
 
-# Create database tables explicitly via script if needed
-# from backend.database.session import init_db
-# init_db()
+# Create database tables on startup
+from backend.database.session import init_db
+init_db()
 
 # --- Routers ---
 # AI Pipeline (advanced streaming/orchestration)

@@ -17,7 +17,7 @@ else:
 
 def init_db():
     # Import models so SQLModel registers them before create_all
-    from backend.database.models import User, Project, Script, Blueprint, Scene, ProductionPack, CharacterBible  # noqa
+    from backend.database.models import User, Project, Script, Blueprint, Scene, ProductionPack, CharacterBible, GeneratedScript  # noqa
     SQLModel.metadata.create_all(engine)
 
 def get_session():

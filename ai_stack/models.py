@@ -14,12 +14,14 @@ class ModelConfig(BaseModel):
     GROQ_STRUCTURE_MODEL: str = "llama-3.3-70b-versatile"
     GROQ_SEGMENTATION_MODEL: str = "llama-3.3-70b-versatile"
     GROQ_ENRICHMENT_MODEL: str = "llama-3.3-70b-versatile"
+    GROQ_SCRIPT_WRITER_MODEL: str = "llama-3.3-70b-versatile"
     
     # --- OpenAI (Paid GPT models) ---
     OPENAI_TRIAGE_MODEL: str = "gpt-4o-mini"
     OPENAI_STRUCTURE_MODEL: str = "gpt-4o"
     OPENAI_SEGMENTATION_MODEL: str = "gpt-4o"
     OPENAI_ENRICHMENT_MODEL: str = "gpt-4o"
+    OPENAI_SCRIPT_WRITER_MODEL: str = "gpt-4o"
     
     # --- Image Generation (provider-independent) ---
     IMAGE_GEN_PROVIDER: str = "fal-ai/flux/dev"
@@ -43,6 +45,10 @@ class ModelConfig(BaseModel):
     @property
     def ENRICHMENT_MODEL(self) -> str:
         return self.GROQ_ENRICHMENT_MODEL if self.provider == "groq" else self.OPENAI_ENRICHMENT_MODEL
+
+    @property
+    def SCRIPT_WRITER_MODEL(self) -> str:
+        return self.GROQ_SCRIPT_WRITER_MODEL if self.provider == "groq" else self.OPENAI_SCRIPT_WRITER_MODEL
 
 # Use Pydantic's model_config instead of class Config for v2
 model_settings = ModelConfig()
